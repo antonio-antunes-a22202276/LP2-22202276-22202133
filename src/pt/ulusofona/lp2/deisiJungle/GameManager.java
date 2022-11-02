@@ -150,7 +150,7 @@ public class GameManager {
         return true;
     }
 
-    public int[] getPlayerIds(int squareNr) {
+    public int[] getPlayerIds(int squareNr) { //Verified
         ArrayList<Integer> playerIds = new ArrayList<>();
 
         //Iterates the players
@@ -175,7 +175,7 @@ public class GameManager {
         return array;
     }
 
-    public String[] getSquareInfo(int squareNr) {
+    public String[] getSquareInfo(int squareNr) { //Verified
         //Creates the array to save the square data
         String[] squareInfo = new String[3];
 
@@ -214,16 +214,46 @@ public class GameManager {
         return squareInfo;
     }
 
-    public String[] getPlayerInfo(int playerId) {
+    public String[] getPlayerInfo(int playerId) { //Verified
+        //Iterates the players
+        for (Player player : this.players) {
+            //Verifies if there is a player with such playerId and returns their data
+            if (Integer.parseInt(player.getId()) == playerId) {
+                String[] playerData = new String[4];
+                playerData[0] = player.getId();
+                playerData[1] = player.getName();
+                playerData[2] = player.getSpecieId();
+                playerData[3] = String.valueOf(player.getEnergy());
+                return playerData;
+            }
+        }
         return null;
     }
 
-    public String[] getCurrentPlayerInfo() {
-        return null;
+    public String[] getCurrentPlayerInfo() { //Verified
+        //Gets the data of the current player and returns it
+        Player player = this.actualPlayer;
+        String[] playerData = new String[4];
+        playerData[0] = player.getId();
+        playerData[1] = player.getName();
+        playerData[2] = player.getSpecieId();
+        playerData[3] = String.valueOf(player.getEnergy());
+        return playerData;
     }
 
-    public String[][] getPlayersInfo() {
-        return null;
+    public String[][] getPlayersInfo() { //Verified
+        //Creates the array to store the playerData
+        String[][] playersData = new String[this.players.size()][4];
+
+        //Iterates the players and later return the data of everyone
+        for (int i = 0; i < this.players.size(); i++) {
+            Player player = this.players.get(i);
+            playersData[i][0] = player.getId();
+            playersData[i][1] = player.getName();
+            playersData[i][2] = player.getSpecieId();
+            playersData[i][3] = String.valueOf(player.getEnergy());
+        }
+        return playersData;
     }
 
     public boolean moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
@@ -242,7 +272,7 @@ public class GameManager {
         return null;
     }
 
-    public String whoIsTaborda() {
-        return null;
+    public String whoIsTaborda() { //Verified
+        return "Tarzan";
     }
 }
