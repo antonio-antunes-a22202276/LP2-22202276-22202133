@@ -176,7 +176,42 @@ public class GameManager {
     }
 
     public String[] getSquareInfo(int squareNr) {
-        return null;
+        //Creates the array to save the square data
+        String[] squareInfo = new String[3];
+
+        //Verifies if the square past as argument is the finalPosition or not to select the correct data
+        if (squareNr == this.finalPosition) {
+            squareInfo[0] = "finish.png";
+            squareInfo[1] = "Meta";
+        } else {
+            if (squareNr % 3 == 0) {
+                squareInfo[0] = "image3.png";
+                squareInfo[1] = "Vazio";
+            } else if (squareNr % 2 == 0){
+                squareInfo[0] = "image2.png";
+                squareInfo[1] = "Vazio";
+            } else {
+                squareInfo[0] = "image1.png";
+                squareInfo[1] = "Vazio";
+            }
+        }
+        String result = "";
+
+        //Iterates the players
+        for (Player player : this.players) {
+            //Verifies if the playerSquareId is the same past as argument
+            if (player.getSquareId() == squareNr) {
+                //Saves the playerId in the string
+                if (result.equals("")) {
+                    result = player.getId();
+                } else {
+                    result += "," + player.getId();
+                }
+            }
+        }
+        //Saves the playerIds string in the square
+        squareInfo[2] = result;
+        return squareInfo;
     }
 
     public String[] getPlayerInfo(int playerId) {
