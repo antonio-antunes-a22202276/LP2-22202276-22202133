@@ -151,7 +151,28 @@ public class GameManager {
     }
 
     public int[] getPlayerIds(int squareNr) {
-        return null;
+        ArrayList<Integer> playerIds = new ArrayList<>();
+
+        //Iterates the players
+        for (Player player : this.players) {
+            //Verifies if the player is in the squareNr past as argument
+            if (player.getSquareId() == squareNr) {
+                //The playerId will be added to the arraylist
+                playerIds.add(Integer.parseInt(player.getId()));
+            }
+        }
+
+        //If there isn't any player in the specified squareNr, creates an empty array
+        if (playerIds.size() == 0) {
+            return new int[0];
+        }
+
+        //Converts the playersIds arraylist to array
+        int[] array = new int[playerIds.size()];
+        for (int i=0;i<playerIds.size();i++) {
+            array[i] = playerIds.get(i);
+        }
+        return array;
     }
 
     public String[] getSquareInfo(int squareNr) {
