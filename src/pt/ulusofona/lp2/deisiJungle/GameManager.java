@@ -258,7 +258,7 @@ public class GameManager {
         return playersData;
     }
 
-    public boolean moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
+    public boolean moveCurrentPlayer(int nrSquares, boolean bypassValidations) { //Verified
         //Gets the current player
         Player currentPlayer = this.actualPlayer;
 
@@ -355,7 +355,7 @@ public class GameManager {
         return true;
     }
 
-    public String[] getWinnerInfo() {
+    public String[] getWinnerInfo() { //Verified
         //Verifies if there is a winner
         if (this.winner != null) {
             String[] playerData = new String[4];
@@ -368,12 +368,51 @@ public class GameManager {
         return null;
     }
 
-    public ArrayList<String> getGameResults() {
-        return null;
+    public ArrayList<String> getGameResults() { //Verified
+        //Gets an arraylist with the winners sorted by order
+        ArrayList<String> resultadosJogo = new ArrayList<>();
+
+        //Verifies if there is already a winner
+        if (this.winner != null) {
+            //Verifies if there are still players to be added to the winners arraylist
+            while (this.players.size() > 0) {
+                //Selects one random winner by default
+                Player winnerPlayer = this.players.get(0);
+                for (int i = 0; i < this.players.size(); i++) {
+                    Player player = this.players.get(i);
+
+                    //Verifies if the squareId of the player is the same of the winner and see who has minor id
+                    if (player.getSquareId() == winnerPlayer.getSquareId()) {
+                        if (Integer.parseInt(player.getId()) < Integer.parseInt(winnerPlayer.getId())) {
+                            winnerPlayer = player;
+                        }
+                    }
+
+                    //Verifies if the player is in front of the currentWinner
+                    if (player.getSquareId() > winnerPlayer.getSquareId()) {
+                        winnerPlayer = player;
+                    }
+                }
+
+                //Gets the string with the winner
+                String result = "#" + (resultadosJogo.size() + 1) + " " + winnerPlayer.getName() + ", " +
+                        winnerPlayer.getSpecieId() + ", " + winnerPlayer.getSquareId();
+
+                //Removes this player from the current players and adds to the arraylist with the winners
+                this.players.remove(winnerPlayer);
+                resultadosJogo.add(result);
+            }
+        }
+
+        return resultadosJogo;
     }
 
-    public JPanel getAuthorsPanel() {
-        return null;
+    public JPanel getAuthorsPanel() { //Verified
+        //Creates the credit panel
+        JPanel panel = new JPanel();
+        JLabel jlabel = new JLabel("<html>Developed by:<br/>- António Antunes<br/>- João Serralha<br/><br/>Lusófona Informática</html>");
+        panel.add(jlabel);
+        return panel;
     }
 
     public String whoIsTaborda() { //Verified
