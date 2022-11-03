@@ -12,6 +12,12 @@ public class GameManager {
 
     public GameManager() {}
 
+    public GameManager(ArrayList<Player> players, Player actualPlayer, int finalPosition) {
+        this.players = players;
+        this.actualPlayer = actualPlayer;
+        this.finalPosition = finalPosition;
+    }
+
     public String[][] getSpecies() {
         //Creates the default species data
         String[][] species = new String[5][3];
