@@ -192,7 +192,9 @@ public class GameManager {
             squareInfo[0] = "finish.png";
             squareInfo[1] = "Meta";
         } else {
-            if (squareNr % 3 == 0) {
+            squareInfo[0] = "blank.png";
+            squareInfo[1] = "Vazio";
+            /*if (squareNr % 3 == 0) {
                 squareInfo[0] = "image3.png";
                 squareInfo[1] = "Vazio";
             } else if (squareNr % 2 == 0){
@@ -201,7 +203,7 @@ public class GameManager {
             } else {
                 squareInfo[0] = "image1.png";
                 squareInfo[1] = "Vazio";
-            }
+            }*/
         }
         String result = "";
 
