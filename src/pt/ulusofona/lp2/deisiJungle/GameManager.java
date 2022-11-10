@@ -253,6 +253,33 @@ public class GameManager {
     public boolean moveCurrentPlayer(int nrSquares, boolean bypassValidations) { //Verified
         //Gets the current player
         Player currentPlayer = this.actualPlayer;
+
+        //Gets the playerId of the actualPlayer in the arraylist
+        int actualPlayerId = Integer.parseInt(currentPlayer.getId());
+        int nextBiggerPlayerId;
+        //Creates a playerIds arraylist to save all available ids
+        ArrayList<Integer> playerIds = new ArrayList<>();
+        //Adds the playerIds to the arraylist
+        for (Player value : this.players) {
+            playerIds.add(Integer.parseInt(value.getId()));
+        }
+        //Sorts the playerIds in order
+        Collections.sort(playerIds);
+        //Gets the index of the actualPlayer in the arraylist
+        int indexActualPlayerId = playerIds.indexOf(actualPlayerId);
+        //Verifies if the actualPlayerId is already the biggest one or not
+        if (indexActualPlayerId == playerIds.size()-1) {
+            nextBiggerPlayerId = playerIds.get(0);
+        } else {
+            nextBiggerPlayerId = playerIds.get(indexActualPlayerId + 1);
+        }
+        //Search for the player with the new id and sets them as the next actualPlayer
+        for (int i=0;i<this.players.size();i++) {
+            if (Integer.parseInt(this.players.get(i).getId()) == nextBiggerPlayerId) {
+                this.actualPlayer = this.players.get(i);
+            }
+        }
+
         //Verifies if the dice number is valid
         if ((nrSquares < 1 || nrSquares > 6) && !bypassValidations) {
             return false;
@@ -267,12 +294,12 @@ public class GameManager {
         int currentSquare = currentPlayer.getSquareId();
         //Verifies if the new squareId is over the finish or not and updates with the new data
         if (currentSquare + nrSquares >= this.finalPosition) {
-            this.actualPlayer.updateSquareId(this.finalPosition);
+            currentPlayer.updateSquareId(this.finalPosition);
             //Gets the data of the winner
-            this.winner = this.actualPlayer;
+            this.winner = currentPlayer;
             getWinnerInfo();
         } else {
-            this.actualPlayer.updateSquareId(currentSquare + nrSquares);
+            currentPlayer.updateSquareId(currentSquare + nrSquares);
         }
         boolean someoneHasEnergy = false;
         //Iterates the players
@@ -303,31 +330,6 @@ public class GameManager {
             //Gets the data of the winner
             this.winner = winnerPlayer;
             getWinnerInfo();
-        }
-        //Gets the playerId of the actualPlayer in the arraylist
-        int actualPlayerId = Integer.parseInt(currentPlayer.getId());
-        int nextBiggerPlayerId;
-        //Creates a playerIds arraylist to save all available ids
-        ArrayList<Integer> playerIds = new ArrayList<>();
-        //Adds the playerIds to the arraylist
-        for (Player value : this.players) {
-            playerIds.add(Integer.parseInt(value.getId()));
-        }
-        //Sorts the playerIds in order
-        Collections.sort(playerIds);
-        //Gets the index of the actualPlayer in the arraylist
-        int indexActualPlayerId = playerIds.indexOf(actualPlayerId);
-        //Verifies if the actualPlayerId is already the biggest one or not
-        if (indexActualPlayerId == playerIds.size()-1) {
-            nextBiggerPlayerId = playerIds.get(0);
-        } else {
-            nextBiggerPlayerId = playerIds.get(indexActualPlayerId + 1);
-        }
-        //Search for the player with the new id and sets them as the next actualPlayer
-        for (int i=0;i<this.players.size();i++) {
-            if (Integer.parseInt(this.players.get(i).getId()) == nextBiggerPlayerId) {
-                this.actualPlayer = this.players.get(i);
-            }
         }
         return true;
     }
