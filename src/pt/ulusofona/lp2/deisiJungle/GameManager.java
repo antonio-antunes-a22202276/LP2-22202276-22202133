@@ -89,6 +89,7 @@ public class GameManager {
             String playerId = info[0];
             String playerName = info[1];
             String playerSpecieId = info[2];
+            String specieName = "";
 
             //Gets the available species data
             String[][] species = getSpecies();
@@ -105,6 +106,7 @@ public class GameManager {
 
                 //Verifies if the playerSpecieId matches the default specieIds
                 if (defaultSpecieId.equals(playerSpecieId) && !hasSpecieVerified) {
+                    specieName = species[k][1];
                     hasSpecieVerified = true;
                     speciesCompeting.add(playerSpecieId);
                 }
@@ -134,7 +136,7 @@ public class GameManager {
             playerIds.add(playerId);
 
             //At this point the player data is verified and creates the player object
-            Player player = new Player(playerId, playerName, playerSpecieId, initialEnergy, 1);
+            Player player = new Player(playerId, playerName, playerSpecieId, initialEnergy, 1, specieName);
 
             //Adds the player to the created/game players list
             this.players.add(player);
@@ -192,9 +194,7 @@ public class GameManager {
             squareInfo[0] = "finish.png";
             squareInfo[1] = "Meta";
         } else {
-            squareInfo[0] = "blank.png";
-            squareInfo[1] = "Vazio";
-            /*if (squareNr % 3 == 0) {
+            if (squareNr % 3 == 0) {
                 squareInfo[0] = "image3.png";
                 squareInfo[1] = "Vazio";
             } else if (squareNr % 2 == 0){
@@ -203,7 +203,7 @@ public class GameManager {
             } else {
                 squareInfo[0] = "image1.png";
                 squareInfo[1] = "Vazio";
-            }*/
+            }
         }
         String result = "";
 
@@ -404,7 +404,7 @@ public class GameManager {
 
                 //Gets the string with the winner
                 String result = "#" + (resultadosJogo.size() + 1) + " " + winnerPlayer.getName() + ", " +
-                        winnerPlayer.getSpecieId() + ", " + winnerPlayer.getSquareId();
+                        winnerPlayer.getSpecieName() + ", " + winnerPlayer.getSquareId();
 
                 //Removes this player from the current players and adds to the arraylist with the winners
                 this.players.remove(winnerPlayer);
@@ -424,6 +424,6 @@ public class GameManager {
     }
 
     public String whoIsTaborda() { //Verified
-        return "Tarzan";
+        return "professional wrestling";
     }
 }

@@ -15,13 +15,13 @@ public class TestGameManager {
         playersInfo[0][0] = "1";
         playersInfo[0][1] = "JogadorTeste1";
         playersInfo[0][2] = "B";
-        Player player1 = new Player(playersInfo[0][0],playersInfo[0][1],playersInfo[0][2],10,1);
+        Player player1 = new Player(playersInfo[0][0],playersInfo[0][1],playersInfo[0][2],10,1, "Bird");
         players.add(player1);
 
         playersInfo[1][0] = "3";
         playersInfo[1][1] = "JogadorTeste2";
         playersInfo[1][2] = "B";
-        Player player2 = new Player(playersInfo[1][0],playersInfo[1][1],playersInfo[1][2],10,1);
+        Player player2 = new Player(playersInfo[1][0],playersInfo[1][1],playersInfo[1][2],10,1, "Bird");
         players.add(player2);
 
         GameManager gameManager = new GameManager(players,player1,15);
@@ -38,13 +38,13 @@ public class TestGameManager {
         playersInfo[0][0] = "1";
         playersInfo[0][1] = "JogadorTeste1";
         playersInfo[0][2] = "B";
-        Player player1 = new Player(playersInfo[0][0],playersInfo[0][1],playersInfo[0][2],10,1);
+        Player player1 = new Player(playersInfo[0][0],playersInfo[0][1],playersInfo[0][2],10,1, "Bird");
         players.add(player1);
 
         playersInfo[1][0] = "3";
         playersInfo[1][1] = "JogadorTeste2";
         playersInfo[1][2] = "B";
-        Player player2 = new Player(playersInfo[1][0],playersInfo[1][1],playersInfo[1][2],10,1);
+        Player player2 = new Player(playersInfo[1][0],playersInfo[1][1],playersInfo[1][2],10,1, "Bird");
         players.add(player2);
 
         GameManager gameManager = new GameManager(players,player1,15);
@@ -61,13 +61,13 @@ public class TestGameManager {
         playersInfo[0][0] = "1";
         playersInfo[0][1] = "JogadorTeste1";
         playersInfo[0][2] = "B";
-        Player player1 = new Player(playersInfo[0][0],playersInfo[0][1],playersInfo[0][2],10,1);
+        Player player1 = new Player(playersInfo[0][0],playersInfo[0][1],playersInfo[0][2],10,1, "Bird");
         players.add(player1);
 
         playersInfo[1][0] = "3";
         playersInfo[1][1] = "JogadorTeste2";
         playersInfo[1][2] = "B";
-        Player player2 = new Player(playersInfo[1][0],playersInfo[1][1],playersInfo[1][2],10,1);
+        Player player2 = new Player(playersInfo[1][0],playersInfo[1][1],playersInfo[1][2],10,1, "Bird");
         players.add(player2);
 
         GameManager gameManager = new GameManager(players,player1,15);
@@ -84,13 +84,13 @@ public class TestGameManager {
         playersInfo[0][0] = "1";
         playersInfo[0][1] = "JogadorTeste1";
         playersInfo[0][2] = "B";
-        Player player1 = new Player(playersInfo[0][0],playersInfo[0][1],playersInfo[0][2],0,1);
+        Player player1 = new Player(playersInfo[0][0],playersInfo[0][1],playersInfo[0][2],0,1, "Bird");
         players.add(player1);
 
         playersInfo[1][0] = "3";
         playersInfo[1][1] = "JogadorTeste2";
         playersInfo[1][2] = "B";
-        Player player2 = new Player(playersInfo[1][0],playersInfo[1][1],playersInfo[1][2],10,1);
+        Player player2 = new Player(playersInfo[1][0],playersInfo[1][1],playersInfo[1][2],10,1, "Bird");
         players.add(player2);
 
         GameManager gameManager = new GameManager(players,player1,15);

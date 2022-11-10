@@ -6,13 +6,15 @@ public class Player {
     String specieId;
     int energy;
     int squareId;
+    String specieName;
 
-    Player(String id, String name, String specieId, int energy, int squareId) {
+    Player(String id, String name, String specieId, int energy, int squareId, String specieName) {
         this.id = id;
         this.name = name;
         this.specieId = specieId;
         this.energy = energy;
         this.squareId = squareId;
+        this.specieName = specieName;
     }
 
     String getId() {
@@ -41,5 +43,9 @@ public class Player {
 
     void updateSquareId(int newSquareId) {
         squareId = newSquareId;
+    }
+
+    String getSpecieName(){
+        return specieName;
     }
 }
