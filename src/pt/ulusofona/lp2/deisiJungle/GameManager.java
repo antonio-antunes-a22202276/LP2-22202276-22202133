@@ -127,8 +127,15 @@ public class GameManager {
                 return false;
             }
 
+            try {
+                Integer.parseInt(playerId);
+            } catch(NumberFormatException e) {
+                return false;
+            }
+
+
             //Verifies if the playerId is valid (not lower than 1) and if the playerId is not repeated
-            if (Integer.parseInt(playerId) < 1 || playerIds.contains(playerId)) {
+            if (playerIds.contains(playerId)) {
                 return false;
             }
 
