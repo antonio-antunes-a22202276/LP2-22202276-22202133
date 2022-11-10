@@ -50,32 +50,26 @@ public class GameManager {
 
     public boolean createInitialJungle(int jungleSize, int initialEnergy, String[][] playersInfo) { //Verified
         //Initially is going to verify all possible cases to return false
-
+        this.players = new ArrayList<>();
         //Verifies if the players data is not null
         if (playersInfo == null) {
             return false;
         }
-
         //Verifies if the game has a minimum of 2 players and a maximum of 4 players
         if (playersInfo.length <2 || playersInfo.length > 4) {
             return false;
         }
-
         //Verifies if the players' energy is not lower than 1
         if (initialEnergy < 1) {
             return false;
         }
-
         //Verifies if the map has at least 2 positions for each player playing
         if (jungleSize < playersInfo.length*2) {
             return false;
         }
-
         //At this point we have playersInfo validated to test
-
         //Creates an arraylist to later verify if there are repeated playerIds
         ArrayList<String> playerIds = new ArrayList<>();
-
         //Creates an arraylist to later verify if Tarzan specie has been selected more than one time
         ArrayList<String> speciesCompeting = new ArrayList<>();
 
@@ -90,10 +84,8 @@ public class GameManager {
             String playerName = info[1];
             String playerSpecieId = info[2];
             String specieName = "";
-
             //Gets the available species data
             String[][] species = getSpecies();
-
             //Iterates the species
             for (int k = 0; k < species.length; k++) {
                 //Gets the default specie id
@@ -116,39 +108,30 @@ public class GameManager {
                     return false;
                 }
             }
-
             //Resets the variable
             if (hasSpecieVerified) {
                 hasSpecieVerified = false;
             }
-
             //Verifies if the players names are valid
             if (playerName == null || playerName.equals("")) {
                 return false;
             }
-
             try {
                 Integer.parseInt(playerId);
             } catch(NumberFormatException e) {
                 return false;
             }
-
-
             //Verifies if the playerId is valid (not lower than 1) and if the playerId is not repeated
             if (playerIds.contains(playerId)) {
                 return false;
             }
-
             //As playerId is not repeated adds it to the playerIds arraylist
             playerIds.add(playerId);
-
             //At this point the player data is verified and creates the player object
             Player player = new Player(playerId, playerName, playerSpecieId, initialEnergy, 1, specieName);
-
             //Adds the player to the created/game players list
             this.players.add(player);
         }
-
         //Finds out the player with the lowest id to start the game and saves that in actualPlayer
         int lowestPlayerId = Integer.parseInt(this.players.get(0).getId());
         Player playerWithLowestId = this.players.get(0);
@@ -160,10 +143,8 @@ public class GameManager {
             }
         }
         this.actualPlayer = playerWithLowestId;
-
         //Saves the position of the finish
         this.finalPosition = jungleSize;
-
         return true;
     }
 
@@ -276,22 +257,18 @@ public class GameManager {
     public boolean moveCurrentPlayer(int nrSquares, boolean bypassValidations) { //Verified
         //Gets the current player
         Player currentPlayer = this.actualPlayer;
-
         //Verifies if the dice number is valid
         if ((nrSquares < 1 || nrSquares > 6) && !bypassValidations) {
             return false;
         }
-
         //Verifies if the player has enough energy to move. If it has, decreases the energy
         if (currentPlayer.getEnergy() <= 0) {
             return false;
         } else {
             currentPlayer.updateEnergy();
         }
-
         //Gets the current square of the player
         int currentSquare = currentPlayer.getSquareId();
-
         //Verifies if the new squareId is over the finish or not and updates with the new data
         if (currentSquare + nrSquares >= this.finalPosition) {
             this.actualPlayer.updateSquareId(this.finalPosition);
@@ -310,7 +287,6 @@ public class GameManager {
                 someoneHasEnergy = true;
             }
         }
-
         //If no one else has energy, the game will pick the winners
         if (!someoneHasEnergy) {
             //By default, selects one winner
@@ -334,7 +310,6 @@ public class GameManager {
             this.winner = winnerPlayer;
             getWinnerInfo();
         }
-
         //Gets the playerId of the actualPlayer in the arraylist
         int actualPlayerId = Integer.parseInt(currentPlayer.getId());
         int nextBiggerPlayerId;
@@ -346,27 +321,22 @@ public class GameManager {
         for (Player value : this.players) {
             playerIds.add(Integer.parseInt(value.getId()));
         }
-
         //Sorts the playerIds in order
         Collections.sort(playerIds);
-
         //Gets the index of the actualPlayer in the arraylist
         int indexActualPlayerId = playerIds.indexOf(actualPlayerId);
-
         //Verifies if the actualPlayerId is already the biggest one or not
         if (indexActualPlayerId == playerIds.size()-1) {
             nextBiggerPlayerId = playerIds.get(0);
         } else {
             nextBiggerPlayerId = playerIds.get(indexActualPlayerId + 1);
         }
-
         //Search for the player with the new id and sets them as the next actualPlayer
         for (int i=0;i<this.players.size();i++) {
             if (Integer.parseInt(this.players.get(i).getId()) == nextBiggerPlayerId) {
                 this.actualPlayer = this.players.get(i);
             }
         }
-
         return true;
     }
 
