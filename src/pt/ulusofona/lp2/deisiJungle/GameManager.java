@@ -51,8 +51,7 @@ public class GameManager {
     public boolean createInitialJungle(int jungleSize, int initialEnergy, String[][] playersInfo) { //Verified
         //Initially is going to verify all possible cases to return false
         this.players = new ArrayList<>();
-        //Verifies if the players data is not null
-        if (playersInfo == null) {
+        if (playersInfo == null) { //Verifies if the players data is not null
             return false;
         }
         //Verifies if the game has a minimum of 2 players and a maximum of 4 players
@@ -72,10 +71,8 @@ public class GameManager {
         ArrayList<String> playerIds = new ArrayList<>();
         //Creates an arraylist to later verify if Tarzan specie has been selected more than one time
         ArrayList<String> speciesCompeting = new ArrayList<>();
-
         //Creates this variable to later verify if the player data has a valid specie
         boolean hasSpecieVerified = false;
-
         //Iterates the players data
         for (int i=0;i<playersInfo.length;i++) {
             String[] info = playersInfo[i];
@@ -84,25 +81,21 @@ public class GameManager {
             String playerName = info[1];
             String playerSpecieId = info[2];
             String specieName = "";
-            //Gets the available species data
-            String[][] species = getSpecies();
+            String[][] species = getSpecies(); //Gets the available species data
             //Iterates the species
             for (int k = 0; k < species.length; k++) {
                 //Gets the default specie id
                 String defaultSpecieId = species[k][0];
-
                 //Verifies if the Tarzan specie hasn't been selected more than one time
                 if (speciesCompeting.contains("Z") && playerSpecieId.equals("Z")) {
                     return false;
                 }
-
                 //Verifies if the playerSpecieId matches the default specieIds
                 if (defaultSpecieId.equals(playerSpecieId) && !hasSpecieVerified) {
                     specieName = species[k][1];
                     hasSpecieVerified = true;
                     speciesCompeting.add(playerSpecieId);
                 }
-
                 //If is in the last row and playerSpecieId hasn't been verified yet, the player specie is not valid
                 if (k == species.length - 1 && !hasSpecieVerified) {
                     return false;
@@ -143,8 +136,7 @@ public class GameManager {
             }
         }
         this.actualPlayer = playerWithLowestId;
-        //Saves the position of the finish
-        this.finalPosition = jungleSize;
+        this.finalPosition = jungleSize; //Saves the position of the finish
         return true;
     }
 
@@ -176,6 +168,10 @@ public class GameManager {
     public String[] getSquareInfo(int squareNr) { //Verified
         //Creates the array to save the square data
         String[] squareInfo = new String[3];
+
+        if(squareNr < 1 || squareNr > this.finalPosition){
+            return null;
+        }
 
         //Verifies if the square past as argument is the finalPosition or not to select the correct data
         if (squareNr == this.finalPosition) {
@@ -278,7 +274,6 @@ public class GameManager {
         } else {
             this.actualPlayer.updateSquareId(currentSquare + nrSquares);
         }
-
         boolean someoneHasEnergy = false;
         //Iterates the players
         for (int i=0;i<this.players.size();i++) {
@@ -291,9 +286,8 @@ public class GameManager {
         if (!someoneHasEnergy) {
             //By default, selects one winner
             Player winnerPlayer = this.players.get(0);
-
             //Iterates the players
-            for (int i=0;i<this.players.size();i++) {
+            for (int i = 0; i < this.players.size(); i++) {
                 Player player = this.players.get(i);
                 //Verifies if the squareId of the player is the same of the winner and see who has minor id
                 if (player.getSquareId() == winnerPlayer.getSquareId()) {
@@ -313,10 +307,8 @@ public class GameManager {
         //Gets the playerId of the actualPlayer in the arraylist
         int actualPlayerId = Integer.parseInt(currentPlayer.getId());
         int nextBiggerPlayerId;
-
         //Creates a playerIds arraylist to save all available ids
         ArrayList<Integer> playerIds = new ArrayList<>();
-
         //Adds the playerIds to the arraylist
         for (Player value : this.players) {
             playerIds.add(Integer.parseInt(value.getId()));
