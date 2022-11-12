@@ -5,18 +5,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class GameManager {
-    ArrayList<Player> players = new ArrayList<>();
+    ArrayList<Player> players;
     Player actualPlayer;
     Player winner;
     int finalPosition;
 
     public GameManager() {}
-
-    public GameManager(ArrayList<Player> players, Player actualPlayer, int finalPosition) {
-        this.players = players;
-        this.actualPlayer = actualPlayer;
-        this.finalPosition = finalPosition;
-    }
 
     public String[][] getSpecies() {
         //Creates the default species data
@@ -121,7 +115,7 @@ public class GameManager {
             //As playerId is not repeated adds it to the playerIds arraylist
             playerIds.add(playerId);
             //At this point the player data is verified and creates the player object
-            Player player = new Player(playerId, playerName, playerSpecieId, initialEnergy, 1, specieName);
+            Player player = new Player(playerId, playerName, new Specie(playerSpecieId,specieName), new Energy(initialEnergy), new Position(1));
             //Adds the player to the created/game players list
             this.players.add(player);
         }
@@ -146,7 +140,7 @@ public class GameManager {
         //Iterates the players
         for (Player player : this.players) {
             //Verifies if the player is in the squareNr past as argument
-            if (player.getSquareId() == squareNr) {
+            if (player.getPosition().getSquareId() == squareNr) {
                 //The playerId will be added to the arraylist
                 playerIds.add(Integer.parseInt(player.getId()));
             }
@@ -194,7 +188,7 @@ public class GameManager {
         //Iterates the players
         for (Player player : this.players) {
             //Verifies if the playerSquareId is the same past as argument
-            if (player.getSquareId() == squareNr) {
+            if (player.getPosition().getSquareId() == squareNr) {
                 //Saves the playerId in the string
                 if (result.equals("")) {
                     result = player.getId();
@@ -216,7 +210,7 @@ public class GameManager {
                 String[] playerData = new String[4];
                 playerData[0] = player.getId();
                 playerData[1] = player.getName();
-                playerData[2] = player.getSpecieId();
+                playerData[2] = player.getSpecie().getSpecieId();
                 playerData[3] = String.valueOf(player.getEnergy());
                 return playerData;
             }
@@ -230,7 +224,7 @@ public class GameManager {
         String[] playerData = new String[4];
         playerData[0] = player.getId();
         playerData[1] = player.getName();
-        playerData[2] = player.getSpecieId();
+        playerData[2] = player.getSpecie().getSpecieId();
         playerData[3] = String.valueOf(player.getEnergy());
         return playerData;
     }
@@ -244,7 +238,7 @@ public class GameManager {
             Player player = this.players.get(i);
             playersData[i][0] = player.getId();
             playersData[i][1] = player.getName();
-            playersData[i][2] = player.getSpecieId();
+            playersData[i][2] = player.getSpecie().getSpecieId();
             playersData[i][3] = String.valueOf(player.getEnergy());
         }
         return playersData;
@@ -285,27 +279,27 @@ public class GameManager {
             return false;
         }
         //Verifies if the player has enough energy to move. If it has, decreases the energy
-        if (currentPlayer.getEnergy() <= 0) {
+        if (currentPlayer.getEnergy().getEnergyQty() <= 0) {
             return false;
         } else {
-            currentPlayer.updateEnergy();
+            currentPlayer.getEnergy().updateEnergy();
         }
         //Gets the current square of the player
-        int currentSquare = currentPlayer.getSquareId();
+        int currentSquare = currentPlayer.getPosition().getSquareId();
         //Verifies if the new squareId is over the finish or not and updates with the new data
         if (currentSquare + nrSquares >= this.finalPosition) {
-            currentPlayer.updateSquareId(this.finalPosition);
+            currentPlayer.getPosition().updateSquareId(this.finalPosition);
             //Gets the data of the winner
             this.winner = currentPlayer;
             getWinnerInfo();
         } else {
-            currentPlayer.updateSquareId(currentSquare + nrSquares);
+            currentPlayer.getPosition().updateSquareId(currentSquare + nrSquares);
         }
         boolean someoneHasEnergy = false;
         //Iterates the players
         for (int i=0;i<this.players.size();i++) {
             //Verifies if there is still a player with energy
-            if (this.players.get(i).getEnergy() > 0 && !someoneHasEnergy) {
+            if (this.players.get(i).getEnergy().getEnergyQty() > 0 && !someoneHasEnergy) {
                 someoneHasEnergy = true;
             }
         }
@@ -317,13 +311,13 @@ public class GameManager {
             for (int i = 0; i < this.players.size(); i++) {
                 Player player = this.players.get(i);
                 //Verifies if the squareId of the player is the same of the winner and see who has minor id
-                if (player.getSquareId() == winnerPlayer.getSquareId()) {
+                if (player.getPosition().getSquareId() == winnerPlayer.getPosition().getSquareId()) {
                     if (Integer.parseInt(player.getId()) < Integer.parseInt(winnerPlayer.getId())) {
                         winnerPlayer = player;
                     }
                 }
                 //Verifies if the player is in front of the currentWinner
-                if (player.getSquareId() > winnerPlayer.getSquareId()) {
+                if (player.getPosition().getSquareId() > winnerPlayer.getPosition().getSquareId()) {
                     winnerPlayer = player;
                 }
             }
@@ -340,7 +334,7 @@ public class GameManager {
             String[] playerData = new String[4];
             playerData[0] = this.winner.getId();
             playerData[1] = this.winner.getName();
-            playerData[2] = this.winner.getSpecieId();
+            playerData[2] = this.winner.getSpecie().getSpecieId();
             playerData[3] = String.valueOf(this.winner.getEnergy());
             return playerData;
         }
@@ -361,21 +355,21 @@ public class GameManager {
                     Player player = this.players.get(i);
 
                     //Verifies if the squareId of the player is the same of the winner and see who has minor id
-                    if (player.getSquareId() == winnerPlayer.getSquareId()) {
+                    if (player.getPosition().getSquareId() == winnerPlayer.getPosition().getSquareId()) {
                         if (Integer.parseInt(player.getId()) < Integer.parseInt(winnerPlayer.getId())) {
                             winnerPlayer = player;
                         }
                     }
 
                     //Verifies if the player is in front of the currentWinner
-                    if (player.getSquareId() > winnerPlayer.getSquareId()) {
+                    if (player.getPosition().getSquareId() > winnerPlayer.getPosition().getSquareId()) {
                         winnerPlayer = player;
                     }
                 }
 
                 //Gets the string with the winner
                 String result = "#" + (resultadosJogo.size() + 1) + " " + winnerPlayer.getName() + ", " +
-                        winnerPlayer.getSpecieName() + ", " + winnerPlayer.getSquareId();
+                        winnerPlayer.getSpecie().getSpecieName() + ", " + winnerPlayer.getPosition().getSquareId();
 
                 //Removes this player from the current players and adds to the arraylist with the winners
                 this.players.remove(winnerPlayer);

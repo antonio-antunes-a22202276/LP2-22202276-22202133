@@ -3,18 +3,16 @@ package pt.ulusofona.lp2.deisiJungle;
 public class Player {
     String id;
     String name;
-    String specieId;
-    int energy;
-    int squareId;
-    String specieName;
+    Specie specie;
+    Energy energy;
+    Position position;
 
-    Player(String id, String name, String specieId, int energy, int squareId, String specieName) {
+    Player(String id, String name, Specie specie, Energy energy, Position position) {
         this.id = id;
         this.name = name;
-        this.specieId = specieId;
+        this.specie = specie;
         this.energy = energy;
-        this.squareId = squareId;
-        this.specieName = specieName;
+        this.position = position;
     }
 
     String getId() {
@@ -25,27 +23,15 @@ public class Player {
         return name;
     }
 
-    String getSpecieId() {
-        return specieId;
+    Specie getSpecie() {
+        return specie;
     }
 
-    int getEnergy() {
+    Energy getEnergy() {
         return energy;
     }
 
-    int getSquareId() {
-        return squareId;
-    }
-
-    void updateEnergy() {
-        energy -= 2;
-    }
-
-    void updateSquareId(int newSquareId) {
-        squareId = newSquareId;
-    }
-
-    String getSpecieName(){
-        return specieName;
+    Position getPosition() {
+        return position;
     }
 }
