@@ -45,21 +45,14 @@ public class GameManager {
     public boolean createInitialJungle(int jungleSize, int initialEnergy, String[][] playersInfo) { //Verified
         //Initially is going to verify all possible cases to return false
         this.players = new ArrayList<>();
-        if (playersInfo == null) { //Verifies if the players data is not null
-            return false;
-        }
+        //Verifies if the players data is not null
+        if (playersInfo == null) { return false; }
         //Verifies if the game has a minimum of 2 players and a maximum of 4 players
-        if (playersInfo.length <2 || playersInfo.length > 4) {
-            return false;
-        }
+        if (playersInfo.length <2 || playersInfo.length > 4) { return false; }
         //Verifies if the players' energy is not lower than 1
-        if (initialEnergy < 1) {
-            return false;
-        }
+        if (initialEnergy < 1) { return false; }
         //Verifies if the map has at least 2 positions for each player playing
-        if (jungleSize < playersInfo.length*2) {
-            return false;
-        }
+        if (jungleSize < playersInfo.length*2) { return false; }
         //At this point we have playersInfo validated to test
         //Creates an arraylist to later verify if there are repeated playerIds
         ArrayList<String> playerIds = new ArrayList<>();
@@ -81,9 +74,7 @@ public class GameManager {
                 //Gets the default specie id
                 String defaultSpecieId = species[k][0];
                 //Verifies if the Tarzan specie hasn't been selected more than one time
-                if (speciesCompeting.contains("Z") && playerSpecieId.equals("Z")) {
-                    return false;
-                }
+                if (speciesCompeting.contains("Z") && playerSpecieId.equals("Z")) { return false; }
                 //Verifies if the playerSpecieId matches the default specieIds
                 if (defaultSpecieId.equals(playerSpecieId) && !hasSpecieVerified) {
                     specieName = species[k][1];
@@ -91,27 +82,15 @@ public class GameManager {
                     speciesCompeting.add(playerSpecieId);
                 }
                 //If is in the last row and playerSpecieId hasn't been verified yet, the player specie is not valid
-                if (k == species.length - 1 && !hasSpecieVerified) {
-                    return false;
-                }
+                if (k == species.length - 1 && !hasSpecieVerified) { return false; }
             }
             //Resets the variable
-            if (hasSpecieVerified) {
-                hasSpecieVerified = false;
-            }
+            if (hasSpecieVerified) { hasSpecieVerified = false; }
             //Verifies if the players names are valid
-            if (playerName == null || playerName.equals("")) {
-                return false;
-            }
-            try {
-                Integer.parseInt(playerId);
-            } catch(NumberFormatException e) {
-                return false;
-            }
+            if (playerName == null || playerName.equals("")) {return false;}
+            try {Integer.parseInt(playerId);} catch(NumberFormatException e) {return false;}
             //Verifies if the playerId is valid (not lower than 1) and if the playerId is not repeated
-            if (playerIds.contains(playerId)) {
-                return false;
-            }
+            if (playerIds.contains(playerId)) { return false; }
             //As playerId is not repeated adds it to the playerIds arraylist
             playerIds.add(playerId);
             //At this point the player data is verified and creates the player object
@@ -254,9 +233,7 @@ public class GameManager {
         //Creates a playerIds arraylist to save all available ids
         ArrayList<Integer> playerIds = new ArrayList<>();
         //Adds the playerIds to the arraylist
-        for (Player value : this.players) {
-            playerIds.add(Integer.parseInt(value.getId()));
-        }
+        for (Player value : this.players) { playerIds.add(Integer.parseInt(value.getId())); }
         //Sorts the playerIds in order
         Collections.sort(playerIds);
         //Gets the index of the actualPlayer in the arraylist
@@ -264,25 +241,18 @@ public class GameManager {
         //Verifies if the actualPlayerId is already the biggest one or not
         if (indexActualPlayerId == playerIds.size()-1) {
             nextBiggerPlayerId = playerIds.get(0);
-        } else {
-            nextBiggerPlayerId = playerIds.get(indexActualPlayerId + 1);
-        }
+        } else { nextBiggerPlayerId = playerIds.get(indexActualPlayerId + 1); }
         //Search for the player with the new id and sets them as the next actualPlayer
         for (int i=0;i<this.players.size();i++) {
             if (Integer.parseInt(this.players.get(i).getId()) == nextBiggerPlayerId) {
-                this.actualPlayer = this.players.get(i);
-            }
+                this.actualPlayer = this.players.get(i); }
         }
         //Verifies if the dice number is valid
-        if ((nrSquares < 1 || nrSquares > 6) && !bypassValidations) {
-            return false;
-        }
+        if ((nrSquares < 1 || nrSquares > 6) && !bypassValidations) { return false; }
         //Verifies if the player has enough energy to move. If it has, decreases the energy
         if (currentPlayer.getEnergy().getEnergyQty() <= 0) {
             return false;
-        } else {
-            currentPlayer.getEnergy().updateEnergy();
-        }
+        } else { currentPlayer.getEnergy().updateEnergy(); }
         //Gets the current square of the player
         int currentSquare = currentPlayer.getPosition().getSquareId();
         //Verifies if the new squareId is over the finish or not and updates with the new data
@@ -291,16 +261,12 @@ public class GameManager {
             //Gets the data of the winner
             this.winner = currentPlayer;
             getWinnerInfo();
-        } else {
-            currentPlayer.getPosition().updateSquareId(currentSquare + nrSquares);
-        }
+        } else { currentPlayer.getPosition().updateSquareId(currentSquare + nrSquares); }
         boolean someoneHasEnergy = false;
         //Iterates the players
         for (int i=0;i<this.players.size();i++) {
             //Verifies if there is still a player with energy
-            if (this.players.get(i).getEnergy().getEnergyQty() > 0 && !someoneHasEnergy) {
-                someoneHasEnergy = true;
-            }
+            if (this.players.get(i).getEnergy().getEnergyQty() > 0 && !someoneHasEnergy) { someoneHasEnergy = true; }
         }
         //If no one else has energy, the game will pick the winners
         if (!someoneHasEnergy) {
