@@ -211,7 +211,7 @@ public class GameManager {
                 playerData[0] = player.getId();
                 playerData[1] = player.getName();
                 playerData[2] = player.getSpecie().getSpecieId();
-                playerData[3] = String.valueOf(player.getEnergy());
+                playerData[3] = String.valueOf(player.getEnergy().getEnergyQty());
                 return playerData;
             }
         }
@@ -225,7 +225,7 @@ public class GameManager {
         playerData[0] = player.getId();
         playerData[1] = player.getName();
         playerData[2] = player.getSpecie().getSpecieId();
-        playerData[3] = String.valueOf(player.getEnergy());
+        playerData[3] = String.valueOf(player.getEnergy().getEnergyQty());
         return playerData;
     }
 
@@ -239,7 +239,7 @@ public class GameManager {
             playersData[i][0] = player.getId();
             playersData[i][1] = player.getName();
             playersData[i][2] = player.getSpecie().getSpecieId();
-            playersData[i][3] = String.valueOf(player.getEnergy());
+            playersData[i][3] = String.valueOf(player.getEnergy().getEnergyQty());
         }
         return playersData;
     }
@@ -273,7 +273,6 @@ public class GameManager {
                 this.actualPlayer = this.players.get(i);
             }
         }
-
         //Verifies if the dice number is valid
         if ((nrSquares < 1 || nrSquares > 6) && !bypassValidations) {
             return false;
@@ -335,7 +334,7 @@ public class GameManager {
             playerData[0] = this.winner.getId();
             playerData[1] = this.winner.getName();
             playerData[2] = this.winner.getSpecie().getSpecieId();
-            playerData[3] = String.valueOf(this.winner.getEnergy());
+            playerData[3] = String.valueOf(this.winner.getEnergy().getEnergyQty());
             return playerData;
         }
         return null;
