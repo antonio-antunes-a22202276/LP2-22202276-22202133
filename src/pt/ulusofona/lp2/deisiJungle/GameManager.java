@@ -45,6 +45,8 @@ public class GameManager {
     public boolean createInitialJungle(int jungleSize, int initialEnergy, String[][] playersInfo) { //Verified
         //Initially is going to verify all possible cases to return false
         this.players = new ArrayList<>();
+        this.actualPlayer = null;
+        this.winner = null;
         //Verifies if the players data is not null
         if (playersInfo == null) { return false; }
         //Verifies if the game has a minimum of 2 players and a maximum of 4 players
