@@ -89,12 +89,13 @@ public class GameManager {
             //Verifies if the players names are valid
             if (playerName == null || playerName.equals("")) {return false;}
             try {Integer.parseInt(playerId);} catch(NumberFormatException e) {return false;}
-            //Verifies if the playerId is valid (not lower than 1) and if the playerId is not repeated
+            //Verifies if the playerId is not repeated
             if (playerIds.contains(playerId)) { return false; }
             //As playerId is not repeated adds it to the playerIds arraylist
             playerIds.add(playerId);
             //At this point the player data is verified and creates the player object
-            Player player = new Player(playerId, playerName, new Specie(playerSpecieId,specieName), new Energy(initialEnergy), new Position(1));
+            Player player = new Player(playerId, playerName, new Specie(playerSpecieId,specieName),
+                    new Energy(initialEnergy), new Position(1));
             //Adds the player to the created/game players list
             this.players.add(player);
         }
@@ -348,7 +349,8 @@ public class GameManager {
     public JPanel getAuthorsPanel() { //Verified
         //Creates the credit panel
         JPanel panel = new JPanel();
-        JLabel jlabel = new JLabel("<html>Developed by:<br/>- António Antunes<br/>- João Serralha<br/><br/>Lusófona Informática</html>");
+        JLabel jlabel = new JLabel("<html>Developed by:<br/>- António Antunes<br/>- " +
+                "João Serralha<br/><br/>Lusófona Informática</html>");
         panel.add(jlabel);
         return panel;
     }
