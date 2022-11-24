@@ -14,7 +14,7 @@ public class GameManager {
 
     public String[][] getSpecies() {
         //Creates the default species data
-        String[][] species = new String[5][3];
+        String[][] species = new String[5][7];
 
         //SpecieId
         //SpecieName
@@ -22,24 +22,74 @@ public class GameManager {
         species[0][0] = "E";
         species[0][1] = "Elefante";
         species[0][2] = "elephant.png";
+        species[0][3] = "180";
+        species[0][4] = "4";
+        species[0][5] = "10";
+        species[0][6] = "1..6";
 
         species[1][0] = "L";
         species[1][1] = "Leão";
         species[1][2] = "lion.png";
+        species[1][3] = "80";
+        species[1][4] = "2";
+        species[1][5] = "10";
+        species[1][6] = "4..6";
 
         species[2][0] = "T";
         species[2][1] = "Tartaruga";
         species[2][2] = "turtle.png";
+        species[2][3] = "150";
+        species[2][4] = "1";
+        species[2][5] = "5";
+        species[2][6] = "1..3";
 
         species[3][0] = "P";
         species[3][1] = "Pássaro";
         species[3][2] = "bird.png";
+        species[3][3] = "70";
+        species[3][4] = "4";
+        species[3][5] = "50";
+        species[3][6] = "5..6";
 
         species[4][0] = "Z";
         species[4][1] = "Tarzan";
         species[4][2] = "tarzan.png";
+        species[4][3] = "70";
+        species[4][4] = "2";
+        species[4][5] = "20";
+        species[4][6] = "1..6";
 
         return species;
+    }
+
+    public String[][] getFoodTypes(){
+        //Creates the default for food types
+        String[][] food = new String[5][3];
+
+        //FoodID
+        //FoodName
+        //FoodImageFileName
+        food[0][0] = "e";
+        food[0][1] = "Erva";
+        food[0][2] = "grass.png";
+
+        food[1][0] = "a";
+        food[1][1] = "Agua";
+        food[1][2] = "water.png";
+
+        food[2][0] = "b";
+        food[2][1] = "Cacho de bananas";
+        food[2][2] = "bananas.png";
+
+        food[3][0] = "c";
+        food[3][1] = "Carne";
+        food[3][2] = "meat.png";
+
+        food[4][0] = "m";
+        food[4][1] = "Cogumelos magicos";
+        food[4][2] = "mushroom.png";
+
+        return food;
     }
 
     public boolean createInitialJungle(int jungleSize, int initialEnergy, String[][] playersInfo) { //Verified
