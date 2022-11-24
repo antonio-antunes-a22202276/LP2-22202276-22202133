@@ -92,19 +92,17 @@ public class GameManager {
         return food;
     }
 
-    public boolean createInitialJungle(int jungleSize, int initialEnergy, String[][] playersInfo) { //Verified
+    public InitializationError createInitialJungle(int jungleSize, String[][] playersInfo, String[][] foodsInfo) { //Verified
         //Initially is going to verify all possible cases to return false
         this.players = new ArrayList<>();
         this.actualPlayer = null;
         this.winner = null;
         //Verifies if the players data is not null
-        if (playersInfo == null) { return false; }
+        if (playersInfo == null) {return new InitializationError("Players info é null");}
         //Verifies if the game has a minimum of 2 players and a maximum of 4 players
-        if (playersInfo.length <2 || playersInfo.length > 4) { return false; }
-        //Verifies if the players' energy is not lower than 1
-        if (initialEnergy < 1) { return false; }
+        if (playersInfo.length <2 || playersInfo.length > 4) { return new InitializationError("Numero de jogadores invalido"); }
         //Verifies if the map has at least 2 positions for each player playing
-        if (jungleSize < playersInfo.length*2) { return false; }
+        if (jungleSize < playersInfo.length * 2) { return new InitializationError("O mapa não tem duas posições para cada jogador"); }
         //At this point we have playersInfo validated to test
         //Creates an arraylist to later verify if there are repeated playerIds
         ArrayList<String> playerIds = new ArrayList<>();
@@ -113,7 +111,7 @@ public class GameManager {
         //Creates this variable to later verify if the player data has a valid specie
         boolean hasSpecieVerified = false;
         //Iterates the players data
-        for (int i=0;i<playersInfo.length;i++) {
+        for (int i = 0; i < playersInfo.length; i++) {
             String[] info = playersInfo[i];
             //Gets the players data
             String playerId = info[0];
@@ -126,7 +124,7 @@ public class GameManager {
                 //Gets the default specie id
                 String defaultSpecieId = species[k][0];
                 //Verifies if the Tarzan specie hasn't been selected more than one time
-                if (speciesCompeting.contains("Z") && playerSpecieId.equals("Z")) { return false; }
+                if (speciesCompeting.contains("Z") && playerSpecieId.equals("Z")) { return new InitializationError("O Tarzan já foi selecionado"); }
                 //Verifies if the playerSpecieId matches the default specieIds
                 if (defaultSpecieId.equals(playerSpecieId) && !hasSpecieVerified) {
                     specieName = species[k][1];
@@ -134,27 +132,31 @@ public class GameManager {
                     speciesCompeting.add(playerSpecieId);
                 }
                 //If is in the last row and playerSpecieId hasn't been verified yet, the player specie is not valid
-                if (k == species.length - 1 && !hasSpecieVerified) { return false; }
+                if (k == species.length - 1 && !hasSpecieVerified) { return new InitializationError("Existe uma espécie que não é válida"); }
             }
             //Resets the variable
             if (hasSpecieVerified) { hasSpecieVerified = false; }
             //Verifies if the players names are valid
-            if (playerName == null || playerName.equals("")) {return false;}
-            try {Integer.parseInt(playerId);} catch(NumberFormatException e) {return false;}
+            if (playerName == null || playerName.equals("")) {return new InitializationError("O nome de um jogador não é váldio");}
+            try {Integer.parseInt(playerId);} catch(NumberFormatException e) {return new InitializationError("O id de um jogador não é válido");}
             //Verifies if the playerId is not repeated
-            if (playerIds.contains(playerId)) { return false; }
+            if (playerIds.contains(playerId)) { return new InitializationError("O id de um jogador está repetido"); }
             //As playerId is not repeated adds it to the playerIds arraylist
             playerIds.add(playerId);
             //At this point the player data is verified and creates the player object
-            Player player = new Player(playerId, playerName, new Specie(playerSpecieId,specieName),
+
+            //TODO
+            //--------------------------------------
+            /*Player player = new Player(playerId, playerName, new Specie(playerSpecieId,specieName),
                     new Energy(initialEnergy), new Position(1));
             //Adds the player to the created/game players list
-            this.players.add(player);
+            this.players.add(player);*/
+            //--------------------------------------
         }
         //Finds out the player with the lowest id to start the game and saves that in actualPlayer
         int lowestPlayerId = Integer.parseInt(this.players.get(0).getId());
         Player playerWithLowestId = this.players.get(0);
-        for (int i=1;i<this.players.size();i++) {
+        for (int i = 1; i < this.players.size(); i++) {
             Player player = this.players.get(i);
             if (Integer.parseInt(player.getId()) < lowestPlayerId) {
                 lowestPlayerId = Integer.parseInt(player.getId());
@@ -163,7 +165,7 @@ public class GameManager {
         }
         this.actualPlayer = playerWithLowestId;
         this.finalPosition = jungleSize; //Saves the position of the finish
-        return true;
+        return null;
     }
 
     public int[] getPlayerIds(int squareNr) { //Verified
