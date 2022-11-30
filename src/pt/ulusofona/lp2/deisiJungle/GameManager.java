@@ -110,6 +110,7 @@ public class GameManager {
         ArrayList<String> speciesCompeting = new ArrayList<>();
         //Creates this variable to later verify if the player data has a valid specie
         boolean hasSpecieVerified = false;
+        boolean hasFoodVerified = false;
         //Iterates the players data
         for (int i = 0; i < playersInfo.length; i++) {
             String[] info = playersInfo[i];
@@ -152,6 +153,24 @@ public class GameManager {
             //Adds the player to the created/game players list
             this.players.add(player);*/
             //--------------------------------------
+        }
+        for (int i = 0; i< foodsInfo.length; i++) {
+            String[] info = foodsInfo[i];
+            String foodId = info[0];
+            String foodPosition = info[1];
+            String[][] foods = getFoodTypes();
+            if (Integer.parseInt(foodPosition)<=1 || Integer.parseInt(foodPosition)>=jungleSize) {
+                return new InitializationError("Existe um alimento fora dos limites do terreno");
+            }
+            for (int k = 0; k < foods.length; k++) {
+                String defaultFoodId = foods[k][0];
+                if (defaultFoodId.equals(foodId) && !hasFoodVerified) {
+                    hasFoodVerified = true;
+                }
+                if (k == foods.length - 1 && !hasFoodVerified) {
+                    return new InitializationError("Existe um alimento que não é válido");
+                }
+            }
         }
         //Finds out the player with the lowest id to start the game and saves that in actualPlayer
         int lowestPlayerId = Integer.parseInt(this.players.get(0).getId());
