@@ -4,15 +4,13 @@ public class Player {
     String id;
     String name;
     Specie specie;
-    Energy energy;
-    Position position;
+    int squareId;
 
-    Player(String id, String name, Specie specie, Energy energy, Position position) {
+    Player(String id, String name, Specie specie, int squareId) {
         this.id = id;
         this.name = name;
         this.specie = specie;
-        this.energy = energy;
-        this.position = position;
+        this.squareId = squareId;
     }
 
     String getId() {
@@ -27,11 +25,11 @@ public class Player {
         return specie;
     }
 
-    Energy getEnergy() {
-        return energy;
+    int getSquareId() {
+        return squareId;
     }
 
-    Position getPosition() {
-        return position;
+    void updateSquareId(int newSquareId) {
+        squareId = newSquareId;
     }
 }
