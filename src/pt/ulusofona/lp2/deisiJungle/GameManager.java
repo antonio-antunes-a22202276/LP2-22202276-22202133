@@ -117,11 +117,14 @@ public class GameManager {
             //Gets the players data
             String playerId = info[0];
             String playerName = info[1];
-            String playerSpecieId = info[2];
-            String specieName = "";
+            String playerSpecieId = info[2]; //[0]
+            String specieName = ""; //[1]
+            String specieImage = ""; //[2]
+            String specieEnergy = ""; //[3]
+            String specieEnergyConsume = ""; //[4]
+            String specieEnergyGain = ""; //[5]
+            String specieSpeed = ""; //[6]
             String[][] species = getSpecies(); //Gets the available species data
-            String defaultSpecieSpeed = "";
-            String defaultSpecieEnergy = "";
             //Iterates the species
             for (int k = 0; k < species.length; k++) {
                 //Gets the default specie id
@@ -131,12 +134,13 @@ public class GameManager {
                 //Verifies if the playerSpecieId matches the default specieIds
                 if (defaultSpecieId.equals(playerSpecieId) && !hasSpecieVerified) {
                     specieName = species[k][1];
+                    specieImage = species[k][2];
+                    specieEnergy = species[k][3];
+                    specieEnergyConsume = species[k][4];
+                    specieEnergyGain = species[k][5];
+                    specieSpeed = species[k][6];
                     hasSpecieVerified = true;
                     speciesCompeting.add(playerSpecieId);
-                    //Gets the default specie speed
-                    defaultSpecieSpeed = species[k][6];
-                    //Gets the default specie energy
-                    defaultSpecieEnergy = species[k][3];
                 }
                 //If is in the last row and playerSpecieId hasn't been verified yet, the player specie is not valid
                 if (k == species.length - 1 && !hasSpecieVerified) { return new InitializationError("Existe uma espécie que não é válida"); }
@@ -151,7 +155,7 @@ public class GameManager {
             //As playerId is not repeated adds it to the playerIds arraylist
             playerIds.add(playerId);
             //At this point the player data is verified and creates the player object
-            Player player = new Player(playerId, playerName, new Specie(playerSpecieId,specieName, defaultSpecieSpeed, defaultSpecieEnergy), 1);
+            Player player = new Player(playerId, playerName, new Specie(playerSpecieId, specieName, specieImage, specieEnergy, specieEnergyConsume, specieEnergyGain, specieSpeed), 1);
             //Adds the player to the created/game players list
             this.players.add(player);
         }
@@ -213,11 +217,14 @@ public class GameManager {
             //Gets the players data
             String playerId = info[0];
             String playerName = info[1];
-            String playerSpecieId = info[2];
-            String specieName = "";
+            String playerSpecieId = info[2]; //[0]
+            String specieName = ""; //[1]
+            String specieImage = ""; //[2]
+            String specieEnergy = ""; //[3]
+            String specieEnergyConsume = ""; //[4]
+            String specieEnergyGain = ""; //[5]
+            String specieSpeed = ""; //[6]
             String[][] species = getSpecies(); //Gets the available species data
-            String defaultSpecieSpeed = "";
-            String defaultSpecieEnergy = "";
             //Iterates the species
             for (int k = 0; k < species.length; k++) {
                 //Gets the default specie id
@@ -227,12 +234,13 @@ public class GameManager {
                 //Verifies if the playerSpecieId matches the default specieIds
                 if (defaultSpecieId.equals(playerSpecieId) && !hasSpecieVerified) {
                     specieName = species[k][1];
+                    specieImage = species[k][2];
+                    specieEnergy = species[k][3];
+                    specieEnergyConsume = species[k][4];
+                    specieEnergyGain = species[k][5];
+                    specieSpeed = species[k][6];
                     hasSpecieVerified = true;
                     speciesCompeting.add(playerSpecieId);
-                    //Gets the default specie speed
-                    defaultSpecieSpeed = species[k][6];
-                    //Gets the default specie energy
-                    defaultSpecieEnergy = species[k][3];
                 }
                 //If is in the last row and playerSpecieId hasn't been verified yet, the player specie is not valid
                 if (k == species.length - 1 && !hasSpecieVerified) { return new InitializationError("Existe uma espécie que não é válida"); }
@@ -247,7 +255,7 @@ public class GameManager {
             //As playerId is not repeated adds it to the playerIds arraylist
             playerIds.add(playerId);
             //At this point the player data is verified and creates the player object
-            Player player = new Player(playerId, playerName, new Specie(playerSpecieId,specieName, defaultSpecieSpeed, defaultSpecieEnergy), 1);
+            Player player = new Player(playerId, playerName, new Specie(playerSpecieId, specieName, specieImage, specieEnergy, specieEnergyConsume, specieEnergyGain, specieSpeed), 1);
             //Adds the player to the created/game players list
             this.players.add(player);
         }

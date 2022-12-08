@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TestGameManager {
-    @Test
+    /*@Test
     public void test01_createInitialJungle() {
         //Test if the program will not crash with playersInfo null
         GameManager gameManager = new GameManager();
@@ -450,5 +450,5 @@ public class TestGameManager {
         gameManager.createInitialJungle(15,10,playersInfo);
         boolean movePlayer = gameManager.moveCurrentPlayer(4,false);
         assertTrue(movePlayer);
-    }
+    }*/
 }
