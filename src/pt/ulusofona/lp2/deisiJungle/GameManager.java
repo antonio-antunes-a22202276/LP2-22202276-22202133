@@ -371,9 +371,12 @@ public class GameManager {
         return playerData;
     }
 
-    //TODO
     public String[] getCurrentPlayerEnergyInfo(int nrPositions) {
-        return null;
+        String[] energyInfo = new String[2];
+        Player player = this.actualPlayer;
+        energyInfo[0] = "" + Integer.parseInt(player.getSpecie().specieEnergyConsume) * nrPositions;
+        energyInfo[1] = "" + Integer.parseInt(player.getSpecie().specieEnergyGain);
+        return energyInfo;
     }
 
 
