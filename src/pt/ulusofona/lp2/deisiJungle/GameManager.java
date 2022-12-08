@@ -362,13 +362,20 @@ public class GameManager {
     public String[] getCurrentPlayerInfo() { //Verified
         //Gets the data of the current player and returns it
         Player player = this.actualPlayer;
-        String[] playerData = new String[4];
+        String[] playerData = new String[5];
         playerData[0] = player.getId();
         playerData[1] = player.getName();
         playerData[2] = player.getSpecie().getSpecieId();
         playerData[3] = String.valueOf(player.getSpecie().getSpecieEnergy());
+        playerData[4] = player.getSpecie().getSpecieSpeed();
         return playerData;
     }
+
+    //TODO
+    public String[] getCurrentPlayerEnergyInfo(int nrPositions) {
+        return null;
+    }
+
 
     public String[][] getPlayersInfo() { //Verified
         //Creates the array to store the playerData
