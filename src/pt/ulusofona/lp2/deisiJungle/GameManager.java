@@ -473,8 +473,7 @@ public class GameManager {
             this.winner = winnerPlayer;
             getWinnerInfo();
         }
-        MovementResult teste = new MovementResult(MovementResultCode.VALID_MOVEMENT);
-        return teste;
+        return new MovementResult(MovementResultCode.VALID_MOVEMENT);
     }
 
     public String[] getWinnerInfo() { //Verified
