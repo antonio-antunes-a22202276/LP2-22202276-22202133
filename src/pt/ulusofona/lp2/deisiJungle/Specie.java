@@ -8,8 +8,9 @@ public class Specie {
     String specieEnergyConsume;
     String specieEnergyGain;
     String specieSpeed;
+    String specieType;
 
-    Specie(String specieId, String specieName, String specieImage, String specieEnergy, String specieEnergyConsume, String specieEnergyGain, String specieSpeed) {
+    Specie(String specieId, String specieName, String specieImage, String specieEnergy, String specieEnergyConsume, String specieEnergyGain, String specieSpeed, String specieType) {
         this.specieId = specieId;
         this.specieName = specieName;
         this.specieImage = specieImage;
@@ -17,6 +18,7 @@ public class Specie {
         this.specieEnergyConsume = specieEnergyConsume;
         this.specieEnergyGain = specieEnergyGain;
         this.specieSpeed = specieSpeed;
+        this.specieType = specieType;
     }
 
     String getSpecieId() {
@@ -41,6 +43,9 @@ public class Specie {
         return specieSpeed;
     }
 
+    String getSpecieType(){
+        return specieType;
+    }
 
     void updateEnergy(int nrSquares, boolean hasPositiveEnergy){
         if (hasPositiveEnergy) {
@@ -54,6 +59,33 @@ public class Specie {
             }
         } else {
             specieEnergy = String.valueOf(nrSquares);
+        }
+    }
+
+    void updateEnergyByFood(String foodId){
+        if(specieType.equals("O")){
+            if(foodId.equals("e")){
+                specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 20);
+            }
+            if(foodId.equals("a")){
+
+            }
+        }
+        if(specieType.equals("C")){
+            if(foodId.equals("e")){
+                specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) - 20);
+            }
+        }
+        if(specieType.equals("H")){
+            if(foodId.equals("e")){
+                specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 20);
+            }
+        }
+        if(Integer.parseInt(specieEnergy) > 200){
+            specieEnergy = "200";
+        }
+        if(Integer.parseInt(specieEnergy) < 0){
+            specieEnergy = "0";
         }
     }
 }

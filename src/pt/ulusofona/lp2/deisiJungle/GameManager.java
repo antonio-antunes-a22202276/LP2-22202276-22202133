@@ -94,6 +94,7 @@ public class GameManager {
     }
 
     public InitializationError createInitialJungle(int jungleSize, String[][] playersInfo, String[][] foodsInfo) { //Verified
+        createInitialJungle(jungleSize, playersInfo);
         //Initially is going to verify all possible cases to return false
         this.players = new ArrayList<>();
         this.foods = new ArrayList<>();
@@ -126,6 +127,7 @@ public class GameManager {
             String specieEnergyConsume = ""; //[4]
             String specieEnergyGain = ""; //[5]
             String specieSpeed = ""; //[6]
+            String specieType = ""; //[7]
             String[][] species = getSpecies(); //Gets the available species data
             //Iterates the species
             for (int k = 0; k < species.length; k++) {
@@ -142,6 +144,15 @@ public class GameManager {
                     specieEnergyGain = species[k][5];
                     specieSpeed = species[k][6];
                     hasSpecieVerified = true;
+                    if(playerSpecieId.equals("T") || playerSpecieId.equals("Z") || playerSpecieId.equals("P")){
+                        specieType = "O";
+                    }
+                    if(playerSpecieId.equals("L")){
+                        specieType = "C";
+                    }
+                    if(playerSpecieId.equals("E")){
+                        specieType = "H";
+                    }
                     speciesCompeting.add(playerSpecieId);
                 }
                 //If is in the last row and playerSpecieId hasn't been verified yet, the player specie is not valid
@@ -157,7 +168,7 @@ public class GameManager {
             //As playerId is not repeated adds it to the playerIds arraylist
             playerIds.add(playerId);
             //At this point the player data is verified and creates the player object
-            Player player = new Player(playerId, playerName, new Specie(playerSpecieId, specieName, specieImage, specieEnergy, specieEnergyConsume, specieEnergyGain, specieSpeed), 1);
+            Player player = new Player(playerId, playerName, new Specie(playerSpecieId, specieName, specieImage, specieEnergy, specieEnergyConsume, specieEnergyGain, specieSpeed, specieType), 1);
             //Adds the player to the created/game players list
             this.players.add(player);
         }
@@ -232,6 +243,7 @@ public class GameManager {
             String specieEnergyConsume = ""; //[4]
             String specieEnergyGain = ""; //[5]
             String specieSpeed = ""; //[6]
+            String specieType = ""; //[7]
             String[][] species = getSpecies(); //Gets the available species data
             //Iterates the species
             for (int k = 0; k < species.length; k++) {
@@ -248,6 +260,15 @@ public class GameManager {
                     specieEnergyGain = species[k][5];
                     specieSpeed = species[k][6];
                     hasSpecieVerified = true;
+                    if(playerSpecieId.equals("T") || playerSpecieId.equals("Z") || playerSpecieId.equals("P")){
+                        specieType = "O";
+                    }
+                    if(playerSpecieId.equals("L")){
+                        specieType = "C";
+                    }
+                    if(playerSpecieId.equals("E")){
+                        specieType = "H";
+                    }
                     speciesCompeting.add(playerSpecieId);
                 }
                 //If is in the last row and playerSpecieId hasn't been verified yet, the player specie is not valid
@@ -263,7 +284,7 @@ public class GameManager {
             //As playerId is not repeated adds it to the playerIds arraylist
             playerIds.add(playerId);
             //At this point the player data is verified and creates the player object
-            Player player = new Player(playerId, playerName, new Specie(playerSpecieId, specieName, specieImage, specieEnergy, specieEnergyConsume, specieEnergyGain, specieSpeed), 1);
+            Player player = new Player(playerId, playerName, new Specie(playerSpecieId, specieName, specieImage, specieEnergy, specieEnergyConsume, specieEnergyGain, specieSpeed, specieType), 1);
             //Adds the player to the created/game players list
             this.players.add(player);
         }
@@ -348,6 +369,21 @@ public class GameManager {
         for (Food food: this.foods) {
             if (Integer.parseInt(food.getPosition()) == squareNr) {
                 squareInfo[0] = food.getFileName();
+                if(food.getId().equals("e")){
+                    squareInfo[1] = "Erva : +- 20 energia";
+                }
+                /*if(food.getId().equals("a")){
+                    squareInfo[1] = "Agua : + 15U|20% energia";
+                }
+                if(food.getId().equals("b")){
+                    squareInfo[1] = "Bananas : <N> : + 40 energia";
+                }
+                if(food.getId().equals("c")){
+
+                }
+                if(food.getId().equals("m")){
+
+                }*/
             }
         }
         //Saves the playerIds string in the square
@@ -458,6 +494,7 @@ public class GameManager {
         for (int i=0;i<this.foods.size();i++) {
             Food food = this.foods.get(i);
             if(Integer.parseInt(food.getPosition())==currentSquare) {
+                currentPlayer.getSpecie().updateEnergyByFood(food.getId());
                 return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());
             }
         }
