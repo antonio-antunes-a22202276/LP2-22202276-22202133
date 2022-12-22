@@ -42,8 +42,18 @@ public class Specie {
     }
 
 
-    String updateEnergy(){
-        //TODO
-        return "";
+    void updateEnergy(int nrSquares, boolean hasPositiveEnergy){
+        if (hasPositiveEnergy) {
+            if (nrSquares == 0) {
+                specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + Integer.parseInt(specieEnergyGain));
+                if (Integer.parseInt(specieEnergy) > 200) {
+                    specieEnergy = "200";
+                }
+            } else {
+                specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) - (Math.abs(nrSquares) * Integer.parseInt(specieEnergyConsume)));
+            }
+        } else {
+            specieEnergy = String.valueOf(nrSquares);
+        }
     }
 }

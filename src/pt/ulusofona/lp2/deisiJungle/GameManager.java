@@ -431,20 +431,35 @@ public class GameManager {
                 this.actualPlayer = this.players.get(i); }
         }
         //Verifies if the dice number is valid
-        if ((nrSquares < -6 || nrSquares > 6) && !bypassValidations) { return new MovementResult(MovementResultCode.INVALID_MOVEMENT); }
-        //Verifies if the player has enough energy to move. If it has, decreases the energy
+        if ((nrSquares < -6 || nrSquares > 6) && !bypassValidations) { return new MovementResult(MovementResultCode.INVALID_MOVEMENT, ""); }
+        //Verifies if the player has enough energy to move. If it has, decreases the
+        String energy = currentPlayer.getSpecie().getSpecieEnergy();
+        currentPlayer.getSpecie().updateEnergy(nrSquares,true);
         if (Integer.parseInt(currentPlayer.getSpecie().getSpecieEnergy()) <= 0) {
-            return new MovementResult(MovementResultCode.NO_ENERGY); //TODO -> FIX UPDATE ENERGY
-        } else { currentPlayer.getSpecie().updateEnergy(); }
+            currentPlayer.getSpecie().updateEnergy(Integer.parseInt(energy),false);
+            return new MovementResult(MovementResultCode.NO_ENERGY, "");
+        }
         //Gets the current square of the player
         int currentSquare = currentPlayer.getSquareId();
+        /*for (int i=0;i<this.foods.size();i++) {
+            Food food = this.foods.get(i);
+            if(Integer.parseInt(food.getPosition())==currentSquare) {
+                return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());
+            }
+        }*/
         //Verifies if the new squareId is over the finish or not and updates with the new data
         if (currentSquare + nrSquares >= this.finalPosition) {
             currentPlayer.updateSquareId(this.finalPosition);
             //Gets the data of the winner
             this.winner = currentPlayer;
             getWinnerInfo();
-        } else { currentPlayer.updateSquareId(currentSquare + nrSquares); }
+        } else {
+            if(currentSquare+nrSquares < 1) {
+                currentPlayer.updateSquareId(1);
+            } else {
+                currentPlayer.updateSquareId(currentSquare+nrSquares);
+            }
+        }
         boolean someoneHasEnergy = false;
         //Iterates the players
         for (int i=0;i<this.players.size();i++) {
@@ -473,7 +488,7 @@ public class GameManager {
             this.winner = winnerPlayer;
             getWinnerInfo();
         }
-        return new MovementResult(MovementResultCode.VALID_MOVEMENT);
+        return new MovementResult(MovementResultCode.VALID_MOVEMENT, "");
     }
 
     public String[] getWinnerInfo() { //Verified
