@@ -441,12 +441,6 @@ public class GameManager {
         }
         //Gets the current square of the player
         int currentSquare = currentPlayer.getSquareId();
-        /*for (int i=0;i<this.foods.size();i++) {
-            Food food = this.foods.get(i);
-            if(Integer.parseInt(food.getPosition())==currentSquare) {
-                return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());
-            }
-        }*/
         //Verifies if the new squareId is over the finish or not and updates with the new data
         if (currentSquare + nrSquares >= this.finalPosition) {
             currentPlayer.updateSquareId(this.finalPosition);
@@ -458,6 +452,13 @@ public class GameManager {
                 currentPlayer.updateSquareId(1);
             } else {
                 currentPlayer.updateSquareId(currentSquare+nrSquares);
+            }
+        }
+        currentSquare = currentPlayer.getSquareId();
+        for (int i=0;i<this.foods.size();i++) {
+            Food food = this.foods.get(i);
+            if(Integer.parseInt(food.getPosition())==currentSquare) {
+                return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());
             }
         }
         boolean someoneHasEnergy = false;
