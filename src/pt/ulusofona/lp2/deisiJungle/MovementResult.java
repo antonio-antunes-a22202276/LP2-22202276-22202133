@@ -4,7 +4,6 @@ public class MovementResult {
     MovementResultCode code;
     String message;
 
-
     MovementResult(MovementResultCode code) {
         this.code = code;
     }

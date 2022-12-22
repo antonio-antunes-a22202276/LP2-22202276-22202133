@@ -6,6 +6,7 @@ import java.util.Collections;
 
 public class GameManager {
     ArrayList<Player> players;
+    ArrayList<Food> foods;
     Player actualPlayer;
     Player winner;
     int finalPosition;
@@ -95,6 +96,7 @@ public class GameManager {
     public InitializationError createInitialJungle(int jungleSize, String[][] playersInfo, String[][] foodsInfo) { //Verified
         //Initially is going to verify all possible cases to return false
         this.players = new ArrayList<>();
+        this.foods = new ArrayList<>();
         this.actualPlayer = null;
         this.winner = null;
         //Verifies if the players data is not null
@@ -159,11 +161,11 @@ public class GameManager {
             //Adds the player to the created/game players list
             this.players.add(player);
         }
+        String[][] foods = getFoodTypes();
         for (int i = 0; i< foodsInfo.length; i++) {
             String[] info = foodsInfo[i];
             String foodId = info[0];
             String foodPosition = info[1];
-            String[][] foods = getFoodTypes();
             if (Integer.parseInt(foodPosition)<=1 || Integer.parseInt(foodPosition)>=jungleSize) {
                 return new InitializationError("Existe um alimento fora dos limites do terreno");
             }
@@ -174,6 +176,13 @@ public class GameManager {
                 }
                 if (k == foods.length - 1 && !hasFoodVerified) {
                     return new InitializationError("Existe um alimento que não é válido");
+                }
+            }
+            hasFoodVerified = false;
+            for (int k=0;k<foods.length;k++) {
+                String[] infoFood = foods[k];
+                if (infoFood[0].equals(foodId)) {
+                    this.foods.add(new Food(foodId,foodPosition,infoFood[1],infoFood[2]));
                 }
             }
         }
@@ -210,7 +219,6 @@ public class GameManager {
         ArrayList<String> speciesCompeting = new ArrayList<>();
         //Creates this variable to later verify if the player data has a valid specie
         boolean hasSpecieVerified = false;
-        boolean hasFoodVerified = false;
         //Iterates the players data
         for (int i = 0; i < playersInfo.length; i++) {
             String[] info = playersInfo[i];
@@ -337,6 +345,11 @@ public class GameManager {
                 }
             }
         }
+        for (Food food: this.foods) {
+            if (Integer.parseInt(food.getPosition()) == squareNr) {
+                squareInfo[0] = food.getFileName();
+            }
+        }
         //Saves the playerIds string in the square
         squareInfo[2] = result;
         return squareInfo;
@@ -397,7 +410,6 @@ public class GameManager {
     public MovementResult moveCurrentPlayer(int nrSquares, boolean bypassValidations) { //Verified
         //Gets the current player
         Player currentPlayer = this.actualPlayer;
-
         //Gets the playerId of the actualPlayer in the arraylist
         int actualPlayerId = Integer.parseInt(currentPlayer.getId());
         int nextBiggerPlayerId;
@@ -461,7 +473,8 @@ public class GameManager {
             this.winner = winnerPlayer;
             getWinnerInfo();
         }
-        return new MovementResult(MovementResultCode.VALID_MOVEMENT);
+        MovementResult teste = new MovementResult(MovementResultCode.VALID_MOVEMENT);
+        return teste;
     }
 
     public String[] getWinnerInfo() { //Verified
