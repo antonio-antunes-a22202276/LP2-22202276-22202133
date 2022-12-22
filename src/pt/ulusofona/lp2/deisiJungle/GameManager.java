@@ -379,7 +379,6 @@ public class GameManager {
         return energyInfo;
     }
 
-
     public String[][] getPlayersInfo() { //Verified
         //Creates the array to store the playerData
         String[][] playersData = new String[this.players.size()][4];
@@ -395,7 +394,7 @@ public class GameManager {
         return playersData;
     }
 
-    public boolean moveCurrentPlayer(int nrSquares, boolean bypassValidations) { //Verified
+    public MovementResult moveCurrentPlayer(int nrSquares, boolean bypassValidations) { //Verified
         //Gets the current player
         Player currentPlayer = this.actualPlayer;
 
@@ -420,10 +419,10 @@ public class GameManager {
                 this.actualPlayer = this.players.get(i); }
         }
         //Verifies if the dice number is valid
-        if ((nrSquares < 1 || nrSquares > 6) && !bypassValidations) { return false; }
+        if ((nrSquares < -6 || nrSquares > 6) && !bypassValidations) { return new MovementResult(MovementResultCode.INVALID_MOVEMENT); }
         //Verifies if the player has enough energy to move. If it has, decreases the energy
         if (Integer.parseInt(currentPlayer.getSpecie().getSpecieEnergy()) <= 0) {
-            return false; //TODO -> FIX UPDATE ENERGY
+            return new MovementResult(MovementResultCode.NO_ENERGY); //TODO -> FIX UPDATE ENERGY
         } else { currentPlayer.getSpecie().updateEnergy(); }
         //Gets the current square of the player
         int currentSquare = currentPlayer.getSquareId();
@@ -462,7 +461,7 @@ public class GameManager {
             this.winner = winnerPlayer;
             getWinnerInfo();
         }
-        return true;
+        return new MovementResult(MovementResultCode.VALID_MOVEMENT);
     }
 
     public String[] getWinnerInfo() { //Verified
