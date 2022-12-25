@@ -9,6 +9,9 @@ public class Specie {
     String specieEnergyGain;
     String specieSpeed;
     String specieType;
+    int bananaNr = 0;
+    boolean canEatBanana = true;
+    boolean carneToxica = false;
 
     Specie(String specieId, String specieName, String specieImage, String specieEnergy, String specieEnergyConsume, String specieEnergyGain, String specieSpeed, String specieType) {
         this.specieId = specieId;
@@ -62,23 +65,91 @@ public class Specie {
         }
     }
 
+    int getBananaNr() {
+        return bananaNr;
+    }
+
+    void updateBananaNr() {
+        bananaNr += 1;
+    }
+
+    boolean getCanEatBanana() {
+        return canEatBanana;
+    }
+
+    void updateCanEatBanana() {
+        canEatBanana = false;
+    }
+
+    boolean getCarneToxica() {
+        return carneToxica;
+    }
+
+    void updateCarneToxica() {
+        carneToxica = true;
+    }
+
     void updateEnergyByFood(String foodId){
-        if(specieType.equals("O")){
-            if(foodId.equals("e")){
+        if(specieType.equals("O")){ //Omnivero
+            if(foodId.equals("e")){ //erva
                 specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 20);
             }
-            if(foodId.equals("a")){
-
+            if(foodId.equals("a")){ //water
+                specieEnergy = String.valueOf(Math.round(Math.floor(Integer.parseInt(specieEnergy)*1.2)));
+            }
+            if(foodId.equals("b") && getCanEatBanana()){ //banana
+                if(getBananaNr()==0) {
+                    specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 40);
+                } else {
+                    specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) - 40);
+                }
+                updateBananaNr();
+            }
+            if(foodId.equals("c")){ //carne
+                if(!getCarneToxica()) {
+                    specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 50);
+                } else {
+                    specieEnergy = String.valueOf(Integer.parseInt(specieEnergy)/2);
+                }
             }
         }
-        if(specieType.equals("C")){
-            if(foodId.equals("e")){
+        if(specieType.equals("C")){ //Carnivero
+            if(foodId.equals("e")){ //erva
                 specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) - 20);
             }
+            if(foodId.equals("a")){ //water
+                specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 15);
+            }
+            if(foodId.equals("b") && getCanEatBanana()){ //banana
+                if(getBananaNr()==0) {
+                    specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 40);
+                } else {
+                    specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) - 40);
+                }
+                updateBananaNr();
+            }
+            if(foodId.equals("c")){ //carne
+                if(!getCarneToxica()) {
+                    specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 50);
+                } else {
+                    specieEnergy = String.valueOf(Integer.parseInt(specieEnergy)/2);
+                }
+            }
         }
-        if(specieType.equals("H")){
-            if(foodId.equals("e")){
+        if(specieType.equals("H")){ //Herbivoro
+            if(foodId.equals("e")){ //erva
                 specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 20);
+            }
+            if(foodId.equals("a")){ //water
+                specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 15);
+            }
+            if(foodId.equals("b") && getCanEatBanana()){ //banana
+                if(getBananaNr()==0) {
+                    specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 40);
+                } else {
+                    specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) - 40);
+                }
+                updateBananaNr();
             }
         }
         if(Integer.parseInt(specieEnergy) > 200){

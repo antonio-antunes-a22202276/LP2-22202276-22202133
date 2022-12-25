@@ -10,6 +10,7 @@ public class GameManager {
     Player actualPlayer;
     Player winner;
     int finalPosition;
+    int nrJogada = 0;
 
     public GameManager() {}
 
@@ -369,21 +370,93 @@ public class GameManager {
         for (Food food: this.foods) {
             if (Integer.parseInt(food.getPosition()) == squareNr) {
                 squareInfo[0] = food.getFileName();
-                if(food.getId().equals("e")){
-                    squareInfo[1] = "Erva : +- 20 energia";
+                if(food.getId().equals("e")){ //Done
+                    if(this.actualPlayer.getSpecie().getSpecieType().equals("O")) {
+                        squareInfo[1] = "Erva : + 20 energia";
+                    }
+                    if(this.actualPlayer.getSpecie().getSpecieType().equals("C")) {
+                        squareInfo[1] = "Erva : - 20 energia";
+                    }
+                    if(this.actualPlayer.getSpecie().getSpecieType().equals("H")) {
+                        squareInfo[1] = "Erva : + 20 energia";
+                    }
                 }
-                /*if(food.getId().equals("a")){
-                    squareInfo[1] = "Agua : + 15U|20% energia";
+                if(food.getId().equals("a")){ //Done
+                    if(this.actualPlayer.getSpecie().getSpecieType().equals("O")) {
+                        squareInfo[1] = "Agua : + 20% energia";
+                    }
+                    if(this.actualPlayer.getSpecie().getSpecieType().equals("C")) {
+                        squareInfo[1] = "Agua : + 15U energia";
+                    }
+                    if(this.actualPlayer.getSpecie().getSpecieType().equals("H")) {
+                        squareInfo[1] = "Agua : + 15U energia";
+                    }
                 }
-                if(food.getId().equals("b")){
-                    squareInfo[1] = "Bananas : <N> : + 40 energia";
+                if(food.getId().equals("b")){ //Done?
+                    int countNrBananas = 0;
+                    for (Player player : this.players) {
+                        countNrBananas += player.getSpecie().getBananaNr();
+                    }
+                    countNrBananas = 3-countNrBananas;
+                    if(countNrBananas==0) {
+                        for (Player player : this.players) {
+                            player.getSpecie().updateCanEatBanana();
+                        }
+                    }
+                    if(this.actualPlayer.getSpecie().getSpecieType().equals("O")) {
+                        squareInfo[1] = "Bananas : " + countNrBananas + " + 40 energia";
+                    }
+                    if(this.actualPlayer.getSpecie().getSpecieType().equals("C")) {
+                        squareInfo[1] = "Bananas : " + countNrBananas + " + 40 energia";
+                    }
+                    if(this.actualPlayer.getSpecie().getSpecieType().equals("H")) {
+                        squareInfo[1] = "Bananas : " + countNrBananas + " + 40 energia";
+                    }
                 }
-                if(food.getId().equals("c")){
-
+                if(food.getId().equals("c")){ //Done?
+                    if(this.actualPlayer.getSpecie().getSpecieType().equals("O")) {
+                        if(this.nrJogada <= 12) {
+                            squareInfo[1] = "Carne : + 50 energia : " + this.nrJogada + " jogadas";
+                        } else {
+                            squareInfo[1] = "Carne : - 50 energia : " + this.nrJogada + " jogadas";
+                        }
+                        if(this.nrJogada==12) {
+                            for (Player player : this.players) {
+                                player.getSpecie().updateCarneToxica();
+                            }
+                        }
+                    }
+                    if(actualPlayer.getSpecie().getSpecieType().equals("C")) {
+                        if(this.nrJogada <= 12) {
+                            squareInfo[1] = "Carne : + 50 energia : " + this.nrJogada + " jogadas";
+                        } else {
+                            squareInfo[1] = "Carne : - 50 energia : " + this.nrJogada + " jogadas";
+                        }
+                    }
                 }
-                if(food.getId().equals("m")){
-
-                }*/
+                if(food.getId().equals("m")){ //Por Fazer
+                    if(actualPlayer.getSpecie().getSpecieType().equals("O")) {
+                        if(this.nrJogada%2==0) {
+                            squareInfo[1] = "Cogumelo Magico: + <N>% energia";
+                        } else {
+                            squareInfo[1] = "Cogumelo Magico: - <N>% energia";
+                        }
+                    }
+                    if(actualPlayer.getSpecie().getSpecieType().equals("C")) {
+                        if(this.nrJogada%2==0) {
+                            squareInfo[1] = "Cogumelo Magico: + <N>% energia";
+                        } else {
+                            squareInfo[1] = "Cogumelo Magico: - <N>% energia";
+                        }
+                    }
+                    if(actualPlayer.getSpecie().getSpecieType().equals("H")) {
+                        if(this.nrJogada%2==0) {
+                            squareInfo[1] = "Cogumelo Magico: + <N>% energia";
+                        } else {
+                            squareInfo[1] = "Cogumelo Magico: - <N>% energia";
+                        }
+                    }
+                }
             }
         }
         //Saves the playerIds string in the square
@@ -444,6 +517,7 @@ public class GameManager {
     }
 
     public MovementResult moveCurrentPlayer(int nrSquares, boolean bypassValidations) { //Verified
+        this.nrJogada += 1;
         //Gets the current player
         Player currentPlayer = this.actualPlayer;
         //Gets the playerId of the actualPlayer in the arraylist
