@@ -331,6 +331,7 @@ public class GameManager {
 
     public String[] getSquareInfo(int squareNr) { //Verified
         //Creates the array to save the square data
+        boolean updatedCarne = false;
         String[] squareInfo = new String[3];
 
         if(squareNr < 1 || squareNr > this.finalPosition){
@@ -370,6 +371,15 @@ public class GameManager {
         for (Food food: this.foods) {
             if (Integer.parseInt(food.getPosition()) == squareNr) {
                 squareInfo[0] = food.getFileName();
+
+                if(this.nrJogada==12 && !updatedCarne) {
+                    updatedCarne = true; //Está a duplicar várias vezes?
+                    for (Player player : this.players) {
+                        //System.out.println("carne ficou toxica\n");
+                        player.getSpecie().updateCarneToxica();
+                    }
+                }
+
                 if(food.getId().equals("e")){ //Done
                     if(this.actualPlayer.getSpecie().getSpecieType().equals("O")) {
                         squareInfo[1] = "Erva : + 20 energia";
@@ -419,11 +429,6 @@ public class GameManager {
                             squareInfo[1] = "Carne : + 50 energia : " + this.nrJogada + " jogadas";
                         } else {
                             squareInfo[1] = "Carne : - 50 energia : " + this.nrJogada + " jogadas";
-                        }
-                        if(this.nrJogada==12) {
-                            for (Player player : this.players) {
-                                player.getSpecie().updateCarneToxica();
-                            }
                         }
                     }
                     if(actualPlayer.getSpecie().getSpecieType().equals("C")) {
@@ -600,6 +605,8 @@ public class GameManager {
             this.winner = winnerPlayer;
             getWinnerInfo();
         }
+        currentPlayer.updateHouseNr(nrSquares);
+        //System.out.println(currentPlayer.getHouseNr() + " | Nome: " + currentPlayer.getName()); //debug
         return new MovementResult(MovementResultCode.VALID_MOVEMENT, "");
     }
 
@@ -644,7 +651,8 @@ public class GameManager {
 
                 //Gets the string with the winner
                 String result = "#" + (resultadosJogo.size() + 1) + " " + winnerPlayer.getName() + ", " +
-                        winnerPlayer.getSpecie().getSpecieName() + ", " + winnerPlayer.getSquareId();
+                        winnerPlayer.getSpecie().getSpecieName() + ", " + winnerPlayer.getSquareId() + ", " +
+                        + winnerPlayer.getHouseNr() + ", " + winnerPlayer.getSpecie().getFoodNr();
 
                 //Removes this player from the current players and adds to the arraylist with the winners
                 this.players.remove(winnerPlayer);

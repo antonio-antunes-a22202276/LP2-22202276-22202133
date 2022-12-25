@@ -5,6 +5,7 @@ public class Player {
     String name;
     Specie specie;
     int squareId;
+    int houseNr = 0;
 
     Player(String id, String name, Specie specie, int squareId) {
         this.id = id;
@@ -31,5 +32,13 @@ public class Player {
 
     void updateSquareId(int newSquareId) {
         squareId = newSquareId;
+    }
+
+    void updateHouseNr(int nr) {
+        houseNr += nr;
+    }
+
+    int getHouseNr() {
+        return houseNr;
     }
 }

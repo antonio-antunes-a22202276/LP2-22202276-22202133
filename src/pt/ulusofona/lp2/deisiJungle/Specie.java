@@ -12,6 +12,7 @@ public class Specie {
     int bananaNr = 0;
     boolean canEatBanana = true;
     boolean carneToxica = false;
+    int foodNr = 0;
 
     Specie(String specieId, String specieName, String specieImage, String specieEnergy, String specieEnergyConsume, String specieEnergyGain, String specieSpeed, String specieType) {
         this.specieId = specieId;
@@ -89,12 +90,22 @@ public class Specie {
         carneToxica = true;
     }
 
+    int getFoodNr() {
+        return foodNr;
+    }
+
+    void updateGetFoodNr() {
+        foodNr += 1;
+    }
+
     void updateEnergyByFood(String foodId){
         if(specieType.equals("O")){ //Omnivero
             if(foodId.equals("e")){ //erva
+                updateGetFoodNr();
                 specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 20);
             }
             if(foodId.equals("a")){ //water
+                updateGetFoodNr();
                 specieEnergy = String.valueOf(Math.round(Math.floor(Integer.parseInt(specieEnergy)*1.2)));
             }
             if(foodId.equals("b") && getCanEatBanana()){ //banana
@@ -104,8 +115,10 @@ public class Specie {
                     specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) - 40);
                 }
                 updateBananaNr();
+                updateGetFoodNr();
             }
             if(foodId.equals("c")){ //carne
+                updateGetFoodNr();
                 if(!getCarneToxica()) {
                     specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 50);
                 } else {
@@ -115,9 +128,11 @@ public class Specie {
         }
         if(specieType.equals("C")){ //Carnivero
             if(foodId.equals("e")){ //erva
+                updateGetFoodNr();
                 specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) - 20);
             }
             if(foodId.equals("a")){ //water
+                updateGetFoodNr();
                 specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 15);
             }
             if(foodId.equals("b") && getCanEatBanana()){ //banana
@@ -127,8 +142,10 @@ public class Specie {
                     specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) - 40);
                 }
                 updateBananaNr();
+                updateGetFoodNr();
             }
             if(foodId.equals("c")){ //carne
+                updateGetFoodNr();
                 if(!getCarneToxica()) {
                     specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 50);
                 } else {
@@ -138,9 +155,11 @@ public class Specie {
         }
         if(specieType.equals("H")){ //Herbivoro
             if(foodId.equals("e")){ //erva
+                updateGetFoodNr();
                 specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 20);
             }
             if(foodId.equals("a")){ //water
+                updateGetFoodNr();
                 specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 15);
             }
             if(foodId.equals("b") && getCanEatBanana()){ //banana
@@ -150,6 +169,7 @@ public class Specie {
                     specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) - 40);
                 }
                 updateBananaNr();
+                updateGetFoodNr();
             }
         }
         if(Integer.parseInt(specieEnergy) > 200){
