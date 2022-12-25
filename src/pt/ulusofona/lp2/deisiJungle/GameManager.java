@@ -1,6 +1,7 @@
 package pt.ulusofona.lp2.deisiJungle;
 
 import javax.swing.*;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -13,6 +14,10 @@ public class GameManager {
     int nrJogada = 0;
 
     public GameManager() {}
+
+    public String removerAcentos(String str) {
+        return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+    }
 
     public String[][] getSpecies() {
         //Creates the default species data
@@ -570,6 +575,11 @@ public class GameManager {
             }
         }
         currentSquare = currentPlayer.getSquareId();
+        if(currentPlayer.getSquareId() - Math.abs(nrSquares) > 0) { //TEST WORK
+            currentPlayer.updateHouseNr(Math.abs(nrSquares));
+        } else {
+            currentPlayer.updateHouseNr(currentPlayer.getSquareId());
+        }
         for (int i=0;i<this.foods.size();i++) {
             Food food = this.foods.get(i);
             if(Integer.parseInt(food.getPosition())==currentSquare) {
@@ -577,36 +587,19 @@ public class GameManager {
                 return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());
             }
         }
-        boolean someoneHasEnergy = false;
         //Iterates the players
+        ArrayList<Integer> positionPlayers = new ArrayList<>();
         for (int i=0;i<this.players.size();i++) {
-            //Verifies if there is still a player with energy
-            if (Integer.parseInt(this.players.get(i).getSpecie().getSpecieEnergy()) > 0 && !someoneHasEnergy) { someoneHasEnergy = true; }
+            positionPlayers.add(this.players.get(i).getSquareId());
         }
-        //If no one else has energy, the game will pick the winners
-        if (!someoneHasEnergy) {
-            //By default, selects one winner
-            Player winnerPlayer = this.players.get(0);
-            //Iterates the players
-            for (int i = 0; i < this.players.size(); i++) {
-                Player player = this.players.get(i);
-                //Verifies if the squareId of the player is the same of the winner and see who has minor id
-                if (player.getSquareId() == winnerPlayer.getSquareId()) {
-                    if (Integer.parseInt(player.getId()) < Integer.parseInt(winnerPlayer.getId())) {
-                        winnerPlayer = player;
-                    }
-                }
-                //Verifies if the player is in front of the currentWinner
-                if (player.getSquareId() > winnerPlayer.getSquareId()) {
-                    winnerPlayer = player;
+        Collections.sort(positionPlayers);
+        if(positionPlayers.get(positionPlayers.size()-1) - positionPlayers.get(positionPlayers.size()-2) > this.finalPosition/2) {
+            for (int i=0;i<this.players.size();i++) {
+                if(this.players.get(i).getSquareId() == positionPlayers.get(positionPlayers.size()-2)) {
+                    this.winner = this.players.get(i);
                 }
             }
-            //Gets the data of the winner
-            this.winner = winnerPlayer;
-            getWinnerInfo();
         }
-        currentPlayer.updateHouseNr(nrSquares);
-        //System.out.println(currentPlayer.getHouseNr() + " | Nome: " + currentPlayer.getName()); //debug
         return new MovementResult(MovementResultCode.VALID_MOVEMENT, "");
     }
 
@@ -632,30 +625,25 @@ public class GameManager {
             //Verifies if there are still players to be added to the winners arraylist
             while (this.players.size() > 0) {
                 //Selects one random winner by default
-                Player winnerPlayer = this.players.get(0);
-                for (int i = 0; i < this.players.size(); i++) {
-                    Player player = this.players.get(i);
-
-                    //Verifies if the squareId of the player is the same of the winner and see who has minor id
-                    if (player.getSquareId() == winnerPlayer.getSquareId()) {
-                        if (Integer.parseInt(player.getId()) < Integer.parseInt(winnerPlayer.getId())) {
-                            winnerPlayer = player;
+                if(this.winner==null) {
+                    Player temporaryWinner = this.players.get(0);
+                    for (int i = 0; i < this.players.size(); i++) {
+                        if(i+1 < this.players.size()) {
+                            if (temporaryWinner.getSquareId() < players.get(i+1).getSquareId()) {
+                                temporaryWinner = players.get(i+1);
+                            }
                         }
-                    }
-
-                    //Verifies if the player is in front of the currentWinner
-                    if (player.getSquareId() > winnerPlayer.getSquareId()) {
-                        winnerPlayer = player;
+                        this.winner = temporaryWinner;
                     }
                 }
-
                 //Gets the string with the winner
-                String result = "#" + (resultadosJogo.size() + 1) + " " + winnerPlayer.getName() + ", " +
-                        winnerPlayer.getSpecie().getSpecieName() + ", " + winnerPlayer.getSquareId() + ", " +
-                        + winnerPlayer.getHouseNr() + ", " + winnerPlayer.getSpecie().getFoodNr();
+                String result = "#" + (resultadosJogo.size() + 1) + " " + this.winner.getName() + ", " +
+                        removerAcentos(this.winner.getSpecie().getSpecieName()) + ", " + this.winner.getSquareId() + ", " +
+                        + this.winner.getHouseNr() + ", " + this.winner.getSpecie().getFoodNr();
 
                 //Removes this player from the current players and adds to the arraylist with the winners
-                this.players.remove(winnerPlayer);
+                this.players.remove(this.winner);
+                this.winner = null;
                 resultadosJogo.add(result);
             }
         }

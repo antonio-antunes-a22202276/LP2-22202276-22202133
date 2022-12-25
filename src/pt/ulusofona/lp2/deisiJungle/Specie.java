@@ -125,6 +125,9 @@ public class Specie {
                     specieEnergy = String.valueOf(Integer.parseInt(specieEnergy)/2);
                 }
             }
+            if(foodId.equals("m")){ //cogumelos
+                updateGetFoodNr();
+            }
         }
         if(specieType.equals("C")){ //Carnivero
             if(foodId.equals("e")){ //erva
@@ -152,6 +155,9 @@ public class Specie {
                     specieEnergy = String.valueOf(Integer.parseInt(specieEnergy)/2);
                 }
             }
+            if(foodId.equals("m")){ //cogumelos
+                updateGetFoodNr();
+            }
         }
         if(specieType.equals("H")){ //Herbivoro
             if(foodId.equals("e")){ //erva
@@ -169,6 +175,9 @@ public class Specie {
                     specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) - 40);
                 }
                 updateBananaNr();
+                updateGetFoodNr();
+            }
+            if(foodId.equals("m")){ //cogumelos
                 updateGetFoodNr();
             }
         }
