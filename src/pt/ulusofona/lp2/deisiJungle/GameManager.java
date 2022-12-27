@@ -514,7 +514,7 @@ public class GameManager {
         currentPlayer.getSpecie().updateEnergy(nrSquares,true);
         if (Integer.parseInt(currentPlayer.getSpecie().getSpecieEnergy()) <= 0) {
             currentPlayer.getSpecie().updateEnergy(Integer.parseInt(energy),false);
-            return new MovementResult(MovementResultCode.NO_ENERGY, "");
+            return new MovementResult(MovementResultCode.NO_ENERGY, null);
         }
         //Gets the current square of the player
         int currentSquare = currentPlayer.getSquareId();
