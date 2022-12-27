@@ -542,7 +542,8 @@ public class GameManager {
                 Food food = this.foods.get(i);
                 if (Integer.parseInt(food.getPosition()) == currentSquare) {
                     currentPlayer.getSpecie().updateEnergyByFood(food, this.nrJogada);
-                    if ((currentPlayer.getSpecie().getSpecieType().equals("H") && food.getId().equals("c")) || food.getBananasNumber()==0) {
+                    if (currentPlayer.getSpecie().getSpecieType().equals("H") && food.getId().equals("c") ||
+                            (food.getId().equals("b")) && food.getBananasNumber()==0) {
                         //nada
                     } else {
                         return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());
