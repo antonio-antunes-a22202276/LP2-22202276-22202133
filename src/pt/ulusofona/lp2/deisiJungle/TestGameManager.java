@@ -5,14 +5,26 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TestGameManager {
-    /*@Test
+    @Test
     public void test01_createInitialJungle() {
-        //Test if the program will not crash with playersInfo null
         GameManager gameManager = new GameManager();
-        boolean createJungle = gameManager.createInitialJungle(2,10,null);
-        assertFalse(createJungle);
-    }
+        String[][] playersInfo = new String[2][3];
+        String[][] foodsInfo = new String[1][2];
+        playersInfo[0][0] = "1";
+        playersInfo[0][1] = "JogadorTeste1";
+        playersInfo[0][2] = "L";
 
+        playersInfo[1][0] = "2";
+        playersInfo[1][1] = "JogadorTeste2";
+        playersInfo[1][2] = "E";
+
+        foodsInfo[0][0] = "a";
+        foodsInfo[0][1] = "4";
+        InitializationError createJungle = gameManager.createInitialJungle(10,playersInfo,foodsInfo);
+        //System.out.println(createJungle.getMessage());
+        assertEquals(null, createJungle);
+    }
+/*
     @Test
     public void test02_createInitialJungle() {
         //Test if the program will not crash with playersInfo empty

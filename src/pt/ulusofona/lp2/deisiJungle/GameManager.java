@@ -199,7 +199,12 @@ public class GameManager {
             for (int k=0;k<foods.length;k++) {
                 String[] infoFood = foods[k];
                 if (infoFood[0].equals(foodId)) {
-                    this.foods.add(new Food(foodId,foodPosition,infoFood[1],infoFood[2]));
+                    if(infoFood[0].equals("m")) {
+                        int rand = (int)(Math.random() * (50-10+1)+10);
+                        this.foods.add(new Food(foodId,foodPosition,infoFood[1],infoFood[2],rand));
+                    } else {
+                        this.foods.add(new Food(foodId,foodPosition,infoFood[1],infoFood[2]));
+                    }
                 }
             }
         }
@@ -445,26 +450,10 @@ public class GameManager {
                     }
                 }
                 if(food.getId().equals("m")){ //Por Fazer
-                    if(actualPlayer.getSpecie().getSpecieType().equals("O")) {
-                        if(this.nrJogada%2==0) {
-                            squareInfo[1] = "Cogumelo Magico: + <N>% energia";
-                        } else {
-                            squareInfo[1] = "Cogumelo Magico: - <N>% energia";
-                        }
-                    }
-                    if(actualPlayer.getSpecie().getSpecieType().equals("C")) {
-                        if(this.nrJogada%2==0) {
-                            squareInfo[1] = "Cogumelo Magico: + <N>% energia";
-                        } else {
-                            squareInfo[1] = "Cogumelo Magico: - <N>% energia";
-                        }
-                    }
-                    if(actualPlayer.getSpecie().getSpecieType().equals("H")) {
-                        if(this.nrJogada%2==0) {
-                            squareInfo[1] = "Cogumelo Magico: + <N>% energia";
-                        } else {
-                            squareInfo[1] = "Cogumelo Magico: - <N>% energia";
-                        }
+                    if(this.nrJogada%2==0) {
+                        squareInfo[1] = "Cogumelo Magico: + "+food.getMushroomNumber()+"% energia";
+                    } else {
+                        squareInfo[1] = "Cogumelo Magico: - "+food.getMushroomNumber()+"% energia";
                     }
                 }
             }
@@ -583,7 +572,7 @@ public class GameManager {
         for (int i=0;i<this.foods.size();i++) {
             Food food = this.foods.get(i);
             if(Integer.parseInt(food.getPosition())==currentSquare) {
-                currentPlayer.getSpecie().updateEnergyByFood(food.getId());
+                currentPlayer.getSpecie().updateEnergyByFood(food,this.nrJogada);
                 return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());
             }
         }

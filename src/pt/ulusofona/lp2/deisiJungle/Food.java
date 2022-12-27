@@ -5,12 +5,21 @@ public class Food {
     String position;
     String name;
     String fileName;
+    int mushroomNumber;
 
     Food(String id, String position, String name, String fileName) {
         this.id = id;
         this.position = position;
         this.name = name;
         this.fileName = fileName;
+    }
+
+    Food(String id, String position, String name, String fileName, int mushroomNumber) {
+        this.id = id;
+        this.position = position;
+        this.name = name;
+        this.fileName = fileName;
+        this.mushroomNumber = mushroomNumber;
     }
 
     public String getId() {
@@ -27,5 +36,9 @@ public class Food {
 
     public String getFileName() {
         return fileName;
+    }
+
+    public int getMushroomNumber() {
+        return mushroomNumber;
     }
 }

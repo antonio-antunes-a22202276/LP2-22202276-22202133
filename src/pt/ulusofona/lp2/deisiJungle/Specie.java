@@ -98,17 +98,17 @@ public class Specie {
         foodNr += 1;
     }
 
-    void updateEnergyByFood(String foodId){
+    void updateEnergyByFood(Food food, int nrJogada){
         if(specieType.equals("O")){ //Omnivero
-            if(foodId.equals("e")){ //erva
+            if(food.getId().equals("e")){ //erva
                 updateGetFoodNr();
                 specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 20);
             }
-            if(foodId.equals("a")){ //water
+            if(food.getId().equals("a")){ //water
                 updateGetFoodNr();
                 specieEnergy = String.valueOf(Math.round(Math.floor(Integer.parseInt(specieEnergy)*1.2)));
             }
-            if(foodId.equals("b") && getCanEatBanana()){ //banana
+            if(food.getId().equals("b") && getCanEatBanana()){ //banana
                 if(getBananaNr()==0) {
                     specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 40);
                 } else {
@@ -117,28 +117,25 @@ public class Specie {
                 updateBananaNr();
                 updateGetFoodNr();
             }
-            if(foodId.equals("c")){ //carne
+            if(food.getId().equals("c")){ //carne
                 updateGetFoodNr();
                 if(!getCarneToxica()) {
                     specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 50);
                 } else {
                     specieEnergy = String.valueOf(Integer.parseInt(specieEnergy)/2);
                 }
-            }
-            if(foodId.equals("m")){ //cogumelos
-                updateGetFoodNr();
             }
         }
         if(specieType.equals("C")){ //Carnivero
-            if(foodId.equals("e")){ //erva
+            if(food.getId().equals("e")){ //erva
                 updateGetFoodNr();
                 specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) - 20);
             }
-            if(foodId.equals("a")){ //water
+            if(food.getId().equals("a")){ //water
                 updateGetFoodNr();
                 specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 15);
             }
-            if(foodId.equals("b") && getCanEatBanana()){ //banana
+            if(food.getId().equals("b") && getCanEatBanana()){ //banana
                 if(getBananaNr()==0) {
                     specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 40);
                 } else {
@@ -147,7 +144,7 @@ public class Specie {
                 updateBananaNr();
                 updateGetFoodNr();
             }
-            if(foodId.equals("c")){ //carne
+            if(food.getId().equals("c")){ //carne
                 updateGetFoodNr();
                 if(!getCarneToxica()) {
                     specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 50);
@@ -155,20 +152,17 @@ public class Specie {
                     specieEnergy = String.valueOf(Integer.parseInt(specieEnergy)/2);
                 }
             }
-            if(foodId.equals("m")){ //cogumelos
-                updateGetFoodNr();
-            }
         }
         if(specieType.equals("H")){ //Herbivoro
-            if(foodId.equals("e")){ //erva
+            if(food.getId().equals("e")){ //erva
                 updateGetFoodNr();
                 specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 20);
             }
-            if(foodId.equals("a")){ //water
+            if(food.getId().equals("a")){ //water
                 updateGetFoodNr();
                 specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 15);
             }
-            if(foodId.equals("b") && getCanEatBanana()){ //banana
+            if(food.getId().equals("b") && getCanEatBanana()){ //banana
                 if(getBananaNr()==0) {
                     specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 40);
                 } else {
@@ -177,9 +171,15 @@ public class Specie {
                 updateBananaNr();
                 updateGetFoodNr();
             }
-            if(foodId.equals("m")){ //cogumelos
-                updateGetFoodNr();
+        }
+        if(food.getId().equals("m")){ //cogumelos
+            String multiplier = "0."+food.getMushroomNumber();
+            if(nrJogada%2==0) {
+                specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) - Math.round(Math.floor(Integer.parseInt(specieEnergy)*Double.parseDouble(multiplier))));
+            } else {
+                specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + Math.round(Math.floor(Integer.parseInt(specieEnergy)*Double.parseDouble(multiplier))));
             }
+            updateGetFoodNr();
         }
         if(Integer.parseInt(specieEnergy) > 200){
             specieEnergy = "200";
