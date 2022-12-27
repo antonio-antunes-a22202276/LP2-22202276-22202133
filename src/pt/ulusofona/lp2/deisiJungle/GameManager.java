@@ -1,6 +1,7 @@
 package pt.ulusofona.lp2.deisiJungle;
 
 import javax.swing.*;
+import java.io.File;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -639,6 +640,15 @@ public class GameManager {
 
         return resultadosJogo;
     }
+
+    public boolean saveGame(File file) {
+        return false;
+    }
+
+    public boolean loadGame(File file) {
+        return false;
+    }
+
 
     public JPanel getAuthorsPanel() { //Verified
         //Creates the credit panel
