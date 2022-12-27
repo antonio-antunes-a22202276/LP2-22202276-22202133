@@ -555,7 +555,11 @@ public class GameManager {
         if(positionPlayers.get(positionPlayers.size()-1) - positionPlayers.get(positionPlayers.size()-2) > this.finalPosition/2) {
             for (int i=0;i<this.players.size();i++) {
                 if(this.players.get(i).getSquareId() == positionPlayers.get(positionPlayers.size()-2)) {
+                    //System.out.println(currentPlayer.getId()); //DEBUG
+                    //System.out.println(currentPlayer.getName());
                     this.winner = this.players.get(i);
+                    //System.out.println(this.winner.getId());
+                    //System.out.println(this.winner.getName());
                 }
             }
         }
@@ -589,13 +593,14 @@ public class GameManager {
     public ArrayList<String> getGameResults() { //Verified
         //Gets an arraylist with the winners sorted by order
         ArrayList<String> resultadosJogo = new ArrayList<>();
-
         //Verifies if there is already a winner
         if (this.winner != null) {
+            int size = this.players.size();
             //Verifies if there are still players to be added to the winners arraylist
             while (this.players.size() > 0) {
-                if(this.winner==null) {
-                    Player temporaryWinner = this.players.get(0);
+                Player temporaryWinner = this.winner;
+                if(size!=this.players.size()) {
+                    temporaryWinner = this.players.get(0);
                     for (int i = 0; i < this.players.size(); i++) {
                         if(i+1 < this.players.size()) { //Verifies if there are more players in the list
                             if (temporaryWinner.getSquareId() < players.get(i+1).getSquareId()) {
@@ -607,17 +612,15 @@ public class GameManager {
                                 }
                             }
                         }
-                        this.winner = temporaryWinner;
                     }
                 }
                 //Gets the string with the winner
-                String result = "#" + (resultadosJogo.size() + 1) + " " + this.winner.getName() + ", " +
-                        removerAcentos(this.winner.getSpecie().getSpecieName()) + ", " + this.winner.getSquareId() + ", " +
-                        + this.winner.getHouseNr() + ", " + this.winner.getSpecie().getFoodNr();
+                String result = "#" + (resultadosJogo.size() + 1) + " " + temporaryWinner.getName() + ", " +
+                        removerAcentos(temporaryWinner.getSpecie().getSpecieName()) + ", " + temporaryWinner.getSquareId() + ", " +
+                        + temporaryWinner.getHouseNr() + ", " + temporaryWinner.getSpecie().getFoodNr();
 
                 //Removes this player from the current players and adds to the arraylist with the winners
-                this.players.remove(this.winner);
-                this.winner = null;
+                this.players.remove(temporaryWinner);
                 resultadosJogo.add(result);
             }
         }
