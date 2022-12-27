@@ -567,6 +567,7 @@ public class GameManager {
             for (int i=0;i<this.players.size();i++) {
                 if(this.players.get(i).getSquareId() == positionPlayers.get(positionPlayers.size()-2)) {
                     this.winner = this.players.get(i);
+                    getWinnerInfo();
                 }
             }
         }
