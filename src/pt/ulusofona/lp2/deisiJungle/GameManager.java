@@ -532,7 +532,7 @@ public class GameManager {
             currentPlayer.updateSquareId(this.finalPosition);
             //Gets the data of the winner
             this.winner = currentPlayer;
-            getWinnerInfo();
+            //getWinnerInfo();
         } else {
             if(currentSquare+nrSquares < 1) {
                 currentPlayer.updateSquareId(1);
@@ -546,17 +546,6 @@ public class GameManager {
         } else {
             currentPlayer.updateHouseNr(currentPlayer.getSquareId());
         }
-        if(this.foods!=null) {
-            for (int i = 0; i < this.foods.size(); i++) {
-                Food food = this.foods.get(i);
-                if (Integer.parseInt(food.getPosition()) == currentSquare) {
-                    currentPlayer.getSpecie().updateEnergyByFood(food, this.nrJogada);
-                    if (!(currentPlayer.getSpecie().getSpecieType().equals("H") && food.getId().equals("c"))){
-                        return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());
-                    }
-                }
-            }
-        }
         //Iterates the players
         ArrayList<Integer> positionPlayers = new ArrayList<>();
         for (int i=0;i<this.players.size();i++) {
@@ -567,7 +556,17 @@ public class GameManager {
             for (int i=0;i<this.players.size();i++) {
                 if(this.players.get(i).getSquareId() == positionPlayers.get(positionPlayers.size()-2)) {
                     this.winner = this.players.get(i);
-                    getWinnerInfo();
+                }
+            }
+        }
+        if(this.foods!=null) {
+            for (int i = 0; i < this.foods.size(); i++) {
+                Food food = this.foods.get(i);
+                if (Integer.parseInt(food.getPosition()) == currentSquare) {
+                    currentPlayer.getSpecie().updateEnergyByFood(food, this.nrJogada);
+                    if (!(currentPlayer.getSpecie().getSpecieType().equals("H") && food.getId().equals("c"))){
+                        return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());
+                    }
                 }
             }
         }
