@@ -463,7 +463,7 @@ public class GameManager {
     public String[] getCurrentPlayerEnergyInfo(int nrPositions) {
         String[] energyInfo = new String[2];
         Player player = this.actualPlayer;
-        energyInfo[0] = "" + Math.abs(Integer.parseInt(player.getSpecie().getSpecieEnergyConsume()) * nrPositions);
+        energyInfo[0] = "" + Integer.parseInt(player.getSpecie().getSpecieEnergyConsume()) * Math.abs(nrPositions);
         energyInfo[1] = "" + Integer.parseInt(player.getSpecie().getSpecieEnergyGain());
         return energyInfo;
     }
@@ -508,13 +508,18 @@ public class GameManager {
                 this.actualPlayer = this.players.get(i); }
         }
         //Verifies if the dice number is valid
-        if ((nrSquares < -6 || nrSquares > 6 || Math.abs(nrSquares) < Character.getNumericValue(currentPlayer.getSpecie().getSpecieSpeed().charAt(0))
-                || Math.abs(nrSquares) > Character.getNumericValue(currentPlayer.getSpecie().getSpecieSpeed().charAt(3))) && !bypassValidations) {
+        if ((nrSquares < -6 || nrSquares > 6) && !bypassValidations) {
+            //|| Math.abs(nrSquares) < Character.getNumericValue(currentPlayer.getSpecie().getSpecieSpeed().charAt(0))
+            //                || Math.abs(nrSquares) > Character.getNumericValue(currentPlayer.getSpecie().getSpecieSpeed().charAt(3))
             return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null); }
         //Verifies if the player has enough energy to move. If it has, decreases the
         String energy = currentPlayer.getSpecie().getSpecieEnergy();
         currentPlayer.getSpecie().updateEnergy(nrSquares,true);
-        if (Integer.parseInt(currentPlayer.getSpecie().getSpecieEnergy()) <= 0) {
+
+        //String[] playerEnergy = getCurrentPlayerEnergyInfo(nrSquares);
+
+        ///System.out.println(currentPlayer.getName());
+        if (Integer.parseInt(currentPlayer.getSpecie().getSpecieEnergy()) < 0) {
             currentPlayer.getSpecie().updateEnergy(Integer.parseInt(energy),false);
             return new MovementResult(MovementResultCode.NO_ENERGY, null);
         }
