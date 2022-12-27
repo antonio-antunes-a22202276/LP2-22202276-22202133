@@ -9,8 +9,7 @@ public class Specie {
     String specieEnergyGain;
     String specieSpeed;
     String specieType;
-    int bananaNr = 0;
-    boolean canEatBanana = true;
+    boolean ateBanana = false;
     boolean carneToxica = false;
     int foodNr = 0;
 
@@ -66,20 +65,12 @@ public class Specie {
         }
     }
 
-    int getBananaNr() {
-        return bananaNr;
+    boolean getAteBanana() {
+        return ateBanana;
     }
 
-    void updateBananaNr() {
-        bananaNr += 1;
-    }
-
-    boolean getCanEatBanana() {
-        return canEatBanana;
-    }
-
-    void updateCanEatBanana() {
-        canEatBanana = false;
+    void updateAteBanana() {
+        ateBanana = true;
     }
 
     boolean getCarneToxica() {
@@ -108,15 +99,6 @@ public class Specie {
                 updateGetFoodNr();
                 specieEnergy = String.valueOf(Math.round(Math.floor(Integer.parseInt(specieEnergy)*1.2)));
             }
-            if(food.getId().equals("b") && getCanEatBanana()){ //banana
-                if(getBananaNr()==0) {
-                    specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 40);
-                } else {
-                    specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) - 40);
-                }
-                updateBananaNr();
-                updateGetFoodNr();
-            }
             if(food.getId().equals("c")){ //carne
                 updateGetFoodNr();
                 if(!getCarneToxica()) {
@@ -134,15 +116,6 @@ public class Specie {
             if(food.getId().equals("a")){ //water
                 updateGetFoodNr();
                 specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 15);
-            }
-            if(food.getId().equals("b") && getCanEatBanana()){ //banana
-                if(getBananaNr()==0) {
-                    specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 40);
-                } else {
-                    specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) - 40);
-                }
-                updateBananaNr();
-                updateGetFoodNr();
             }
             if(food.getId().equals("c")){ //carne
                 updateGetFoodNr();
@@ -162,13 +135,16 @@ public class Specie {
                 updateGetFoodNr();
                 specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 15);
             }
-            if(food.getId().equals("b") && getCanEatBanana()){ //banana
-                if(getBananaNr()==0) {
+        }
+        if(food.getId().equals("b")){ //banana
+            if(food.getBananasNumber()!=0) {
+                if (!getAteBanana()) {
                     specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 40);
+                    updateAteBanana();
                 } else {
                     specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) - 40);
                 }
-                updateBananaNr();
+                food.updateBananasNumber();
                 updateGetFoodNr();
             }
         }

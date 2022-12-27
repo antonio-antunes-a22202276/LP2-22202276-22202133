@@ -201,11 +201,13 @@ public class GameManager {
             for (int k=0;k<foods.length;k++) {
                 String[] infoFood = foods[k];
                 if (infoFood[0].equals(foodId)) {
+                    this.foods.add(new Food(foodId,foodPosition,infoFood[1],infoFood[2]));
                     if(infoFood[0].equals("m")) {
                         int rand = (int)(Math.random() * (50-10+1)+10);
-                        this.foods.add(new Food(foodId,foodPosition,infoFood[1],infoFood[2],rand));
-                    } else {
-                        this.foods.add(new Food(foodId,foodPosition,infoFood[1],infoFood[2]));
+                        this.foods.get(this.foods.size()-1).setMushroomNumber(rand);
+                    }
+                    if(infoFood[0].equals("b")) {
+                        this.foods.get(this.foods.size()-1).setBananasNumber(3);
                     }
                 }
             }
@@ -393,26 +395,16 @@ public class GameManager {
                         }
                     }
 
-                    if (food.getId().equals("e")) { //Done
+                    if (food.getId().equals("e")) { //Erva
                         squareInfo[1] = "Erva : +- 20 energia";
                     }
-                    if (food.getId().equals("a")) { //Done
+                    if (food.getId().equals("a")) { //Agua
                         squareInfo[1] = "Agua : + 15U|20% energia";
                     }
-                    if (food.getId().equals("b")) { //Done?
-                        int countNrBananas = 0;
-                        for (Player player : this.players) {
-                            countNrBananas += player.getSpecie().getBananaNr();
-                        }
-                        countNrBananas = 3 - countNrBananas;
-                        if (countNrBananas == 0) {
-                            for (Player player : this.players) {
-                                player.getSpecie().updateCanEatBanana();
-                            }
-                        }
-                        squareInfo[1] = "Bananas : " + countNrBananas + " : + 40 energia";
+                    if (food.getId().equals("b")) { //Bananas
+                        squareInfo[1] = "Bananas : " + food.getBananasNumber() + " : + 40 energia";
                     }
-                    if (food.getId().equals("c")) { //Done?
+                    if (food.getId().equals("c")) { //Carne
                         if (this.actualPlayer.getSpecie().getSpecieType().equals("O")) {
                             if (this.nrJogada <= 12) {
                                 squareInfo[1] = "Carne : + 50 energia : " + this.nrJogada + " jogadas";
@@ -550,7 +542,7 @@ public class GameManager {
                 Food food = this.foods.get(i);
                 if (Integer.parseInt(food.getPosition()) == currentSquare) {
                     currentPlayer.getSpecie().updateEnergyByFood(food, this.nrJogada);
-                    if (currentPlayer.getSpecie().getSpecieType().equals("H") && food.getId().equals("c")) {
+                    if ((currentPlayer.getSpecie().getSpecieType().equals("H") && food.getId().equals("c")) || food.getBananasNumber()==0) {
                         //nada
                     } else {
                         return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());

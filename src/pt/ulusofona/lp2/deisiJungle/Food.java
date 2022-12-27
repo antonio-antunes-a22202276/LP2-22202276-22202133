@@ -6,20 +6,13 @@ public class Food {
     String name;
     String fileName;
     int mushroomNumber;
+    int bananasNumber;
 
     Food(String id, String position, String name, String fileName) {
         this.id = id;
         this.position = position;
         this.name = name;
         this.fileName = fileName;
-    }
-
-    Food(String id, String position, String name, String fileName, int mushroomNumber) {
-        this.id = id;
-        this.position = position;
-        this.name = name;
-        this.fileName = fileName;
-        this.mushroomNumber = mushroomNumber;
     }
 
     public String getId() {
@@ -40,5 +33,21 @@ public class Food {
 
     public int getMushroomNumber() {
         return mushroomNumber;
+    }
+
+    public void setMushroomNumber(int mushroomNumber) {
+        this.mushroomNumber = mushroomNumber;
+    }
+
+    public int getBananasNumber() {
+        return bananasNumber;
+    }
+
+    public void setBananasNumber(int bananasNumber) {
+        this.bananasNumber = bananasNumber;
+    }
+
+    public void updateBananasNumber() {
+        this.bananasNumber -= 1;
     }
 }
