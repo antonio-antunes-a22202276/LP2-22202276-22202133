@@ -508,7 +508,7 @@ public class GameManager {
                 this.actualPlayer = this.players.get(i); }
         }
         //Verifies if the dice number is valid
-        if ((nrSquares < -6 || nrSquares > 6) && !bypassValidations) {
+        if ((nrSquares < -6 || nrSquares > 6 || Math.abs(nrSquares) < Character.getNumericValue(currentPlayer.getSpecie().getSpecieSpeed().charAt(0)) || Math.abs(nrSquares) > Character.getNumericValue(currentPlayer.getSpecie().getSpecieSpeed().charAt(3))) && !bypassValidations) {
             //|| Math.abs(nrSquares) < Character.getNumericValue(currentPlayer.getSpecie().getSpecieSpeed().charAt(0))
             //                || Math.abs(nrSquares) > Character.getNumericValue(currentPlayer.getSpecie().getSpecieSpeed().charAt(3))
             return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null); }
@@ -549,10 +549,7 @@ public class GameManager {
                 Food food = this.foods.get(i);
                 if (Integer.parseInt(food.getPosition()) == currentSquare) {
                     currentPlayer.getSpecie().updateEnergyByFood(food, this.nrJogada);
-                    if (currentPlayer.getSpecie().getSpecieType().equals("H") && food.getId().equals("c")){
-                        // ||(food.getId().equals("b")) && food.getBananasNumber()==0)
-                        //nada
-                    } else {
+                    if (!(currentPlayer.getSpecie().getSpecieType().equals("H") && food.getId().equals("c"))){
                         return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());
                     }
                 }
