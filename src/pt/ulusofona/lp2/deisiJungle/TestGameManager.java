@@ -24,6 +24,26 @@ public class TestGameManager {
         //System.out.println(createJungle.getMessage());
         assertEquals(null, createJungle);
     }
+
+    @Test
+    public void test01_moveCurrentPlayer(){
+        GameManager gameManager = new GameManager();
+        String[][] playersInfo = new String[2][3];
+        String[][] foodsInfo = new String[1][2];
+        playersInfo[0][0] = "1";
+        playersInfo[0][1] = "JogadorTeste1";
+        playersInfo[0][2] = "L";
+
+        playersInfo[1][0] = "2";
+        playersInfo[1][1] = "JogadorTeste2";
+        playersInfo[1][2] = "E";
+
+        foodsInfo[0][0] = "a";
+        foodsInfo[0][1] = "4";
+        InitializationError createJungle = gameManager.createInitialJungle(10,playersInfo,foodsInfo);
+        MovementResult movePlayer = gameManager.moveCurrentPlayer(7,true);
+        assertEquals(new MovementResult(MovementResultCode.VALID_MOVEMENT, null), movePlayer);
+    }
 /*
     @Test
     public void test02_createInitialJungle() {

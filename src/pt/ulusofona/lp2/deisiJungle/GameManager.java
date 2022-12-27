@@ -508,7 +508,7 @@ public class GameManager {
                 this.actualPlayer = this.players.get(i); }
         }
         //Verifies if the dice number is valid
-        if ((nrSquares < -6 || nrSquares > 6) || (Math.abs(nrSquares) < Character.getNumericValue(currentPlayer.getSpecie().getSpecieSpeed().charAt(0))
+        if ((nrSquares < -6 || nrSquares > 6 || Math.abs(nrSquares) < Character.getNumericValue(currentPlayer.getSpecie().getSpecieSpeed().charAt(0))
                 || Math.abs(nrSquares) > Character.getNumericValue(currentPlayer.getSpecie().getSpecieSpeed().charAt(3))) && !bypassValidations) {
             return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null); }
         //Verifies if the player has enough energy to move. If it has, decreases the
