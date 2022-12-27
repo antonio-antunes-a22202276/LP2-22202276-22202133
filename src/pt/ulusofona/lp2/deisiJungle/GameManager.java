@@ -86,7 +86,7 @@ public class GameManager {
         food[1][2] = "water.png";
 
         food[2][0] = "b";
-        food[2][1] = "Cacho de bananas";
+        food[2][1] = "Bananas";
         food[2][2] = "bananas.png";
 
         food[3][0] = "c";
@@ -184,6 +184,7 @@ public class GameManager {
             String[] info = foodsInfo[i];
             String foodId = info[0];
             String foodPosition = info[1];
+            try {Integer.parseInt(foodPosition);} catch(NumberFormatException e) {return new InitializationError("A posição não é válida");}
             if (Integer.parseInt(foodPosition)<=1 || Integer.parseInt(foodPosition)>=jungleSize) {
                 return new InitializationError("Existe um alimento fora dos limites do terreno");
             }
@@ -379,82 +380,64 @@ public class GameManager {
                 }
             }
         }
-        for (Food food: this.foods) {
-            if (Integer.parseInt(food.getPosition()) == squareNr) {
-                squareInfo[0] = food.getFileName();
+        if (this.foods!=null) {
+            for (Food food: this.foods) {
+                if (Integer.parseInt(food.getPosition()) == squareNr) {
+                    squareInfo[0] = food.getFileName();
 
-                if(this.nrJogada==12 && !updatedCarne) {
-                    updatedCarne = true; //Está a duplicar várias vezes?
-                    for (Player player : this.players) {
-                        //System.out.println("carne ficou toxica\n");
-                        player.getSpecie().updateCarneToxica();
-                    }
-                }
-
-                if(food.getId().equals("e")){ //Done
-                    if(this.actualPlayer.getSpecie().getSpecieType().equals("O")) {
-                        squareInfo[1] = "Erva : + 20 energia";
-                    }
-                    if(this.actualPlayer.getSpecie().getSpecieType().equals("C")) {
-                        squareInfo[1] = "Erva : - 20 energia";
-                    }
-                    if(this.actualPlayer.getSpecie().getSpecieType().equals("H")) {
-                        squareInfo[1] = "Erva : + 20 energia";
-                    }
-                }
-                if(food.getId().equals("a")){ //Done
-                    if(this.actualPlayer.getSpecie().getSpecieType().equals("O")) {
-                        squareInfo[1] = "Agua : + 20% energia";
-                    }
-                    if(this.actualPlayer.getSpecie().getSpecieType().equals("C")) {
-                        squareInfo[1] = "Agua : + 15U energia";
-                    }
-                    if(this.actualPlayer.getSpecie().getSpecieType().equals("H")) {
-                        squareInfo[1] = "Agua : + 15U energia";
-                    }
-                }
-                if(food.getId().equals("b")){ //Done?
-                    int countNrBananas = 0;
-                    for (Player player : this.players) {
-                        countNrBananas += player.getSpecie().getBananaNr();
-                    }
-                    countNrBananas = 3-countNrBananas;
-                    if(countNrBananas==0) {
+                    if (this.nrJogada == 12 && !updatedCarne) {
+                        updatedCarne = true; //Está a duplicar várias vezes?
                         for (Player player : this.players) {
-                            player.getSpecie().updateCanEatBanana();
+                            //System.out.println("carne ficou toxica\n");
+                            player.getSpecie().updateCarneToxica();
                         }
                     }
-                    if(this.actualPlayer.getSpecie().getSpecieType().equals("O")) {
-                        squareInfo[1] = "Bananas : " + countNrBananas + " + 40 energia";
+
+                    if (food.getId().equals("e")) { //Done
+                        squareInfo[1] = "Erva : +- 20 energia";
                     }
-                    if(this.actualPlayer.getSpecie().getSpecieType().equals("C")) {
-                        squareInfo[1] = "Bananas : " + countNrBananas + " + 40 energia";
+                    if (food.getId().equals("a")) { //Done
+                        squareInfo[1] = "Agua : + 15U|20% energia";
                     }
-                    if(this.actualPlayer.getSpecie().getSpecieType().equals("H")) {
-                        squareInfo[1] = "Bananas : " + countNrBananas + " + 40 energia";
-                    }
-                }
-                if(food.getId().equals("c")){ //Done?
-                    if(this.actualPlayer.getSpecie().getSpecieType().equals("O")) {
-                        if(this.nrJogada <= 12) {
-                            squareInfo[1] = "Carne : + 50 energia : " + this.nrJogada + " jogadas";
-                        } else {
-                            squareInfo[1] = "Carne : - 50 energia : " + this.nrJogada + " jogadas";
+                    if (food.getId().equals("b")) { //Done?
+                        int countNrBananas = 0;
+                        for (Player player : this.players) {
+                            countNrBananas += player.getSpecie().getBananaNr();
+                        }
+                        countNrBananas = 3 - countNrBananas;
+                        if (countNrBananas == 0) {
+                            for (Player player : this.players) {
+                                player.getSpecie().updateCanEatBanana();
+                            }
+                        }
+                        if (this.actualPlayer.getSpecie().getSpecieType().equals("O")) {
+                            squareInfo[1] = "Bananas : " + countNrBananas + " : + 40 energia";
+                        }
+                        if (this.actualPlayer.getSpecie().getSpecieType().equals("C")) {
+                            squareInfo[1] = "Bananas : " + countNrBananas + " : + 40 energia";
+                        }
+                        if (this.actualPlayer.getSpecie().getSpecieType().equals("H")) {
+                            squareInfo[1] = "Bananas : " + countNrBananas + " : + 40 energia";
                         }
                     }
-                    if(actualPlayer.getSpecie().getSpecieType().equals("C")) {
-                        if(this.nrJogada <= 12) {
-                            squareInfo[1] = "Carne : + 50 energia : " + this.nrJogada + " jogadas";
-                        } else {
-                            squareInfo[1] = "Carne : - 50 energia : " + this.nrJogada + " jogadas";
+                    if (food.getId().equals("c")) { //Done?
+                        if (this.actualPlayer.getSpecie().getSpecieType().equals("O")) {
+                            if (this.nrJogada <= 12) {
+                                squareInfo[1] = "Carne : + 50 energia : " + this.nrJogada + " jogadas";
+                            } else {
+                                squareInfo[1] = "Carne : - 50 energia : " + this.nrJogada + " jogadas";
+                            }
+                        }
+                        if (actualPlayer.getSpecie().getSpecieType().equals("C")) {
+                            if (this.nrJogada <= 12) {
+                                squareInfo[1] = "Carne : + 50 energia : " + this.nrJogada + " jogadas";
+                            } else {
+                                squareInfo[1] = "Carne : - 50 energia : " + this.nrJogada + " jogadas";
+                            }
                         }
                     }
-                }
-                if(food.getId().equals("m")){ //Por Fazer
-                    if(this.nrJogada%2==0) {
-                        squareInfo[1] = "Cogumelo Magico: + "+food.getMushroomNumber()+"% energia";
-                    } else {
-                        squareInfo[1] = "Cogumelo Magico: - "+food.getMushroomNumber()+"% energia";
+                    if (food.getId().equals("m")) { //Por Fazer
+                        squareInfo[1] = "Cogumelo Magico: +- " + food.getMushroomNumber() + "% energia";
                     }
                 }
             }
@@ -496,8 +479,8 @@ public class GameManager {
     public String[] getCurrentPlayerEnergyInfo(int nrPositions) {
         String[] energyInfo = new String[2];
         Player player = this.actualPlayer;
-        energyInfo[0] = "" + Integer.parseInt(player.getSpecie().specieEnergyConsume) * nrPositions;
-        energyInfo[1] = "" + Integer.parseInt(player.getSpecie().specieEnergyGain);
+        energyInfo[0] = "" + Integer.parseInt(player.getSpecie().getSpecieEnergyConsume()) * nrPositions;
+        energyInfo[1] = "" + Integer.parseInt(player.getSpecie().getSpecieEnergyGain());
         return energyInfo;
     }
 
@@ -541,7 +524,7 @@ public class GameManager {
                 this.actualPlayer = this.players.get(i); }
         }
         //Verifies if the dice number is valid
-        if ((nrSquares < -6 || nrSquares > 6) && !bypassValidations) { return new MovementResult(MovementResultCode.INVALID_MOVEMENT, ""); }
+        if ((nrSquares < -6 || nrSquares > 6) && !bypassValidations) { return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null); }
         //Verifies if the player has enough energy to move. If it has, decreases the
         String energy = currentPlayer.getSpecie().getSpecieEnergy();
         currentPlayer.getSpecie().updateEnergy(nrSquares,true);
@@ -570,11 +553,17 @@ public class GameManager {
         } else {
             currentPlayer.updateHouseNr(currentPlayer.getSquareId());
         }
-        for (int i=0;i<this.foods.size();i++) {
-            Food food = this.foods.get(i);
-            if(Integer.parseInt(food.getPosition())==currentSquare) {
-                currentPlayer.getSpecie().updateEnergyByFood(food,this.nrJogada);
-                return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());
+        if(this.foods!=null) {
+            for (int i = 0; i < this.foods.size(); i++) {
+                Food food = this.foods.get(i);
+                if (Integer.parseInt(food.getPosition()) == currentSquare) {
+                    currentPlayer.getSpecie().updateEnergyByFood(food, this.nrJogada);
+                    if (currentPlayer.getSpecie().getSpecieType().equals("H") && food.getId().equals("c")) {
+                        //nada
+                    } else {
+                        return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());
+                    }
+                }
             }
         }
         //Iterates the players
@@ -590,7 +579,7 @@ public class GameManager {
                 }
             }
         }
-        return new MovementResult(MovementResultCode.VALID_MOVEMENT, "");
+        return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
     }
 
     public String[] getWinnerInfo() { //Verified
