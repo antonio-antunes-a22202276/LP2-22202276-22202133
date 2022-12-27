@@ -588,13 +588,17 @@ public class GameManager {
         if (this.winner != null) {
             //Verifies if there are still players to be added to the winners arraylist
             while (this.players.size() > 0) {
-                //Selects one random winner by default
                 if(this.winner==null) {
                     Player temporaryWinner = this.players.get(0);
                     for (int i = 0; i < this.players.size(); i++) {
-                        if(i+1 < this.players.size()) {
+                        if(i+1 < this.players.size()) { //Verifies if there are more players in the list
                             if (temporaryWinner.getSquareId() < players.get(i+1).getSquareId()) {
                                 temporaryWinner = players.get(i+1);
+                            } else if (temporaryWinner.getSquareId() == players.get(i+1).getSquareId()) {
+                                if(Integer.parseInt(temporaryWinner.getId()) > Integer.parseInt(players.get(i+1).getId())) {
+                                    //ganha o que tem id mais pequeno
+                                    temporaryWinner = players.get(i+1);
+                                }
                             }
                         }
                         this.winner = temporaryWinner;
