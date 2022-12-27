@@ -94,7 +94,7 @@ public class GameManager {
         food[3][2] = "meat.png";
 
         food[4][0] = "m";
-        food[4][1] = "Cogumelos magicos";
+        food[4][1] = "Cogumelo Magico";
         food[4][2] = "mushroom.png";
 
         return food;
@@ -410,34 +410,26 @@ public class GameManager {
                                 player.getSpecie().updateCanEatBanana();
                             }
                         }
-                        if (this.actualPlayer.getSpecie().getSpecieType().equals("O")) {
-                            squareInfo[1] = "Bananas : " + countNrBananas + " : + 40 energia";
-                        }
-                        if (this.actualPlayer.getSpecie().getSpecieType().equals("C")) {
-                            squareInfo[1] = "Bananas : " + countNrBananas + " : + 40 energia";
-                        }
-                        if (this.actualPlayer.getSpecie().getSpecieType().equals("H")) {
-                            squareInfo[1] = "Bananas : " + countNrBananas + " : + 40 energia";
-                        }
+                        squareInfo[1] = "Bananas : " + countNrBananas + " : + 40 energia";
                     }
                     if (food.getId().equals("c")) { //Done?
                         if (this.actualPlayer.getSpecie().getSpecieType().equals("O")) {
                             if (this.nrJogada <= 12) {
                                 squareInfo[1] = "Carne : + 50 energia : " + this.nrJogada + " jogadas";
                             } else {
-                                squareInfo[1] = "Carne : - 50 energia : " + this.nrJogada + " jogadas";
+                                squareInfo[1] = "Carne toxica";
                             }
                         }
                         if (actualPlayer.getSpecie().getSpecieType().equals("C")) {
                             if (this.nrJogada <= 12) {
                                 squareInfo[1] = "Carne : + 50 energia : " + this.nrJogada + " jogadas";
                             } else {
-                                squareInfo[1] = "Carne : - 50 energia : " + this.nrJogada + " jogadas";
+                                squareInfo[1] = "Carne toxica";
                             }
                         }
                     }
-                    if (food.getId().equals("m")) { //Por Fazer
-                        squareInfo[1] = "Cogumelo Magico: +- " + food.getMushroomNumber() + "% energia";
+                    if (food.getId().equals("m")) {
+                        squareInfo[1] = "Cogumelo Magico : +- " + food.getMushroomNumber() + "% energia";
                     }
                 }
             }
@@ -479,7 +471,7 @@ public class GameManager {
     public String[] getCurrentPlayerEnergyInfo(int nrPositions) {
         String[] energyInfo = new String[2];
         Player player = this.actualPlayer;
-        energyInfo[0] = "" + Integer.parseInt(player.getSpecie().getSpecieEnergyConsume()) * nrPositions;
+        energyInfo[0] = "" + Math.abs(Integer.parseInt(player.getSpecie().getSpecieEnergyConsume()) * nrPositions);
         energyInfo[1] = "" + Integer.parseInt(player.getSpecie().getSpecieEnergyGain());
         return energyInfo;
     }
