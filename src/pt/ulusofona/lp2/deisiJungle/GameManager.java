@@ -136,15 +136,13 @@ public class GameManager implements Serializable {
             String foodId = info[0]; String foodPosition = info[1];
             try {Integer.parseInt(foodPosition);} catch(NumberFormatException e) {return new InitializationError("A posição não é válida");}
             if (Integer.parseInt(foodPosition)<=1 || Integer.parseInt(foodPosition)>=jungleSize) {return new InitializationError("Existe um alimento fora dos limites do terreno");}
-            for (int k = 0; k < foods.length; k++) {
-                String defaultFoodId = foods[k][0];
+            for (int k = 0; k < foods.length; k++) {String defaultFoodId = foods[k][0];
                 if (defaultFoodId.equals(foodId) && !hasFoodVerified) {hasFoodVerified = true;}
                 if (k == foods.length - 1 && !hasFoodVerified) {return new InitializationError("Existe um alimento que não é válido");}
             }
             hasFoodVerified = false;
             for (int k=0;k<foods.length;k++) { String[] infoFood = foods[k];
-                if (infoFood[0].equals(foodId)) {
-                    this.foods.add(new Food(foodId,foodPosition,infoFood[1],infoFood[2]));
+                if (infoFood[0].equals(foodId)) { this.foods.add(new Food(foodId,foodPosition,infoFood[1],infoFood[2]));
                     if(infoFood[0].equals("m")) { int rand = (int)(Math.random() * (50-10+1)+10); this.foods.get(this.foods.size()-1).setMushroomNumber(rand); }
                     if(infoFood[0].equals("b")) {this.foods.get(this.foods.size()-1).setBananasNumber(3);}
                 }
