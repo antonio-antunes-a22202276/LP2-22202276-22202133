@@ -470,7 +470,7 @@ public class GameManager implements Serializable {
 
     public String[][] getPlayersInfo() { //Verified
         //Creates the array to store the playerData
-        String[][] playersData = new String[this.players.size()][4];
+        String[][] playersData = new String[this.players.size()][5];
 
         //Iterates the players and later return the data of everyone
         for (int i = 0; i < this.players.size(); i++) {
@@ -479,6 +479,7 @@ public class GameManager implements Serializable {
             playersData[i][1] = player.getName();
             playersData[i][2] = player.getSpecie().getSpecieId();
             playersData[i][3] = String.valueOf(player.getSpecie().getSpecieEnergy());
+            playersData[i][4] = player.getSpecie().getSpecieSpeed();
         }
         return playersData;
     }
@@ -580,11 +581,12 @@ public class GameManager implements Serializable {
     public String[] getWinnerInfo() { //Verified
         //Verifies if there is a winner
         if (this.winner != null) {
-            String[] playerData = new String[4];
+            String[] playerData = new String[5];
             playerData[0] = this.winner.getId();
             playerData[1] = this.winner.getName();
             playerData[2] = this.winner.getSpecie().getSpecieId();
             playerData[3] = String.valueOf(this.winner.getSpecie().getSpecieEnergy());
+            playerData[4] = this.winner.getSpecie().getSpecieSpeed();
             return playerData;
         }
         return null;
