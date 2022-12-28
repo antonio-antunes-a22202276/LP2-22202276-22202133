@@ -2,6 +2,8 @@ package pt.ulusofona.lp2.deisiJungle;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class TestGameManager {
@@ -40,9 +42,37 @@ public class TestGameManager {
 
         foodsInfo[0][0] = "a";
         foodsInfo[0][1] = "4";
-        InitializationError createJungle = gameManager.createInitialJungle(10,playersInfo,foodsInfo);
+        gameManager.createInitialJungle(10,playersInfo,foodsInfo);
         MovementResult movePlayer = gameManager.moveCurrentPlayer(7,true);
         assertEquals(new MovementResult(MovementResultCode.VALID_MOVEMENT, null), movePlayer);
+    }
+
+    @Test
+    public void test02_moveCurrentPlayer(){
+        GameManager gameManager = new GameManager();
+        String[][] playersInfo = new String[2][3];
+        String[][] foodsInfo = new String[1][2];
+        playersInfo[0][0] = "1";
+        playersInfo[0][1] = "JogadorTeste1";
+        playersInfo[0][2] = "L";
+
+        playersInfo[1][0] = "2";
+        playersInfo[1][1] = "JogadorTeste2";
+        playersInfo[1][2] = "E";
+
+        foodsInfo[0][0] = "a";
+        foodsInfo[0][1] = "4";
+        gameManager.createInitialJungle(31,playersInfo,foodsInfo);
+
+        //ArrayList<Player> players = new ArrayList<>();
+        //players.add(new Player(playersInfo[0][0], playersInfo[0][1], new Specie("L", "Leão", "lion.png", "10", "2", "10", "4..6", "C"), 1));
+        //players.add(new Player(playersInfo[1][0],playersInfo[1][1],new Specie("E","Elefante","elephant.png","180","4","10","1..6","H"), 1));
+
+
+
+        gameManager.moveCurrentPlayer(0,false); //Lion
+        gameManager.moveCurrentPlayer(16,true); //Elefante
+        assertEquals(null,gameManager.getWinnerInfo());
     }
 /*
     @Test
