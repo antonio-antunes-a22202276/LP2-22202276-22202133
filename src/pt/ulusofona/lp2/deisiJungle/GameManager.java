@@ -98,10 +98,7 @@ public class GameManager implements Serializable {
     }
 
     public InitializationError createInitialJungle(int jungleSize, String[][] playersInfo, String[][] foodsInfo) {
-        this.players = new ArrayList<>();
-        this.foods = new ArrayList<>();
-        this.actualPlayer = null;
-        this.winner = null;
+        this.players = new ArrayList<>(); this.foods = new ArrayList<>(); this.actualPlayer = null; this.winner = null;
         ArrayList<String> playerIds = new ArrayList<>(); //Creates an arraylist to later verify if there are repeated playerIds
         ArrayList<String> speciesCompeting = new ArrayList<>(); //Creates an arraylist to later verify if Tarzan specie has been selected more than one time
         boolean hasSpecieVerified = false; //Creates this variable to later verify if the player data has a valid specie
@@ -109,29 +106,15 @@ public class GameManager implements Serializable {
         if (playersInfo == null) {return new InitializationError("Players info é null");} //Verifies if the players data is not null
         if (playersInfo.length <2 || playersInfo.length > 4) { return new InitializationError("Numero de jogadores invalido"); } //Verifies if the game has a minimum of 2 players and a maximum of 4 players
         if (jungleSize < playersInfo.length * 2) { return new InitializationError("O mapa não tem duas posições para cada jogador"); } //Verifies if the map has at least 2 positions for each player playing
-        for (int i = 0; i < playersInfo.length; i++) { //Iterates the players data || At this point we have playersInfo validated to test
-            String[] info = playersInfo[i]; //Gets the players data
-            String playerId = info[0];
-            String playerName = info[1];
-            String playerSpecieId = info[2]; //[0]
-            String specieName = ""; //[1]
-            String specieImage = ""; //[2]
-            String specieEnergy = ""; //[3]
-            String specieEnergyConsume = ""; //[4]
-            String specieEnergyGain = ""; //[5]
-            String specieSpeed = ""; //[6]
-            String specieType = ""; //[7]
+        for (int i = 0; i < playersInfo.length; i++) { String[] info = playersInfo[i]; //Gets the players data | At this point we have playersInfo validated to test
+            String playerId = info[0]; String playerName = info[1]; String playerSpecieId = info[2]; String specieName = ""; String specieImage = "";
+            String specieEnergy = ""; String specieEnergyConsume = ""; String specieEnergyGain = ""; String specieSpeed = ""; String specieType = "";
             String[][] species = getSpecies(); //Gets the available species data
-            for (int k = 0; k < species.length; k++) { //Iterates the species
-                String defaultSpecieId = species[k][0]; //Gets the default specie id
+            for (int k = 0; k < species.length; k++) { String defaultSpecieId = species[k][0]; //Iterates the species
                 if (speciesCompeting.contains("Z") && playerSpecieId.equals("Z")) { return new InitializationError("O Tarzan já foi selecionado"); } //Verifies if the Tarzan specie hasn't been selected more than one time
                 if (defaultSpecieId.equals(playerSpecieId) && !hasSpecieVerified) { //Verifies if the playerSpecieId matches the default specieIds
-                    specieName = species[k][1];
-                    specieImage = species[k][2];
-                    specieEnergy = species[k][3];
-                    specieEnergyConsume = species[k][4];
-                    specieEnergyGain = species[k][5];
-                    specieSpeed = species[k][6];
+                    specieName = species[k][1]; specieImage = species[k][2]; specieEnergy = species[k][3];
+                    specieEnergyConsume = species[k][4]; specieEnergyGain = species[k][5]; specieSpeed = species[k][6];
                     hasSpecieVerified = true;
                     if(playerSpecieId.equals("T") || playerSpecieId.equals("Z") || playerSpecieId.equals("P")){specieType = "O";}
                     if(playerSpecieId.equals("L")){specieType = "C";}
@@ -149,10 +132,8 @@ public class GameManager implements Serializable {
             this.players.add(player); //Adds the player to the created/game players list
         }
         String[][] foods = getFoodTypes();
-        for (int i = 0; i< foodsInfo.length; i++) {
-            String[] info = foodsInfo[i];
-            String foodId = info[0];
-            String foodPosition = info[1];
+        for (int i = 0; i< foodsInfo.length; i++) { String[] info = foodsInfo[i];
+            String foodId = info[0]; String foodPosition = info[1];
             try {Integer.parseInt(foodPosition);} catch(NumberFormatException e) {return new InitializationError("A posição não é válida");}
             if (Integer.parseInt(foodPosition)<=1 || Integer.parseInt(foodPosition)>=jungleSize) {return new InitializationError("Existe um alimento fora dos limites do terreno");}
             for (int k = 0; k < foods.length; k++) {
@@ -161,29 +142,20 @@ public class GameManager implements Serializable {
                 if (k == foods.length - 1 && !hasFoodVerified) {return new InitializationError("Existe um alimento que não é válido");}
             }
             hasFoodVerified = false;
-            for (int k=0;k<foods.length;k++) {
-                String[] infoFood = foods[k];
+            for (int k=0;k<foods.length;k++) { String[] infoFood = foods[k];
                 if (infoFood[0].equals(foodId)) {
                     this.foods.add(new Food(foodId,foodPosition,infoFood[1],infoFood[2]));
-                    if(infoFood[0].equals("m")) {
-                        int rand = (int)(Math.random() * (50-10+1)+10);
-                        this.foods.get(this.foods.size()-1).setMushroomNumber(rand);
-                    }
+                    if(infoFood[0].equals("m")) { int rand = (int)(Math.random() * (50-10+1)+10); this.foods.get(this.foods.size()-1).setMushroomNumber(rand); }
                     if(infoFood[0].equals("b")) {this.foods.get(this.foods.size()-1).setBananasNumber(3);}
                 }
             }
         }
         int lowestPlayerId = Integer.parseInt(this.players.get(0).getId()); //Finds out the player with the lowest id to start the game and saves that in actualPlayer
         Player playerWithLowestId = this.players.get(0);
-        for (int i = 1; i < this.players.size(); i++) {
-            Player player = this.players.get(i);
-            if (Integer.parseInt(player.getId()) < lowestPlayerId) {
-                lowestPlayerId = Integer.parseInt(player.getId());
-                playerWithLowestId = player;
-            }
+        for (int i = 1; i < this.players.size(); i++) { Player player = this.players.get(i);
+            if (Integer.parseInt(player.getId()) < lowestPlayerId) { lowestPlayerId = Integer.parseInt(player.getId()); playerWithLowestId = player; }
         }
-        this.actualPlayer = playerWithLowestId;
-        this.finalPosition = jungleSize; //Saves the position of the finish
+        this.actualPlayer = playerWithLowestId; this.finalPosition = jungleSize; //Saves the position of the finish
         return null;
     }
 
@@ -198,28 +170,16 @@ public class GameManager implements Serializable {
         if (playersInfo.length <2 || playersInfo.length > 4) { return new InitializationError("Numero de jogadores invalido"); } //Verifies if the game has a minimum of 2 players and a maximum of 4 players
         if (jungleSize < playersInfo.length * 2) { return new InitializationError("O mapa não tem duas posições para cada jogador"); } //At this point we have playersInfo validated to test
         for (int i = 0; i < playersInfo.length; i++) { //Iterates the players data
-            String[] info = playersInfo[i]; //Gets the players data
-            String playerId = info[0];
-            String playerName = info[1];
-            String playerSpecieId = info[2]; //[0]
-            String specieName = ""; //[1]
-            String specieImage = ""; //[2]
-            String specieEnergy = ""; //[3]
-            String specieEnergyConsume = ""; //[4]
-            String specieEnergyGain = ""; //[5]
-            String specieSpeed = ""; //[6]
-            String specieType = ""; //[7]
+            String[] info = playersInfo[i]; String playerId = info[0]; String playerName = info[1]; String playerSpecieId = info[2]; //[0]
+            String specieName = ""; String specieImage = ""; String specieEnergy = ""; String specieEnergyConsume = "";
+            String specieEnergyGain = ""; String specieSpeed = ""; String specieType = "";
             String[][] species = getSpecies(); //Gets the available species data
             for (int k = 0; k < species.length; k++) { //Iterates the species
                 String defaultSpecieId = species[k][0]; //Gets the default specie id
                 if (speciesCompeting.contains("Z") && playerSpecieId.equals("Z")) { return new InitializationError("O Tarzan já foi selecionado"); } //Verifies if the Tarzan specie hasn't been selected more than one time
                 if (defaultSpecieId.equals(playerSpecieId) && !hasSpecieVerified) { //Verifies if the playerSpecieId matches the default specieIds
-                    specieName = species[k][1];
-                    specieImage = species[k][2];
-                    specieEnergy = species[k][3];
-                    specieEnergyConsume = species[k][4];
-                    specieEnergyGain = species[k][5];
-                    specieSpeed = species[k][6];
+                    specieName = species[k][1]; specieImage = species[k][2]; specieEnergy = species[k][3];
+                    specieEnergyConsume = species[k][4]; specieEnergyGain = species[k][5]; specieSpeed = species[k][6];
                     hasSpecieVerified = true;
                     if(playerSpecieId.equals("T") || playerSpecieId.equals("Z") || playerSpecieId.equals("P")){specieType = "O";}
                     if(playerSpecieId.equals("L")){specieType = "C";}
@@ -240,10 +200,7 @@ public class GameManager implements Serializable {
         Player playerWithLowestId = this.players.get(0);
         for (int i = 1; i < this.players.size(); i++) {
             Player player = this.players.get(i);
-            if (Integer.parseInt(player.getId()) < lowestPlayerId) {
-                lowestPlayerId = Integer.parseInt(player.getId());
-                playerWithLowestId = player;
-            }
+            if (Integer.parseInt(player.getId()) < lowestPlayerId) {lowestPlayerId = Integer.parseInt(player.getId());playerWithLowestId = player;}
         }
         this.actualPlayer = playerWithLowestId;
         this.finalPosition = jungleSize; //Saves the position of the finish
@@ -373,9 +330,7 @@ public class GameManager implements Serializable {
         int indexActualPlayerId = playerIds.indexOf(actualPlayerId); //Verifies if the actualPlayerId is already the biggest one or not
         if (indexActualPlayerId == playerIds.size()-1) {nextBiggerPlayerId = playerIds.get(0);}
         else { nextBiggerPlayerId = playerIds.get(indexActualPlayerId + 1); } //Search for the player with the new id and sets them as the next actualPlayer
-        for (int i=0;i<this.players.size();i++) {
-            if (Integer.parseInt(this.players.get(i).getId()) == nextBiggerPlayerId) {this.actualPlayer = this.players.get(i); }
-        }
+        for (int i=0;i<this.players.size();i++) { if (Integer.parseInt(this.players.get(i).getId()) == nextBiggerPlayerId) {this.actualPlayer = this.players.get(i); } }
         if (nrSquares!=0) { //Verifies if the dice number is valid
             if ((nrSquares < -6 || nrSquares > 6 || Math.abs(nrSquares) < Character.getNumericValue(currentPlayer.getSpecie().getSpecieSpeed().charAt(0))
                     || Math.abs(nrSquares) > Character.getNumericValue(currentPlayer.getSpecie().getSpecieSpeed().charAt(3))) && !bypassValidations) {
@@ -384,16 +339,12 @@ public class GameManager implements Serializable {
         }
         String energy = currentPlayer.getSpecie().getSpecieEnergy(); //Verifies if the player has enough energy to move. If it has, decreases the
         currentPlayer.getSpecie().updateEnergy(nrSquares,true);
-        if (Integer.parseInt(currentPlayer.getSpecie().getSpecieEnergy()) < 0) {
-            currentPlayer.getSpecie().updateEnergy(Integer.parseInt(energy),false);
+        if (Integer.parseInt(currentPlayer.getSpecie().getSpecieEnergy()) < 0) { currentPlayer.getSpecie().updateEnergy(Integer.parseInt(energy),false);
             return new MovementResult(MovementResultCode.NO_ENERGY, null);
         }
         int currentSquare = currentPlayer.getSquareId(); //Gets the current square of the player
-        if (currentSquare + nrSquares >= this.finalPosition) { //Verifies if the new squareId is over the finish or not and updates with the new data
-            currentPlayer.updateSquareId(this.finalPosition);
-            this.winner = currentPlayer;
-        } else {
-            if(currentSquare+nrSquares < 1) {currentPlayer.updateSquareId(1);}
+        if (currentSquare + nrSquares >= this.finalPosition) {currentPlayer.updateSquareId(this.finalPosition); this.winner = currentPlayer; }
+        else { if(currentSquare+nrSquares < 1) {currentPlayer.updateSquareId(1);}
             else {currentPlayer.updateSquareId(currentSquare+nrSquares);}
         }
         currentSquare = currentPlayer.getSquareId();
