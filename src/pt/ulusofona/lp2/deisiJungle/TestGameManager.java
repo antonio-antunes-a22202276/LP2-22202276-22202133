@@ -71,7 +71,7 @@ public class TestGameManager {
 
 
         gameManager.moveCurrentPlayer(0,false); //Lion
-        gameManager.moveCurrentPlayer(16,true); //Elefante
+        gameManager.moveCurrentPlayer(15,true); //Elefante
         assertEquals(null,gameManager.getWinnerInfo());
     }
 /*

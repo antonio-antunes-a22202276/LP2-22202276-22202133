@@ -553,8 +553,7 @@ public class GameManager implements Serializable {
             positionPlayers.add(this.players.get(i).getSquareId());
         }
         Collections.sort(positionPlayers);
-        //System.out.println(Math.round(Math.ceil(this.finalPosition/2.0)));
-        if(positionPlayers.get(positionPlayers.size()-1) - positionPlayers.get(positionPlayers.size()-2) > Math.round(Math.ceil(this.finalPosition/2.0))) {
+        if(positionPlayers.get(positionPlayers.size()-1) - positionPlayers.get(positionPlayers.size()-2) > this.finalPosition/2.0) {
             for (int i=0;i<this.players.size();i++) {
                 if(this.players.get(i).getSquareId() == positionPlayers.get(positionPlayers.size()-2)) {
                     //System.out.println(currentPlayer.getId()); //DEBUG
