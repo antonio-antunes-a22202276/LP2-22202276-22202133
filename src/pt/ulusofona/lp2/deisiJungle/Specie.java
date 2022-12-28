@@ -1,6 +1,8 @@
 package pt.ulusofona.lp2.deisiJungle;
 
-public class Specie {
+import java.io.Serializable;
+
+public class Specie implements Serializable {
     String specieId;
     String specieName;
     String specieImage;

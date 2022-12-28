@@ -1,6 +1,8 @@
 package pt.ulusofona.lp2.deisiJungle;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
     String id;
     String name;
     Specie specie;

@@ -1,6 +1,8 @@
 package pt.ulusofona.lp2.deisiJungle;
 
-public class Food {
+import java.io.Serializable;
+
+public class Food implements Serializable {
     String id;
     String position;
     String name;

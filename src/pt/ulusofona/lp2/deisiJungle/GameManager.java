@@ -1,17 +1,17 @@
 package pt.ulusofona.lp2.deisiJungle;
 
 import javax.swing.*;
-import java.io.File;
+import java.io.*;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class GameManager {
-    ArrayList<Player> players;
-    ArrayList<Food> foods;
-    Player actualPlayer;
-    Player winner;
-    int finalPosition;
+public class GameManager implements Serializable {
+    ArrayList<Player> players = new ArrayList<>();
+    ArrayList<Food> foods = new ArrayList<>();
+    Player actualPlayer = null;
+    Player winner = null;
+    int finalPosition = 0;
     int nrJogada = 0;
 
     public GameManager() {}
@@ -629,13 +629,35 @@ public class GameManager {
     }
 
     public boolean saveGame(File file) {
-        return false;
+        try {
+            FileOutputStream myFile = new FileOutputStream(file);
+            ObjectOutputStream myWriter = new ObjectOutputStream(myFile);
+            GameManager manager = new GameManager(this.players, this.foods, this.actualPlayer, this.winner, this.finalPosition, this.nrJogada);
+            myWriter.writeObject(manager);
+            myWriter.close();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     public boolean loadGame(File file) {
-        return false;
+        try {
+            FileInputStream myFile = new FileInputStream(file);
+            ObjectInputStream myReader = new ObjectInputStream(myFile);
+            GameManager manager = (GameManager)myReader.readObject();
+            this.players = manager.players;
+            this.foods = manager.foods;
+            this.actualPlayer = manager.actualPlayer;
+            this.winner = manager.winner;
+            this.finalPosition = manager.finalPosition;
+            this.nrJogada = manager.nrJogada;
+            myReader.close();
+            return true;
+        } catch (IOException | ClassNotFoundException e) {
+            return false;
+        }
     }
-
 
     public JPanel getAuthorsPanel() { //Verified
         //Creates the credit panel
@@ -648,5 +670,14 @@ public class GameManager {
 
     public String whoIsTaborda() { //Verified
         return "professional wrestling";
+    }
+
+    GameManager(ArrayList<Player> players, ArrayList<Food> foods, Player actualPlayer, Player winner, int finalPosition, int nrJogada) {
+        this.players = players;
+        this.foods = foods;
+        this.actualPlayer = actualPlayer;
+        this.winner = winner;
+        this.finalPosition = finalPosition;
+        this.nrJogada = nrJogada;
     }
 }
