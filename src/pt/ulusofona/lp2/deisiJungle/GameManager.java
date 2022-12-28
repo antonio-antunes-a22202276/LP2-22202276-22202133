@@ -553,16 +553,22 @@ public class GameManager implements Serializable {
             positionPlayers.add(this.players.get(i).getSquareId());
         }
         Collections.sort(positionPlayers);
-        if(positionPlayers.get(positionPlayers.size()-1) - positionPlayers.get(positionPlayers.size()-2) > this.finalPosition/2.0) {
-            for (int i=0;i<this.players.size();i++) {
+        if(positionPlayers.get(positionPlayers.size()-1) - positionPlayers.get(positionPlayers.size()-2) > this.finalPosition/2) {
+            ArrayList<Player> possibleWinners = new ArrayList<>();
+            for (int i=0;i<this.players.size();i++){
                 if(this.players.get(i).getSquareId() == positionPlayers.get(positionPlayers.size()-2)) {
-                    //System.out.println(currentPlayer.getId()); //DEBUG
-                    //System.out.println(currentPlayer.getName());
-                    this.winner = this.players.get(i);
-                    //System.out.println(this.winner.getId());
-                    //System.out.println(this.winner.getName());
+                    possibleWinners.add(this.players.get(i));
                 }
             }
+            Player possibleWinner = possibleWinners.get(0);
+            if(possibleWinners.size()>1) {
+                for(int i=1;i<possibleWinners.size();i++){
+                    if(Integer.parseInt(possibleWinners.get(i).getId()) < Integer.parseInt(possibleWinner.getId())) {
+                        possibleWinner = possibleWinners.get(i);
+                    }
+                }
+            }
+            this.winner = possibleWinner;
         }
         if(this.foods!=null) {
             for (int i = 0; i < this.foods.size(); i++) {

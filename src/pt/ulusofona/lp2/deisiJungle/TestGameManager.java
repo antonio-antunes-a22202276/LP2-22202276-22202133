@@ -50,7 +50,7 @@ public class TestGameManager {
     @Test
     public void test02_moveCurrentPlayer(){
         GameManager gameManager = new GameManager();
-        String[][] playersInfo = new String[2][3];
+        String[][] playersInfo = new String[3][3];
         String[][] foodsInfo = new String[1][2];
         playersInfo[0][0] = "1";
         playersInfo[0][1] = "JogadorTeste1";
@@ -58,21 +58,19 @@ public class TestGameManager {
 
         playersInfo[1][0] = "2";
         playersInfo[1][1] = "JogadorTeste2";
-        playersInfo[1][2] = "E";
+        playersInfo[1][2] = "P";
+
+        playersInfo[2][0] = "3";
+        playersInfo[2][1] = "JogadorTeste3";
+        playersInfo[2][2] = "E";
 
         foodsInfo[0][0] = "a";
         foodsInfo[0][1] = "4";
         gameManager.createInitialJungle(31,playersInfo,foodsInfo);
-
-        //ArrayList<Player> players = new ArrayList<>();
-        //players.add(new Player(playersInfo[0][0], playersInfo[0][1], new Specie("L", "Leão", "lion.png", "10", "2", "10", "4..6", "C"), 1));
-        //players.add(new Player(playersInfo[1][0],playersInfo[1][1],new Specie("E","Elefante","elephant.png","180","4","10","1..6","H"), 1));
-
-
-
         gameManager.moveCurrentPlayer(0,false); //Lion
-        gameManager.moveCurrentPlayer(15,true); //Elefante
-        assertEquals(null,gameManager.getWinnerInfo());
+        gameManager.moveCurrentPlayer(0,false); //Bird
+        gameManager.moveCurrentPlayer(18,true); //Elefante
+        assertEquals("1",gameManager.winner.getId());
     }
 /*
     @Test
