@@ -533,7 +533,6 @@ public class GameManager implements Serializable {
             currentPlayer.updateSquareId(this.finalPosition);
             //Gets the data of the winner
             this.winner = currentPlayer;
-            //getWinnerInfo();
         } else {
             if(currentSquare+nrSquares < 1) {
                 currentPlayer.updateSquareId(1);
@@ -561,7 +560,7 @@ public class GameManager implements Serializable {
                 }
             }
             Player possibleWinner = possibleWinners.get(0);
-            if(possibleWinners.size()>1) {
+            if(possibleWinners.size()>1) { //Se tiver mais que um jogador na mesma casa
                 for(int i=1;i<possibleWinners.size();i++){
                     if(Integer.parseInt(possibleWinners.get(i).getId()) < Integer.parseInt(possibleWinner.getId())) {
                         possibleWinner = possibleWinners.get(i);
