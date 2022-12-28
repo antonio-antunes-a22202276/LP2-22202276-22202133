@@ -202,8 +202,7 @@ public class GameManager implements Serializable {
             Player player = this.players.get(i);
             if (Integer.parseInt(player.getId()) < lowestPlayerId) {lowestPlayerId = Integer.parseInt(player.getId());playerWithLowestId = player;}
         }
-        this.actualPlayer = playerWithLowestId;
-        this.finalPosition = jungleSize; //Saves the position of the finish
+        this.actualPlayer = playerWithLowestId; this.finalPosition = jungleSize; //Saves the position of the finish
         return null;
     }
 
