@@ -85,20 +85,22 @@ public class Specie implements Serializable {
     void updateEnergyByFood(Food food, int nrJogada){
         if(food.getId().equals("c") && type.canGetMeatStatus()) {
             if(type.getMeatStatus()) {
+                System.out.println("e toxica");
                 energy = String.valueOf(Integer.parseInt(energy)/2);
             } else {
+                System.out.println("nao e toxica");
                 energy = String.valueOf(Integer.parseInt(energy) + 50);
             }
         }
-        if(type.equals("O")){ //Omnivero
+        if(type.getName().equals("O")){ //Omnivero
             if(food.getId().equals("e")){energy = String.valueOf(Integer.parseInt(energy) + 20);} //erva
             if(food.getId().equals("a")){energy = String.valueOf(Math.round(Math.floor(Integer.parseInt(energy)*1.2)));} //water
         }
-        if(type.equals("C")){ //Carnivero
+        if(type.getName().equals("C")){ //Carnivero
             if(food.getId().equals("e")){energy = String.valueOf(Integer.parseInt(energy) - 20);} //erva
             if(food.getId().equals("a")){energy = String.valueOf(Integer.parseInt(energy) + 15);} //water
         }
-        if(type.equals("H")){ //Herbivoro
+        if(type.getName().equals("H")){ //Herbivoro
             if(food.getId().equals("e")){energy = String.valueOf(Integer.parseInt(energy) + 20);} //erva
             if(food.getId().equals("a")){energy = String.valueOf(Integer.parseInt(energy) + 15);} //water
         }
