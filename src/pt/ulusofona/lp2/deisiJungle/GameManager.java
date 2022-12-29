@@ -26,71 +26,23 @@ public class GameManager implements Serializable {
     }
 
     public String[][] getSpecies() {
-        String[][] species = new String[5][7];
-        species[0][0] = "E";
-        species[0][1] = "Elefante";
-        species[0][2] = "elephant.png";
-        species[0][3] = "180";
-        species[0][4] = "4";
-        species[0][5] = "10";
-        species[0][6] = "1..6";
-
-        species[1][0] = "L";
-        species[1][1] = "Leão";
-        species[1][2] = "lion.png";
-        species[1][3] = "80";
-        species[1][4] = "2";
-        species[1][5] = "10";
-        species[1][6] = "4..6";
-
-        species[2][0] = "T";
-        species[2][1] = "Tartaruga";
-        species[2][2] = "turtle.png";
-        species[2][3] = "150";
-        species[2][4] = "1";
-        species[2][5] = "5";
-        species[2][6] = "1..3";
-
-        species[3][0] = "P";
-        species[3][1] = "Pássaro";
-        species[3][2] = "bird.png";
-        species[3][3] = "70";
-        species[3][4] = "4";
-        species[3][5] = "50";
-        species[3][6] = "5..6";
-
-        species[4][0] = "Z";
-        species[4][1] = "Tarzan";
-        species[4][2] = "tarzan.png";
-        species[4][3] = "70";
-        species[4][4] = "2";
-        species[4][5] = "20";
-        species[4][6] = "1..6";
-        return species;
+        return new String[][]{
+                {"E","Elefante","elephant.png","180","4","10","1..6"},
+                {"L","Leão","lion.png","80","2","10","4..6"},
+                {"T","Tartaruga","turtle.png","150","1","5","1..3"},
+                {"P","Pássaro","bird.png","70","4","50","5..6"},
+                {"Z","Tarzan","tarzan.png","70","2","20","1..6"}
+        };
     }
 
     public String[][] getFoodTypes(){
-        String[][] food = new String[5][3];
-        food[0][0] = "e";
-        food[0][1] = "Erva";
-        food[0][2] = "grass.png";
-
-        food[1][0] = "a";
-        food[1][1] = "Agua";
-        food[1][2] = "water.png";
-
-        food[2][0] = "b";
-        food[2][1] = "Bananas";
-        food[2][2] = "bananas.png";
-
-        food[3][0] = "c";
-        food[3][1] = "Carne";
-        food[3][2] = "meat.png";
-
-        food[4][0] = "m";
-        food[4][1] = "Cogumelo Magico";
-        food[4][2] = "mushroom.png";
-        return food;
+        return new String[][]{
+                {"e","Erva","grass.png"},
+                {"a","Agua","water.png"},
+                {"b","Bananas","bananas.png"},
+                {"c","Carne","meat.png"},
+                {"m","Cogumelo Magico","mushroom.png"}
+        };
     }
 
     public InitializationError createInitialJungle(int jungleSize, String[][] playersInfo, String[][] foodsInfo) {
@@ -231,19 +183,20 @@ public class GameManager implements Serializable {
 
     public int[] getPlayerIds(int squareNr) {
         ArrayList<Integer> playerIds = new ArrayList<>();
-        for (Player player : this.players) { //Iterates the players
+        for (Player player : this.players) {
             if (player.getSquareId() == squareNr) { //Verifies if the player is in the squareNr past as argument
                 playerIds.add(Integer.parseInt(player.getId())); //The playerId will be added to the arraylist
             }
         }
         if (playerIds.size() == 0) { //If there isn't any player in the specified squareNr, creates an empty array
             return new int[0];
+        } else {
+            int[] output = new int[playerIds.size()]; //Converts the playersIds arraylist to array
+            for (int i=0;i<playerIds.size();i++) {
+                output[i] = playerIds.get(i);
+            }
+            return output;
         }
-        int[] array = new int[playerIds.size()]; //Converts the playersIds arraylist to array
-        for (int i=0;i<playerIds.size();i++) {
-            array[i] = playerIds.get(i);
-        }
-        return array;
     }
 
     public String[] getSquareInfo(int squareNr) {
@@ -288,42 +241,40 @@ public class GameManager implements Serializable {
     }
 
     public String[] getPlayerInfo(int playerId) {
-        for (Player player : this.players) { //Iterates the players
-            if (Integer.parseInt(player.getId()) == playerId) { //Verifies if there is a player with such playerId and returns their data
-                String[] playerData = new String[5];
-                playerData[0] = player.getId();
-                playerData[1] = player.getName();
-                playerData[2] = player.getSpecie().getId();
-                playerData[3] = String.valueOf(player.getSpecie().getEnergy().getActual());
-                playerData[4] = player.getSpecie().getSpeed();
-                return playerData;
+        for (Player player : this.players) {
+            if (Integer.parseInt(player.getId()) == playerId) { //Verifies if exists the player
+                return new String[]{
+                        player.getId(),
+                        player.getName(),
+                        player.getSpecie().getId(),
+                        player.getSpecie().getEnergy().getActual(),
+                        player.getSpecie().getSpeed()
+                };
             }
         }
         return null;
     }
 
     public String[] getCurrentPlayerInfo() {
-        Player player = this.actualPlayer; //Gets the data of the current player and returns it
-        String[] playerData = new String[5];
-        playerData[0] = player.getId();
-        playerData[1] = player.getName();
-        playerData[2] = player.getSpecie().getId();
-        playerData[3] = String.valueOf(player.getSpecie().getEnergy().getActual());
-        playerData[4] = player.getSpecie().getSpeed();
-        return playerData;
+        return new String[]{
+                this.actualPlayer.getId(),
+                this.actualPlayer.getName(),
+                this.actualPlayer.getSpecie().getId(),
+                this.actualPlayer.getSpecie().getEnergy().getActual(),
+                this.actualPlayer.getSpecie().getSpeed()
+        };
     }
 
     public String[] getCurrentPlayerEnergyInfo(int nrPositions) {
-        String[] energyInfo = new String[2];
-        Player player = this.actualPlayer;
-        energyInfo[0] = "" + Integer.parseInt(player.getSpecie().getEnergy().getConsume()) * Math.abs(nrPositions);
-        energyInfo[1] = "" + Integer.parseInt(player.getSpecie().getEnergy().getGain());
-        return energyInfo;
+        return new String[]{
+                String.valueOf(Integer.parseInt(this.actualPlayer.getSpecie().getEnergy().getConsume()) * Math.abs(nrPositions)),
+                String.valueOf(Integer.parseInt(this.actualPlayer.getSpecie().getEnergy().getGain()))
+        };
     }
 
     public String[][] getPlayersInfo() {
         String[][] playersData = new String[this.players.size()][5]; //Creates the array to store the playerData
-        for (int i = 0; i < this.players.size(); i++) { //Iterates the players and later return the data of everyone
+        for (int i = 0; i < this.players.size(); i++) { //Iterates the players to later return data
             Player player = this.players.get(i);
             playersData[i][0] = player.getId();
             playersData[i][1] = player.getName();
@@ -472,15 +423,13 @@ public class GameManager implements Serializable {
     }
 
     public JPanel getAuthorsPanel() {
-        //Creates the credit panel
         JPanel panel = new JPanel();
-        JLabel jlabel = new JLabel("<html>Developed by:<br/>- António Antunes<br/>- " +
-                "João Serralha<br/><br/>Lusófona Informática</html>");
-        panel.add(jlabel);
+        panel.add(new JLabel("<html>Developed by:<br/>- António Antunes<br/>- " +
+                "João Serralha<br/><br/>Lusófona Informática</html>"));
         return panel;
     }
 
-    public String whoIsTaborda() { //Verified
+    public String whoIsTaborda() {
         return "professional wrestling";
     }
 }
