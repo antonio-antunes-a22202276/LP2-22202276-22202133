@@ -41,4 +41,4 @@ Com a inspiração de animais numa selva, foi decidido colocar fundos com esse t
 With the inspiration from animals in the jungle, it was decided to put background with that theme, in a way to turn more "realistic".
 
 ---
-![](board.png?raw=true "Board Customisation")
+![](board2.png?raw=true "Board Customisation")
