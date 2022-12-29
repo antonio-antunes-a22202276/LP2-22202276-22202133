@@ -398,13 +398,7 @@ public class GameManager implements Serializable {
 
     public String[] getWinnerInfo() {
         if (this.winner != null) { //Verifies if there is a winner
-            String[] playerData = new String[5];
-            playerData[0] = this.winner.getId();
-            playerData[1] = this.winner.getName();
-            playerData[2] = this.winner.getSpecie().getId();
-            playerData[3] = String.valueOf(this.winner.getSpecie().getEnergy().getActual());
-            playerData[4] = this.winner.getSpecie().getSpeed();
-            return playerData;
+            return getPlayerInfo(Integer.parseInt(this.winner.getId()));
         }
         return null;
     }
