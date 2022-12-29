@@ -379,7 +379,9 @@ public class GameManager implements Serializable {
                     if(Integer.parseInt(possibleWinners.get(i).getId()) < Integer.parseInt(possibleWinner.getId())) {possibleWinner = possibleWinners.get(i);}
                 }
             }
-            this.winner = possibleWinner;
+            if (this.winner == null) {
+                this.winner = possibleWinner;
+            }
         }
         if(this.foods!=null) {
             for (int i = 0; i < this.foods.size(); i++) {
