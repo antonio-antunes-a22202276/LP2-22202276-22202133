@@ -142,9 +142,22 @@ public class GameManager implements Serializable {
             }
             hasFoodVerified = false;
             for (int k=0;k<foods.length;k++) { String[] infoFood = foods[k];
-                if (infoFood[0].equals(foodId)) { this.foods.add(new Food(foodId,foodPosition,infoFood[1],infoFood[2]));
-                    if(infoFood[0].equals("m")) { int rand = (int)(Math.random() * (50-10+1)+10); this.foods.get(this.foods.size()-1).setMushroomNumber(rand); }
-                    if(infoFood[0].equals("b")) {this.foods.get(this.foods.size()-1).setBananasNumber(3);}
+                if (infoFood[0].equals(foodId)) {
+                    if(infoFood[0].equals("m")) {
+                        this.foods.add(new CogumeloMagico(foodId, foodPosition, infoFood[1], infoFood[2]));
+                    }
+                    if(infoFood[0].equals("b")) {
+                        this.foods.add(new CachoBananas(foodId,foodPosition,infoFood[1],infoFood[2]));
+                    }
+                    if(infoFood[0].equals("e")) {
+                        this.foods.add(new Erva(foodId,foodPosition,infoFood[1],infoFood[2]));
+                    }
+                    if(infoFood[0].equals("a")) {
+                        this.foods.add(new Agua(foodId,foodPosition,infoFood[1],infoFood[2]));
+                    }
+                    if(infoFood[0].equals("c")) {
+                        this.foods.add(new Carne(foodId,foodPosition,infoFood[1],infoFood[2]));
+                    }
                 }
             }
         }
@@ -250,7 +263,7 @@ public class GameManager implements Serializable {
                     }
                     if (food.getId().equals("e")) {squareInfo[1] = "Erva : +- 20 energia";} //Erva
                     if (food.getId().equals("a")) {squareInfo[1] = "Agua : + 15U|20% energia";} //Agua
-                    if (food.getId().equals("b")) {squareInfo[1] = "Bananas : " + food.getBananasNumber() + " : + 40 energia";} //Bananas
+                    if (food.getId().equals("b")) {squareInfo[1] = "Bananas : " + food.getNumber() + " : + 40 energia";} //Bananas
                     if (food.getId().equals("c")) { //Carne
                         if (this.actualPlayer.getSpecie().getSpecieType().equals("O")) {
                             if (this.nrJogada <= 12) {squareInfo[1] = "Carne : + 50 energia : " + this.nrJogada + " jogadas";}
@@ -261,7 +274,7 @@ public class GameManager implements Serializable {
                             else {squareInfo[1] = "Carne toxica";}
                         }
                     }
-                    if (food.getId().equals("m")) {squareInfo[1] = "Cogumelo Magico : +- " + food.getMushroomNumber() + "% energia";}
+                    if (food.getId().equals("m")) {squareInfo[1] = "Cogumelo Magico : +- " + food.getNumber() + "% energia";}
                 }
             }
         }

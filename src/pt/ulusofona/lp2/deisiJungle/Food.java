@@ -2,13 +2,11 @@ package pt.ulusofona.lp2.deisiJungle;
 
 import java.io.Serializable;
 
-public class Food implements Serializable {
-    String id;
-    String position;
-    String name;
-    String fileName;
-    int mushroomNumber;
-    int bananasNumber;
+public abstract class Food implements Serializable {
+    private String id;
+    private String position;
+    private String name;
+    private String fileName;
 
     Food(String id, String position, String name, String fileName) {
         this.id = id;
@@ -33,23 +31,7 @@ public class Food implements Serializable {
         return fileName;
     }
 
-    public int getMushroomNumber() {
-        return mushroomNumber;
-    }
+    public abstract int getNumber();
 
-    public void setMushroomNumber(int mushroomNumber) {
-        this.mushroomNumber = mushroomNumber;
-    }
-
-    public int getBananasNumber() {
-        return bananasNumber;
-    }
-
-    public void setBananasNumber(int bananasNumber) {
-        this.bananasNumber = bananasNumber;
-    }
-
-    public void updateBananasNumber() {
-        this.bananasNumber -= 1;
-    }
+    public abstract void updateNumber();
 }

@@ -113,18 +113,18 @@ public class Specie implements Serializable {
             if(food.getId().equals("a")){specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 15);} //water
         }
         if(food.getId().equals("b")){ //banana || Os casos da banana e cogumelos é igual para todos os animais
-            if(food.getBananasNumber()!=0) {
+            if(food.getNumber()!=0) { //food.getBananasNumber()!=0
                 if (!getAteBanana()) {
                     specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + 40);
                     updateAteBanana();
                 } else {
                     specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) - 40);
                 }
-                food.updateBananasNumber();
+                food.updateNumber(); //food.updateBananasNumber()
             }
         }
         if(food.getId().equals("m")){ //cogumelos
-            String multiplier = "0."+food.getMushroomNumber();
+            String multiplier = "0."+food.getNumber(); //food.getMushroomNumber()
             if(nrJogada%2==0) {specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) + Math.round(Math.floor(Integer.parseInt(specieEnergy)*Double.parseDouble(multiplier))));}
             else {specieEnergy = String.valueOf(Integer.parseInt(specieEnergy) - Math.round(Math.floor(Integer.parseInt(specieEnergy)*Double.parseDouble(multiplier))));}
         }
