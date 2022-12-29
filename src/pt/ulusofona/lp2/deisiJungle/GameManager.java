@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class GameManager implements Serializable {
-    ArrayList<Player> players = new ArrayList<>();
-    ArrayList<Food> foods = new ArrayList<>();
-    Player actualPlayer = null;
-    Player winner = null;
-    int finalPosition = 0;
-    int roundNr = 0;
+    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Food> foods = new ArrayList<>();
+    private Player actualPlayer = null;
+    private Player winner = null;
+    private int finalPosition = 0;
+    private int roundNr = 0;
 
     public GameManager() {}
 
-    GameManager(ArrayList<Player> players, ArrayList<Food> foods, Player actualPlayer, Player winner, int finalPosition, int roundNr) {
+    public GameManager(ArrayList<Player> players, ArrayList<Food> foods, Player actualPlayer, Player winner, int finalPosition, int roundNr) {
         this.players = players;
         this.foods = foods;
         this.actualPlayer = actualPlayer;

@@ -3,11 +3,11 @@ package pt.ulusofona.lp2.deisiJungle;
 import java.io.Serializable;
 
 public class Player implements Serializable {
-    String id;
-    String name;
-    Specie specie;
-    int squareId;
-    int houseNr = 0;
+    private String id;
+    private String name;
+    private Specie specie;
+    private int squareId;
+    private int houseNr = 0;
 
     Player(String id, String name, Specie specie, int squareId) {
         this.id = id;
@@ -16,31 +16,31 @@ public class Player implements Serializable {
         this.squareId = squareId;
     }
 
-    String getId() {
+    public String getId() {
         return id;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    Specie getSpecie() {
+    public Specie getSpecie() {
         return specie;
     }
 
-    int getSquareId() {
+    public int getSquareId() {
         return squareId;
     }
 
-    void updateSquareId(int newSquareId) {
+    public void updateSquareId(int newSquareId) {
         squareId = newSquareId;
     }
 
-    void updateHouseNr(int nr) {
+    public void updateHouseNr(int nr) {
         houseNr += nr;
     }
 
-    int getHouseNr() {
+    public int getHouseNr() {
         return houseNr;
     }
 }

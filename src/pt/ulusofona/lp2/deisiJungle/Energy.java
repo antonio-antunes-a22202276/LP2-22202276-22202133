@@ -3,9 +3,9 @@ package pt.ulusofona.lp2.deisiJungle;
 import java.io.Serializable;
 
 public class Energy implements Serializable {
-    String actual;
-    String consume;
-    String gain;
+    private String actual;
+    private String consume;
+    private String gain;
 
     Energy(String actual, String consume, String gain) {
         this.actual = actual;

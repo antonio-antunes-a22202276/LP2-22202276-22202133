@@ -3,14 +3,14 @@ package pt.ulusofona.lp2.deisiJungle;
 import java.io.Serializable;
 
 public class Specie implements Serializable {
-    String id;
-    String name;
-    String image;
-    Energy energy;
-    String speed;
-    Type type;
-    boolean ateBanana = false;
-    int foodNr = 0;
+    private String id;
+    private String name;
+    private String image;
+    private Energy energy;
+    private String speed;
+    private Type type;
+    private boolean ateBanana = false;
+    private int foodNr = 0;
 
     Specie(String id, String name, String image, Energy energy, String speed, Type type) {
         this.id = id;
@@ -21,41 +21,41 @@ public class Specie implements Serializable {
         this.type = type;
     }
 
-    String getId() {
+    public String getId() {
         return id;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    String getImage() {return image; }
+    public String getImage() {return image; }
 
-    Energy getEnergy(){
+    public Energy getEnergy(){
         return energy;
     }
 
-    String getSpeed(){
+    public String getSpeed(){
         return speed;
     }
 
-    Type getType(){
+    public Type getType(){
         return type;
     }
 
-    boolean getAteBanana() {
+    public boolean getAteBanana() {
         return ateBanana;
     }
 
-    void updateAteBanana() {
+    public void updateAteBanana() {
         ateBanana = true;
     }
 
-    int getFoodNr() {
+    public int getFoodNr() {
         return foodNr;
     }
 
-    void updateGetFoodNr() {
+    public void updateGetFoodNr() {
         foodNr += 1;
     }
 }

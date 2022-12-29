@@ -569,7 +569,7 @@ public class TestGameManager {
         gameManager.moveCurrentPlayer(0, false); //Lion
         gameManager.moveCurrentPlayer(0, false); //Bird
         gameManager.moveCurrentPlayer(18, true); //Elefante
-        assertEquals("1", gameManager.winner.getId());
+        assertEquals("1", gameManager.getWinnerInfo()[0]);
     }
 
     @Test
