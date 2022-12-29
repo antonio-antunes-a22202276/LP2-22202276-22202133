@@ -13,6 +13,7 @@ public class GameManager implements Serializable {
     private Player winner = null;
     private int finalPosition = 0;
     private int roundNr = 0;
+    private boolean gameStatus = false;
 
     public GameManager() {}
 
@@ -358,7 +359,7 @@ public class GameManager implements Serializable {
             return new MovementResult(MovementResultCode.NO_ENERGY, null);
         }
         int currentSquare = currentPlayer.getSquareId(); //Gets the current square of the player
-        if (currentSquare + nrSquares >= this.finalPosition) {currentPlayer.updateSquareId(this.finalPosition); this.winner = currentPlayer; }
+        if (currentSquare + nrSquares >= this.finalPosition) {currentPlayer.updateSquareId(this.finalPosition); this.winner = currentPlayer; this.gameStatus = true; }
         else { if(currentSquare+nrSquares < 1) {currentPlayer.updateSquareId(1);}
             else {currentPlayer.updateSquareId(currentSquare+nrSquares);}
         }
@@ -380,6 +381,7 @@ public class GameManager implements Serializable {
                 }
             }
             this.winner = possibleWinner;
+            this.gameStatus = true;
         }
         if(this.foods!=null) {
             for (int i = 0; i < this.foods.size(); i++) {
@@ -397,10 +399,11 @@ public class GameManager implements Serializable {
     }
 
     public String[] getWinnerInfo() {
-        if (this.winner != null) { //Verifies if there is a winner
+        if (!gameEnded()) { //Verifies if there is a winner
+            return null;
+        } else {
             return getPlayerInfo(Integer.parseInt(this.winner.getId()));
         }
-        return null;
     }
 
     public ArrayList<String> getGameResults() {
@@ -480,5 +483,9 @@ public class GameManager implements Serializable {
 
     public String whoIsTaborda() { //Verified
         return "professional wrestling";
+    }
+
+    public boolean gameEnded() {
+        return this.gameStatus;
     }
 }
