@@ -1,6 +1,8 @@
 package pt.ulusofona.lp2.deisiJungle;
 
-public abstract class Type {
+import java.io.Serializable;
+
+public abstract class Type implements Serializable {
     private String name;
 
     Type(String name) {
