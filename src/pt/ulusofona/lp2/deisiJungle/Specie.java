@@ -10,12 +10,11 @@ public class Specie implements Serializable {
     String energyConsume;
     String energyGain;
     String speed;
-    String type;
+    Type type;
     boolean ateBanana = false;
-    boolean toxicMeat = false;
     int foodNr = 0;
 
-    Specie(String id, String name, String image, String energy, String energyConsume, String energyGain, String speed, String type) {
+    Specie(String id, String name, String image, String energy, String energyConsume, String energyGain, String speed, Type type) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -48,7 +47,7 @@ public class Specie implements Serializable {
         return speed;
     }
 
-    String getType(){
+    Type getType(){
         return type;
     }
 
@@ -75,14 +74,6 @@ public class Specie implements Serializable {
         ateBanana = true;
     }
 
-    boolean getToxicMeat() {
-        return toxicMeat;
-    }
-
-    void updateToxicMeat() {
-        toxicMeat = true;
-    }
-
     int getFoodNr() {
         return foodNr;
     }
@@ -92,21 +83,20 @@ public class Specie implements Serializable {
     }
 
     void updateEnergyByFood(Food food, int nrJogada){
+        if(food.getId().equals("c") && type.canGetMeatStatus()) {
+            if(type.getMeatStatus()) {
+                energy = String.valueOf(Integer.parseInt(energy)/2);
+            } else {
+                energy = String.valueOf(Integer.parseInt(energy) + 50);
+            }
+        }
         if(type.equals("O")){ //Omnivero
             if(food.getId().equals("e")){energy = String.valueOf(Integer.parseInt(energy) + 20);} //erva
             if(food.getId().equals("a")){energy = String.valueOf(Math.round(Math.floor(Integer.parseInt(energy)*1.2)));} //water
-            if(food.getId().equals("c")){ //carne
-                if(!getToxicMeat()) {energy = String.valueOf(Integer.parseInt(energy) + 50);}
-                else {energy = String.valueOf(Integer.parseInt(energy)/2);}
-            }
         }
         if(type.equals("C")){ //Carnivero
             if(food.getId().equals("e")){energy = String.valueOf(Integer.parseInt(energy) - 20);} //erva
             if(food.getId().equals("a")){energy = String.valueOf(Integer.parseInt(energy) + 15);} //water
-            if(food.getId().equals("c")){//carne
-                if(!getToxicMeat()) {energy = String.valueOf(Integer.parseInt(energy) + 50);}
-                else {energy = String.valueOf(Integer.parseInt(energy)/2);}
-            }
         }
         if(type.equals("H")){ //Herbivoro
             if(food.getId().equals("e")){energy = String.valueOf(Integer.parseInt(energy) + 20);} //erva

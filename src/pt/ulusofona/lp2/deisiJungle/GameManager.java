@@ -124,7 +124,15 @@ public class GameManager implements Serializable {
             try {Integer.parseInt(playerId);} catch(NumberFormatException e) {return new InitializationError("O id de um jogador não é válido");}
             if (playerIds.contains(playerId)) { return new InitializationError("O id de um jogador está repetido");} //Verifies if the playerId is not repeated
             playerIds.add(playerId); //As playerId is not repeated adds it to the playerIds arraylist
-            Player player = new Player(playerId, playerName, new Specie(playerSpecieId, specieName, specieImage, specieEnergy, specieEnergyConsume, specieEnergyGain, specieSpeed, specieType), 1); //At this point the player data is verified and creates the player object
+            Type a = null;
+            if(specieType.equals("C")) {
+                a = new Carnivoro(specieType);
+            } else if(specieType.equals("H")) {
+                a = new Herbivoro(specieType);
+            } else if(specieType.equals("O")) {
+                a = new Omnivoro(specieType);
+            }
+            Player player = new Player(playerId, playerName, new Specie(playerSpecieId, specieName, specieImage, specieEnergy, specieEnergyConsume, specieEnergyGain, specieSpeed, a), 1); //At this point the player data is verified and creates the player object
             this.players.add(player); //Adds the player to the created/game players list
         }
         String[][] foods = getFoodTypes();
@@ -200,7 +208,15 @@ public class GameManager implements Serializable {
             try {Integer.parseInt(playerId);} catch(NumberFormatException e) {return new InitializationError("O id de um jogador não é válido");}
             if (playerIds.contains(playerId)) { return new InitializationError("O id de um jogador está repetido"); } //Verifies if the playerId is not repeated
             playerIds.add(playerId); //As playerId is not repeated adds it to the playerIds arraylist
-            Player player = new Player(playerId, playerName, new Specie(playerSpecieId, specieName, specieImage, specieEnergy, specieEnergyConsume, specieEnergyGain, specieSpeed, specieType), 1); //At this point the player data is verified and creates the player object
+            Type a = null;
+            if(specieType.equals("C")) {
+                a = new Carnivoro(specieType);
+            } else if(specieType.equals("H")) {
+                a = new Herbivoro(specieType);
+            } else if(specieType.equals("O")) {
+                a = new Omnivoro(specieType);
+            }
+            Player player = new Player(playerId, playerName, new Specie(playerSpecieId, specieName, specieImage, specieEnergy, specieEnergyConsume, specieEnergyGain, specieSpeed, a), 1); //At this point the player data is verified and creates the player object
             this.players.add(player); //Adds the player to the created/game players list
         }
         int lowestPlayerId = Integer.parseInt(this.players.get(0).getId()); //Finds out the player with the lowest id to start the game and saves that in actualPlayer
@@ -254,21 +270,14 @@ public class GameManager implements Serializable {
                     if (this.roundNr == 12 && !updatedCarne) {
                         updatedCarne = true; //Está a duplicar várias vezes?
                         for (Player player : this.players) {
-                            player.getSpecie().updateToxicMeat();
+                            player.getSpecie().getType().updateMeatStatus(); //player.getSpecie().updateToxicMeat();
                         }
                     }
                     if (food.getId().equals("e")) {squareInfo[1] = "Erva : +- 20 energia";} //Erva
                     if (food.getId().equals("a")) {squareInfo[1] = "Agua : + 15U|20% energia";} //Agua
                     if (food.getId().equals("b")) {squareInfo[1] = "Bananas : " + food.getNumber() + " : + 40 energia";} //Bananas
-                    if (food.getId().equals("c")) { //Carne
-                        if (this.actualPlayer.getSpecie().getType().equals("O")) {
-                            if (this.roundNr <= 12) {squareInfo[1] = "Carne : + 50 energia : " + this.roundNr + " jogadas";}
-                            else {squareInfo[1] = "Carne toxica";}
-                        }
-                        if (actualPlayer.getSpecie().getType().equals("C")) {
-                            if (this.roundNr <= 12) {squareInfo[1] = "Carne : + 50 energia : " + this.roundNr + " jogadas";}
-                            else {squareInfo[1] = "Carne toxica";}
-                        }
+                    if (food.getId().equals("c") && this.actualPlayer.getSpecie().getType().canGetMeatStatus()) { //
+                        if (this.roundNr <= 12) {squareInfo[1] = "Carne : + 50 energia : " + this.roundNr + " jogadas";} else {squareInfo[1] = "Carne toxica";}
                     }
                     if (food.getId().equals("m")) {squareInfo[1] = "Cogumelo Magico : +- " + food.getNumber() + "% energia";}
                 }
@@ -377,7 +386,8 @@ public class GameManager implements Serializable {
                 Food food = this.foods.get(i);
                 if (Integer.parseInt(food.getPosition()) == currentSquare) {
                     currentPlayer.getSpecie().updateEnergyByFood(food, this.roundNr);
-                    if (!(currentPlayer.getSpecie().getType().equals("H") && food.getId().equals("c"))){
+                    if ((!currentPlayer.getSpecie().getType().canGetMeatStatus() && food.getId().equals("c"))) { //Change here
+                    } else {
                         return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());
                     }
                 }
