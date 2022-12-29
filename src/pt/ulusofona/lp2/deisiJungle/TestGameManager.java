@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import javax.swing.*;
 import java.io.File;
+import java.nio.charset.MalformedInputException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -264,7 +265,7 @@ public class TestGameManager {
     public void test04_getSquareInfo() {
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
-        String[][] foodsInfo = new String[4][2];
+        String[][] foodsInfo = new String[6][2];
         playersInfo[0][0] = "1";
         playersInfo[0][1] = "JogadorTeste1";
         playersInfo[0][2] = "L";
@@ -283,11 +284,17 @@ public class TestGameManager {
         foodsInfo[1][0] = "a";
         foodsInfo[1][1] = "5";
 
-        foodsInfo[2][0] = "a";
+        foodsInfo[2][0] = "c";
         foodsInfo[2][1] = "6";
 
         foodsInfo[3][0] = "a";
         foodsInfo[3][1] = "7";
+
+        foodsInfo[4][0] = "b";
+        foodsInfo[4][1] = "8";
+
+        foodsInfo[5][0] = "m";
+        foodsInfo[5][1] = "8";
         gameManager.createInitialJungle(30, playersInfo, foodsInfo);
 
         String[] squareInfo = gameManager.getSquareInfo(2);
@@ -754,5 +761,12 @@ public class TestGameManager {
         GameManager gameManager = new GameManager();
 
         assertEquals("professional wrestling", gameManager.whoIsTaborda());
+    }
+
+    @Test
+    public void getMessageInitializationError() {
+        InitializationError error = new InitializationError("ERRO");
+
+        assertEquals("ERRO", error.getMessage());
     }
 }
