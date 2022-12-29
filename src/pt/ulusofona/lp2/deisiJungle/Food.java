@@ -34,4 +34,6 @@ public abstract class Food implements Serializable {
     public abstract int getNumber();
 
     public abstract void updateNumber();
+
+    public abstract void eatFood(Specie specie, int roundNr);
 }

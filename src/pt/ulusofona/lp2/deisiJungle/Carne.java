@@ -12,4 +12,18 @@ public class Carne extends Food {
 
     @Override
     public void updateNumber(){}
+
+    @Override
+    public void eatFood(Specie specie, int roundNr) {
+        int energy = 0;
+        if(specie.getType().canGetMeatStatus()) {
+            if(specie.getType().getMeatStatus()) {
+                energy = Integer.parseInt(specie.getEnergy().getActual())/2;
+            } else {
+                energy = Integer.parseInt(specie.getEnergy().getActual()) + 50;
+            }
+            specie.getEnergy().updateEnergyByFood(energy);
+            specie.updateGetFoodNr();
+        }
+    }
 }

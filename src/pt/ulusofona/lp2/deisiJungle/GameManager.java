@@ -132,7 +132,7 @@ public class GameManager implements Serializable {
             } else if(specieType.equals("O")) {
                 a = new Omnivoro(specieType);
             }
-            Player player = new Player(playerId, playerName, new Specie(playerSpecieId, specieName, specieImage, specieEnergy, specieEnergyConsume, specieEnergyGain, specieSpeed, a), 1); //At this point the player data is verified and creates the player object
+            Player player = new Player(playerId, playerName, new Specie(playerSpecieId, specieName, specieImage, new Energy(specieEnergy, specieEnergyConsume, specieEnergyGain), specieSpeed, a), 1); //At this point the player data is verified and creates the player object
             this.players.add(player); //Adds the player to the created/game players list
         }
         String[][] foods = getFoodTypes();
@@ -216,7 +216,7 @@ public class GameManager implements Serializable {
             } else if(specieType.equals("O")) {
                 a = new Omnivoro(specieType);
             }
-            Player player = new Player(playerId, playerName, new Specie(playerSpecieId, specieName, specieImage, specieEnergy, specieEnergyConsume, specieEnergyGain, specieSpeed, a), 1); //At this point the player data is verified and creates the player object
+            Player player = new Player(playerId, playerName, new Specie(playerSpecieId, specieName, specieImage, new Energy(specieEnergy, specieEnergyConsume, specieEnergyGain), specieSpeed, a), 1); //At this point the player data is verified and creates the player object
             this.players.add(player); //Adds the player to the created/game players list
         }
         int lowestPlayerId = Integer.parseInt(this.players.get(0).getId()); //Finds out the player with the lowest id to start the game and saves that in actualPlayer
@@ -294,7 +294,7 @@ public class GameManager implements Serializable {
                 playerData[0] = player.getId();
                 playerData[1] = player.getName();
                 playerData[2] = player.getSpecie().getId();
-                playerData[3] = String.valueOf(player.getSpecie().getEnergy());
+                playerData[3] = String.valueOf(player.getSpecie().getEnergy().getActual());
                 playerData[4] = player.getSpecie().getSpeed();
                 return playerData;
             }
@@ -308,7 +308,7 @@ public class GameManager implements Serializable {
         playerData[0] = player.getId();
         playerData[1] = player.getName();
         playerData[2] = player.getSpecie().getId();
-        playerData[3] = String.valueOf(player.getSpecie().getEnergy());
+        playerData[3] = String.valueOf(player.getSpecie().getEnergy().getActual());
         playerData[4] = player.getSpecie().getSpeed();
         return playerData;
     }
@@ -316,8 +316,8 @@ public class GameManager implements Serializable {
     public String[] getCurrentPlayerEnergyInfo(int nrPositions) {
         String[] energyInfo = new String[2];
         Player player = this.actualPlayer;
-        energyInfo[0] = "" + Integer.parseInt(player.getSpecie().getEnergyConsume()) * Math.abs(nrPositions);
-        energyInfo[1] = "" + Integer.parseInt(player.getSpecie().getEnergyGain());
+        energyInfo[0] = "" + Integer.parseInt(player.getSpecie().getEnergy().getConsume()) * Math.abs(nrPositions);
+        energyInfo[1] = "" + Integer.parseInt(player.getSpecie().getEnergy().getGain());
         return energyInfo;
     }
 
@@ -328,7 +328,7 @@ public class GameManager implements Serializable {
             playersData[i][0] = player.getId();
             playersData[i][1] = player.getName();
             playersData[i][2] = player.getSpecie().getId();
-            playersData[i][3] = String.valueOf(player.getSpecie().getEnergy());
+            playersData[i][3] = String.valueOf(player.getSpecie().getEnergy().getActual());
             playersData[i][4] = player.getSpecie().getSpeed();
         }
         return playersData;
@@ -352,9 +352,9 @@ public class GameManager implements Serializable {
                 return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
             }
         }
-        String energy = currentPlayer.getSpecie().getEnergy(); //Verifies if the player has enough energy to move. If it has, decreases the
-        currentPlayer.getSpecie().updateEnergy(nrSquares,true);
-        if (Integer.parseInt(currentPlayer.getSpecie().getEnergy()) < 0) { currentPlayer.getSpecie().updateEnergy(Integer.parseInt(energy),false);
+        String energy = currentPlayer.getSpecie().getEnergy().getActual(); //Verifies if the player has enough energy to move. If it has, decreases the
+        currentPlayer.getSpecie().getEnergy().updateEnergy(nrSquares,true);
+        if (Integer.parseInt(currentPlayer.getSpecie().getEnergy().getActual()) < 0) { currentPlayer.getSpecie().getEnergy().updateEnergy(Integer.parseInt(energy),false);
             return new MovementResult(MovementResultCode.NO_ENERGY, null);
         }
         int currentSquare = currentPlayer.getSquareId(); //Gets the current square of the player
@@ -385,9 +385,9 @@ public class GameManager implements Serializable {
             for (int i = 0; i < this.foods.size(); i++) {
                 Food food = this.foods.get(i);
                 if (Integer.parseInt(food.getPosition()) == currentSquare) {
-                    currentPlayer.getSpecie().updateEnergyByFood(food, this.roundNr);
                     if ((!currentPlayer.getSpecie().getType().canGetMeatStatus() && food.getId().equals("c"))) { //Change here
                     } else {
+                        food.eatFood(currentPlayer.getSpecie(),this.roundNr);
                         return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());
                     }
                 }
@@ -402,7 +402,7 @@ public class GameManager implements Serializable {
             playerData[0] = this.winner.getId();
             playerData[1] = this.winner.getName();
             playerData[2] = this.winner.getSpecie().getId();
-            playerData[3] = String.valueOf(this.winner.getSpecie().getEnergy());
+            playerData[3] = String.valueOf(this.winner.getSpecie().getEnergy().getActual());
             playerData[4] = this.winner.getSpecie().getSpeed();
             return playerData;
         }
