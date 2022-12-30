@@ -6,14 +6,14 @@ public class Player implements Serializable {
     private String id;
     private String name;
     private Specie specie;
-    private int squareId;
+    private int squareNr;
     private int houseNr = 0;
 
-    Player(String id, String name, Specie specie, int squareId) {
+    Player(String id, String name, Specie specie, int squareNr) {
         this.id = id;
         this.name = name;
         this.specie = specie;
-        this.squareId = squareId;
+        this.squareNr = squareNr;
     }
 
     public String getId() {
@@ -28,12 +28,12 @@ public class Player implements Serializable {
         return specie;
     }
 
-    public int getSquareId() {
-        return squareId;
+    public int getSquareNr() {
+        return squareNr;
     }
 
-    public void updateSquareId(int newSquareId) {
-        squareId = newSquareId;
+    public void updateSquareNr(int newSquareId) {
+        squareNr = newSquareId;
     }
 
     public void updateHouseNr(int nr) {

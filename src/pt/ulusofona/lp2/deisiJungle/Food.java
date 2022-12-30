@@ -4,13 +4,13 @@ import java.io.Serializable;
 
 public abstract class Food implements Serializable {
     private String id;
-    private String position;
+    private String squareNr;
     private String name;
     private String fileName;
 
-    Food(String id, String position, String name, String fileName) {
+    Food(String id, String squareNr, String name, String fileName) {
         this.id = id;
-        this.position = position;
+        this.squareNr = squareNr;
         this.name = name;
         this.fileName = fileName;
     }
@@ -19,8 +19,8 @@ public abstract class Food implements Serializable {
         return id;
     }
 
-    public String getPosition() {
-        return position;
+    public String getSquareNr() {
+        return squareNr;
     }
 
     public String getName() {

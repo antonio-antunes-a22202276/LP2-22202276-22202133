@@ -184,7 +184,7 @@ public class GameManager implements Serializable {
     public int[] getPlayerIds(int squareNr) {
         ArrayList<Integer> playerIds = new ArrayList<>();
         for (Player player : this.players) {
-            if (player.getSquareId() == squareNr) { //Verifies if the player is in the squareNr past as argument
+            if (player.getSquareNr() == squareNr) { //Verifies if the player is in the squareNr past as argument
                 playerIds.add(Integer.parseInt(player.getId())); //The playerId will be added to the arraylist
             }
         }
@@ -200,43 +200,43 @@ public class GameManager implements Serializable {
     }
 
     public String[] getSquareInfo(int squareNr) {
-        boolean updatedCarne = false; //Creates the array to save the square data
-        String[] squareInfo = new String[3];
-        if(squareNr < 1 || squareNr > this.finalPosition){return null;}
-        if (squareNr == this.finalPosition) {squareInfo[0] = "finish.png";squareInfo[1] = "Meta";} //Verifies if the square past as argument is the finalPosition or not to select the correct data
+        String[] squareInfo = new String[3]; //Creates the array to save the square data
+        if(squareNr < 1 || squareNr > this.finalPosition){return null;} //Invalid squareNr
+        if (squareNr == this.finalPosition) {squareInfo[0] = "finish.png";squareInfo[1] = "Meta";}
         else {
             if (squareNr % 3 == 0) {squareInfo[0] = "image3.png"; squareInfo[1] = "Vazio";}
             else if (squareNr % 2 == 0){squareInfo[0] = "image2.png";squareInfo[1] = "Vazio";}
             else {squareInfo[0] = "image1.png";squareInfo[1] = "Vazio";}
         }
-        String result = "";
-        for (Player player : this.players) { //Iterates the players
-            if (player.getSquareId() == squareNr) { //Verifies if the playerSquareId is the same past as argument
-                if (result.equals("")) {result = player.getId();} //Saves the playerId in the string
-                else {result += "," + player.getId();}
+        String playerIds = "";
+        for (Player player : this.players) {
+            if (player.getSquareNr() == squareNr) { //Verifies if the player is in the squareNr past as argument
+                if (playerIds.equals("")) {playerIds = player.getId();} //The playerId will be added to the arraylist
+                else {playerIds += "," + player.getId();}
             }
         }
-        if (this.foods!=null) {
+        squareInfo[2] = playerIds; //Saves the playerIds string in the square
+        boolean updatedCarne = false;
+        if (this.foods!=null) { //Insert foods for tooltip
             for (Food food: this.foods) {
-                if (Integer.parseInt(food.getPosition()) == squareNr) {
+                if (Integer.parseInt(food.getSquareNr()) == squareNr) {
                     squareInfo[0] = food.getFileName();
                     if (this.roundNr == 12 && !updatedCarne) {
-                        updatedCarne = true; //Está a duplicar várias vezes?
+                        updatedCarne = true;
                         for (Player player : this.players) {
-                            player.getSpecie().getType().updateMeatStatus(); //player.getSpecie().updateToxicMeat();
+                            player.getSpecie().getType().updateMeatStatus();
                         }
                     }
                     if (food.getId().equals("e")) {squareInfo[1] = "Erva : +- 20 energia";} //Erva
                     if (food.getId().equals("a")) {squareInfo[1] = "Agua : + 15U|20% energia";} //Agua
                     if (food.getId().equals("b")) {squareInfo[1] = "Bananas : " + food.getNumber() + " : + 40 energia";} //Bananas
-                    if (food.getId().equals("c") && this.actualPlayer.getSpecie().getType().canGetMeatStatus()) { //
+                    if (food.getId().equals("c") && this.actualPlayer.getSpecie().getType().canGetMeatStatus()) { //Carne
                         if (this.roundNr <= 12) {squareInfo[1] = "Carne : + 50 energia : " + this.roundNr + " jogadas";} else {squareInfo[1] = "Carne toxica";}
                     }
                     if (food.getId().equals("m")) {squareInfo[1] = "Cogumelo Magico : +- " + food.getNumber() + "% energia";}
                 }
             }
         }
-        squareInfo[2] = result; //Saves the playerIds string in the square
         return squareInfo;
     }
 
@@ -279,7 +279,7 @@ public class GameManager implements Serializable {
             playersData[i][0] = player.getId();
             playersData[i][1] = player.getName();
             playersData[i][2] = player.getSpecie().getId();
-            playersData[i][3] = String.valueOf(player.getSpecie().getEnergy().getActual());
+            playersData[i][3] = player.getSpecie().getEnergy().getActual();
             playersData[i][4] = player.getSpecie().getSpeed();
         }
         return playersData;
@@ -308,21 +308,21 @@ public class GameManager implements Serializable {
         if (Integer.parseInt(currentPlayer.getSpecie().getEnergy().getActual()) < 0) { currentPlayer.getSpecie().getEnergy().updateEnergy(Integer.parseInt(energy),false);
             return new MovementResult(MovementResultCode.NO_ENERGY, null);
         }
-        int currentSquare = currentPlayer.getSquareId(); //Gets the current square of the player
-        if (currentSquare + nrSquares >= this.finalPosition) {currentPlayer.updateSquareId(this.finalPosition); this.winner = currentPlayer; }
-        else { if(currentSquare+nrSquares < 1) {currentPlayer.updateSquareId(1);}
-            else {currentPlayer.updateSquareId(currentSquare+nrSquares);}
+        int currentSquare = currentPlayer.getSquareNr(); //Gets the current square of the player
+        if (currentSquare + nrSquares >= this.finalPosition) {currentPlayer.updateSquareNr(this.finalPosition); this.winner = currentPlayer; }
+        else { if(currentSquare+nrSquares < 1) {currentPlayer.updateSquareNr(1);}
+            else {currentPlayer.updateSquareNr(currentSquare+nrSquares);}
         }
-        currentSquare = currentPlayer.getSquareId();
-        if(currentPlayer.getSquareId() - Math.abs(nrSquares) > 0) {currentPlayer.updateHouseNr(Math.abs(nrSquares));}
-        else {currentPlayer.updateHouseNr(currentPlayer.getSquareId());}
+        currentSquare = currentPlayer.getSquareNr();
+        if(currentPlayer.getSquareNr() - Math.abs(nrSquares) > 0) {currentPlayer.updateHouseNr(Math.abs(nrSquares));}
+        else {currentPlayer.updateHouseNr(currentPlayer.getSquareNr());}
         ArrayList<Integer> positionPlayers = new ArrayList<>(); //Iterates the players
-        for (int i=0;i<this.players.size();i++) {positionPlayers.add(this.players.get(i).getSquareId());}
+        for (int i=0;i<this.players.size();i++) {positionPlayers.add(this.players.get(i).getSquareNr());}
         Collections.sort(positionPlayers);
         if(positionPlayers.get(positionPlayers.size()-1) - positionPlayers.get(positionPlayers.size()-2) > this.finalPosition/2) {
             ArrayList<Player> possibleWinners = new ArrayList<>();
             for (int i=0;i<this.players.size();i++){
-                if(this.players.get(i).getSquareId() == positionPlayers.get(positionPlayers.size()-2)) {possibleWinners.add(this.players.get(i));}
+                if(this.players.get(i).getSquareNr() == positionPlayers.get(positionPlayers.size()-2)) {possibleWinners.add(this.players.get(i));}
             }
             Player possibleWinner = possibleWinners.get(0);
             if(possibleWinners.size()>1) { //Se tiver mais que um jogador na mesma casa
@@ -337,7 +337,7 @@ public class GameManager implements Serializable {
         if(this.foods!=null) {
             for (int i = 0; i < this.foods.size(); i++) {
                 Food food = this.foods.get(i);
-                if (Integer.parseInt(food.getPosition()) == currentSquare) {
+                if (Integer.parseInt(food.getSquareNr()) == currentSquare) {
                     if ((!currentPlayer.getSpecie().getType().canGetMeatStatus() && food.getId().equals("c"))) { //Change here
                     } else {
                         food.eatFood(currentPlayer.getSpecie(),this.roundNr);
@@ -366,9 +366,9 @@ public class GameManager implements Serializable {
                     temporaryWinner = this.players.get(0);
                     for (int i = 0; i < this.players.size(); i++) {
                         if(i+1 < this.players.size()) { //Verifies if there are more players in the list
-                            if (temporaryWinner.getSquareId() < players.get(i+1).getSquareId()) {
+                            if (temporaryWinner.getSquareNr() < players.get(i+1).getSquareNr()) {
                                 temporaryWinner = players.get(i+1);
-                            } else if (temporaryWinner.getSquareId() == players.get(i+1).getSquareId()) {
+                            } else if (temporaryWinner.getSquareNr() == players.get(i+1).getSquareNr()) {
                                 if(Integer.parseInt(temporaryWinner.getId()) > Integer.parseInt(players.get(i+1).getId())) {
                                     //ganha o que tem id mais pequeno
                                     temporaryWinner = players.get(i+1);
@@ -380,7 +380,7 @@ public class GameManager implements Serializable {
                 //Gets the string with the winner
                 String name = Normalizer.normalize(temporaryWinner.getSpecie().getName(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", ""); //sem acentos
                 String result = "#" + (resultadosJogo.size() + 1) + " " + temporaryWinner.getName() + ", " +
-                        name + ", " + temporaryWinner.getSquareId() + ", " +
+                        name + ", " + temporaryWinner.getSquareNr() + ", " +
                         + temporaryWinner.getHouseNr() + ", " + temporaryWinner.getSpecie().getFoodNr();
 
                 //Removes this player from the current players and adds to the arraylist with the winners
