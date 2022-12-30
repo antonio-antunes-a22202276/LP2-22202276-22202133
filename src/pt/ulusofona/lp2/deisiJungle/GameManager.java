@@ -46,7 +46,9 @@ public class GameManager implements Serializable {
     }
 
     public InitializationError createInitialJungle(int jungleSize, String[][] playersInfo, String[][] foodsInfo) {
-        createInitialJungle(jungleSize,playersInfo);
+        if (createInitialJungle(jungleSize,playersInfo) != null) {
+            return createInitialJungle(jungleSize,playersInfo);
+        }
         String[][] foods = getFoodTypes();
         this.foods = new ArrayList<>();
         for (int i=0; i<foodsInfo.length; i++) {
