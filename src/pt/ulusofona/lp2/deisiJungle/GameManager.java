@@ -251,7 +251,11 @@ public class GameManager implements Serializable {
                 return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
             }
         }
-        if (Integer.parseInt(playerEnergy[0]) < 0) {return new MovementResult(MovementResultCode.NO_ENERGY, null);}
+        //String energy = currentPlayer.getSpecie().getEnergy().getActual(); //Verifies if the player has enough energy to move. If it has, decreases the
+        //currentPlayer.getSpecie().getEnergy().updateMovementEnergy(nrSquares,true);
+        if (Integer.parseInt(playerEnergy[0]) < 0) {
+            return new MovementResult(MovementResultCode.NO_ENERGY, null);
+        }
         currentPlayer.getSpecie().getEnergy().updateMovementEnergy(nrSquares);
         int currentSquare = currentPlayer.getSquareNr(); //Gets the current square of the player
         if (currentSquare + nrSquares >= this.finalPosition) {currentPlayer.updateSquareNr(this.finalPosition); this.winner = currentPlayer; }
