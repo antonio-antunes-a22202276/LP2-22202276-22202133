@@ -10,7 +10,7 @@ public class Specie implements Serializable {
     private String speed;
     private Type type;
     private boolean ateBanana = false;
-    private int foodNr = 0;
+    private int eatenFoodNr = 0;
 
     Specie(String id, String name, String image, Energy energy, String speed, Type type) {
         this.id = id;
@@ -51,11 +51,11 @@ public class Specie implements Serializable {
         ateBanana = true;
     }
 
-    public int getFoodNr() {
-        return foodNr;
+    public int getEatenFoodNr() {
+        return eatenFoodNr;
     }
 
-    public void updateGetFoodNr() {
-        foodNr += 1;
+    public void updateEatenFoodNr() {
+        eatenFoodNr += 1;
     }
 }

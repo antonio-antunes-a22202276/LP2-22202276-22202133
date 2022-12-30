@@ -30,7 +30,7 @@ public class CachoBananas extends Food {
             }
             updateNumber(); //food.updateBananasNumber()
             specie.getEnergy().updateEnergyByFood(energy);
-            specie.updateGetFoodNr();
+            specie.updateEatenFoodNr();
         }
     }
 }

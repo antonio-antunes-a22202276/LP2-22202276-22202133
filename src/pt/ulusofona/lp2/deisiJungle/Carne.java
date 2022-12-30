@@ -23,7 +23,7 @@ public class Carne extends Food {
                 energy = Integer.parseInt(specie.getEnergy().getActual()) + 50;
             }
             specie.getEnergy().updateEnergyByFood(energy);
-            specie.updateGetFoodNr();
+            specie.updateEatenFoodNr();
         }
     }
 }

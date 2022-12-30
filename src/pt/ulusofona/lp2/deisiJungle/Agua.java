@@ -23,6 +23,6 @@ public class Agua extends Food{
             energy = Integer.parseInt(specie.getEnergy().getActual()) + 15;
         }
         specie.getEnergy().updateEnergyByFood(energy);
-        specie.updateGetFoodNr();
+        specie.updateEatenFoodNr();
     }
 }

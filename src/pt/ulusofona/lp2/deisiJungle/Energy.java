@@ -25,7 +25,7 @@ public class Energy implements Serializable {
         return gain;
     }
 
-    void updateEnergy(int nrSquares, boolean hasPositiveEnergy){
+    void updateMovementEnergy(int nrSquares, boolean hasPositiveEnergy){
         if (hasPositiveEnergy) {
             if (nrSquares == 0) {
                 actual = String.valueOf(Integer.parseInt(actual) + Integer.parseInt(gain));

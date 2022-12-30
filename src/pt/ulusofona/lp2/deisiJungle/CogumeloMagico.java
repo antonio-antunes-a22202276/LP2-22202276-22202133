@@ -26,6 +26,6 @@ public class CogumeloMagico extends Food {
             energy = (int) (Integer.parseInt(specie.getEnergy().getActual()) - Math.round(Math.floor(Integer.parseInt(specie.getEnergy().getActual())*Double.parseDouble(multiplier))));
         }
         specie.getEnergy().updateEnergyByFood(energy);
-        specie.updateGetFoodNr();
+        specie.updateEatenFoodNr();
     }
 }

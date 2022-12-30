@@ -251,8 +251,8 @@ public class GameManager implements Serializable {
             }
         }
         String energy = currentPlayer.getSpecie().getEnergy().getActual(); //Verifies if the player has enough energy to move. If it has, decreases the
-        currentPlayer.getSpecie().getEnergy().updateEnergy(nrSquares,true);
-        if (Integer.parseInt(currentPlayer.getSpecie().getEnergy().getActual()) < 0) { currentPlayer.getSpecie().getEnergy().updateEnergy(Integer.parseInt(energy),false);
+        currentPlayer.getSpecie().getEnergy().updateMovementEnergy(nrSquares,true);
+        if (Integer.parseInt(currentPlayer.getSpecie().getEnergy().getActual()) < 0) { currentPlayer.getSpecie().getEnergy().updateMovementEnergy(Integer.parseInt(energy),false);
             return new MovementResult(MovementResultCode.NO_ENERGY, null);
         }
         int currentSquare = currentPlayer.getSquareNr(); //Gets the current square of the player
@@ -325,7 +325,7 @@ public class GameManager implements Serializable {
                 String name = Normalizer.normalize(temporaryWinner.getSpecie().getName(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", ""); //sem acentos
                 String result = "#" + (resultadosJogo.size() + 1) + " " + temporaryWinner.getName() + ", " +
                         name + ", " + temporaryWinner.getSquareNr() + ", " +
-                        + temporaryWinner.getTravelledDistance() + ", " + temporaryWinner.getSpecie().getFoodNr();
+                        + temporaryWinner.getTravelledDistance() + ", " + temporaryWinner.getSpecie().getEatenFoodNr();
 
                 //Removes this player from the current players and adds to the arraylist with the winners
                 this.players.remove(temporaryWinner);

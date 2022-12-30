@@ -23,6 +23,6 @@ public class Erva extends Food{
             energy = Integer.parseInt(specie.getEnergy().getActual()) - 20;
         }
         specie.getEnergy().updateEnergyByFood(energy);
-        specie.updateGetFoodNr();
+        specie.updateEatenFoodNr();
     }
 }
