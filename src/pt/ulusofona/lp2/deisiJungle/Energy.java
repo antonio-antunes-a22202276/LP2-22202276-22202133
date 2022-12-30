@@ -25,14 +25,18 @@ public class Energy implements Serializable {
         return gain;
     }
 
-    void updateMovementEnergy(int nrSquares){
-        if (nrSquares == 0) {
-            actual = String.valueOf(Integer.parseInt(actual) + Integer.parseInt(gain));
-            if (Integer.parseInt(actual) > 200) {
-                actual = "200";
+    void updateMovementEnergy(int nrSquares, boolean hasPositiveEnergy){
+        if (hasPositiveEnergy) {
+            if (nrSquares == 0) {
+                actual = String.valueOf(Integer.parseInt(actual) + Integer.parseInt(gain));
+                if (Integer.parseInt(actual) > 200) {
+                    actual = "200";
+                }
+            } else {
+                actual = String.valueOf(Integer.parseInt(actual) - (Math.abs(nrSquares) * Integer.parseInt(consume)));
             }
         } else {
-            actual = String.valueOf(Integer.parseInt(actual) - (Math.abs(nrSquares) * Integer.parseInt(consume)));
+            actual = String.valueOf(nrSquares);
         }
     }
 

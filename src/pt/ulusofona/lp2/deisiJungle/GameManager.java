@@ -236,7 +236,6 @@ public class GameManager implements Serializable {
     public MovementResult moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
         this.roundNr += 1;
         Player currentPlayer = this.actualPlayer; //Gets the current player
-        String[] playerEnergy = getCurrentPlayerEnergyInfo(nrSquares);
         int actualPlayerId = Integer.parseInt(currentPlayer.getId()); int nextBiggerPlayerId;
         ArrayList<Integer> playerIds = new ArrayList<>(); //Adds the playerIds to the arraylist
         for (Player value : this.players) { playerIds.add(Integer.parseInt(value.getId())); } //Sorts the playerIds in order
@@ -251,12 +250,11 @@ public class GameManager implements Serializable {
                 return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
             }
         }
-        //String energy = currentPlayer.getSpecie().getEnergy().getActual(); //Verifies if the player has enough energy to move. If it has, decreases the
-        //currentPlayer.getSpecie().getEnergy().updateMovementEnergy(nrSquares,true);
-        if (Integer.parseInt(playerEnergy[0]) < 0) {
+        String energy = currentPlayer.getSpecie().getEnergy().getActual(); //Verifies if the player has enough energy to move. If it has, decreases the
+        currentPlayer.getSpecie().getEnergy().updateMovementEnergy(nrSquares,true);
+        if (Integer.parseInt(currentPlayer.getSpecie().getEnergy().getActual()) < 0) { currentPlayer.getSpecie().getEnergy().updateMovementEnergy(Integer.parseInt(energy),false);
             return new MovementResult(MovementResultCode.NO_ENERGY, null);
         }
-        currentPlayer.getSpecie().getEnergy().updateMovementEnergy(nrSquares);
         int currentSquare = currentPlayer.getSquareNr(); //Gets the current square of the player
         if (currentSquare + nrSquares >= this.finalPosition) {currentPlayer.updateSquareNr(this.finalPosition); this.winner = currentPlayer; }
         else { if(currentSquare+nrSquares < 1) {currentPlayer.updateSquareNr(1);}
