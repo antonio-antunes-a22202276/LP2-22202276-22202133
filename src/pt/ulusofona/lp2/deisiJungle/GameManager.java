@@ -237,7 +237,7 @@ public class GameManager implements Serializable {
         this.roundNr += 1;
         Player currentPlayer = this.actualPlayer; //Gets the current player
         int actualPlayerId = Integer.parseInt(currentPlayer.getId()); int nextBiggerPlayerId;
-        ArrayList<Integer> playerIds = new ArrayList<>(); ///Creates a playerIds arraylist to save all available ids
+        ArrayList<Integer> playerIds = new ArrayList<>(); //Adds the playerIds to the arraylist
         for (Player value : this.players) { playerIds.add(Integer.parseInt(value.getId())); } //Sorts the playerIds in order
         Collections.sort(playerIds); //Gets the index of the actualPlayer in the arraylist
         int indexActualPlayerId = playerIds.indexOf(actualPlayerId); //Verifies if the actualPlayerId is already the biggest one or not
@@ -250,9 +250,9 @@ public class GameManager implements Serializable {
                 return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
             }
         }
-        String energy = currentPlayer.getSpecie().getEnergy().getActual(); //Verifies if has energy
+        String energy = currentPlayer.getSpecie().getEnergy().getActual(); //Verifies if the player has enough energy to move. If it has, decreases the
         currentPlayer.getSpecie().getEnergy().updateEnergy(nrSquares,true);
-        if (Integer.parseInt(energy) < 0) { currentPlayer.getSpecie().getEnergy().updateEnergy(Integer.parseInt(energy),false);
+        if (Integer.parseInt(currentPlayer.getSpecie().getEnergy().getActual()) < 0) { currentPlayer.getSpecie().getEnergy().updateEnergy(Integer.parseInt(energy),false);
             return new MovementResult(MovementResultCode.NO_ENERGY, null);
         }
         int currentSquare = currentPlayer.getSquareNr(); //Gets the current square of the player
@@ -277,15 +277,16 @@ public class GameManager implements Serializable {
                     if(Integer.parseInt(possibleWinners.get(i).getId()) < Integer.parseInt(possibleWinner.getId())) {possibleWinner = possibleWinners.get(i);}
                 }
             }
-            if (this.winner == null) {this.winner = possibleWinner;}
+            if (this.winner == null) { this.winner = possibleWinner; }
         }
         if(this.foods!=null) {
             for (int i = 0; i < this.foods.size(); i++) {
-                if (Integer.parseInt(this.foods.get(i).getSquareNr()) == currentSquare) {
-                    if ((!currentPlayer.getSpecie().getType().canGetMeatStatus() && this.foods.get(i).getId().equals("c"))) {
+                Food food = this.foods.get(i);
+                if (Integer.parseInt(food.getSquareNr()) == currentSquare) {
+                    if ((!currentPlayer.getSpecie().getType().canGetMeatStatus() && food.getId().equals("c"))) { //Change here
                     } else {
-                        this.foods.get(i).eatFood(currentPlayer.getSpecie(),this.roundNr);
-                        return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + this.foods.get(i).getName());
+                        food.eatFood(currentPlayer.getSpecie(),this.roundNr);
+                        return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());
                     }
                 }
             }
@@ -300,7 +301,7 @@ public class GameManager implements Serializable {
     }
 
     public ArrayList<String> getGameResults() {
-        ArrayList<String> gameResults = new ArrayList<>(); //Gets an arraylist with the winners sorted by order
+        ArrayList<String> resultadosJogo = new ArrayList<>(); //Gets an arraylist with the winners sorted by order
         if (this.winner != null) { //Verifies if there is already a winner
             int size = this.players.size(); //Verifies if there are still players to be added to the winners arraylist
             while (this.players.size() > 0) {
@@ -322,16 +323,16 @@ public class GameManager implements Serializable {
                 }
                 //Gets the string with the winner
                 String name = Normalizer.normalize(temporaryWinner.getSpecie().getName(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", ""); //sem acentos
-                String result = "#" + (gameResults.size() + 1) + " " + temporaryWinner.getName() + ", " +
+                String result = "#" + (resultadosJogo.size() + 1) + " " + temporaryWinner.getName() + ", " +
                         name + ", " + temporaryWinner.getSquareNr() + ", " +
                         + temporaryWinner.getHouseNr() + ", " + temporaryWinner.getSpecie().getFoodNr();
 
                 //Removes this player from the current players and adds to the arraylist with the winners
                 this.players.remove(temporaryWinner);
-                gameResults.add(result);
+                resultadosJogo.add(result);
             }
         }
-        return gameResults;
+        return resultadosJogo;
     }
 
     public boolean saveGame(File file) {
