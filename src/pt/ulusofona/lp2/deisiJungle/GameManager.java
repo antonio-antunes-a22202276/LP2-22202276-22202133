@@ -1,5 +1,6 @@
 package pt.ulusofona.lp2.deisiJungle;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.io.*;
 import java.text.Normalizer;
@@ -95,14 +96,14 @@ public class GameManager implements Serializable {
         this.actualPlayer = null;
         this.winner = null;
         ArrayList<String> playerIds = new ArrayList<>(); //Creates an arraylist to later verify if there are repeated playerIds
+        String[][] speciesData = getSpecies();
+        ArrayList<String> speciesCompeting = new ArrayList<>(); //Creates to verify if Tarzan is repeated
         for (int i = 0; i < playersInfo.length; i++) { //Iterates the players data
             String playerId = playersInfo[i][0]; String playerName = playersInfo[i][1]; String playerSpecieId = playersInfo[i][2];
             if (playerName == null || playerName.equals("")) {return new InitializationError("O nome de um jogador não é váldio");}
             try {Integer.parseInt(playerId);} catch(NumberFormatException e) {return new InitializationError("O id de um jogador não é válido");}
             if (playerIds.contains(playerId)) { return new InitializationError("O id de um jogador está repetido"); }
             playerIds.add(playerId); //As playerId is not repeated adds it to the playerIds arraylist
-            String[][] speciesData = getSpecies();
-            ArrayList<String> speciesCompeting = new ArrayList<>(); //Creates to verify if Tarzan is repeated
             boolean isSpecieValid = false;
             for (int k = 0; k < speciesData.length; k++) {
                 String defaultSpecieId = speciesData[k][0]; //Gets the default specie id
