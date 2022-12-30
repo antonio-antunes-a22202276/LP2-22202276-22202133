@@ -51,6 +51,25 @@ public class TestGameManager {
     }
 
     @Test
+    public void test03_createInitialJungle() {
+        GameManager gameManager = new GameManager();
+        String[][] playersInfo = new String[2][3];
+        String[][] foodsInfo = new String[1][2];
+        playersInfo[0][0] = "1";
+        playersInfo[0][1] = "JogadorTeste1";
+        playersInfo[0][2] = "L";
+
+        playersInfo[1][0] = "2";
+        playersInfo[1][1] = "JogadorTeste2";
+        playersInfo[1][2] = "T";
+
+        foodsInfo[0][0] = "a";
+        foodsInfo[0][1] = "4";
+        InitializationError createJungle = gameManager.createInitialJungle(10, playersInfo);
+        assertEquals(null, createJungle);
+    }
+
+    @Test
     public void test01_getPlayerIds() {
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
@@ -452,6 +471,123 @@ public class TestGameManager {
     }
 
     @Test
+    public void test09_getSquareInfo() {
+        GameManager gameManager = new GameManager();
+        String[][] playersInfo = new String[2][5];
+        String[][] foodsInfo = new String[4][2];
+        playersInfo[0][0] = "1";
+        playersInfo[0][1] = "JogadorTeste1";
+        playersInfo[0][2] = "L";
+        playersInfo[0][3] = "80";
+        playersInfo[0][4] = "4..6";
+
+        playersInfo[1][0] = "2";
+        playersInfo[1][1] = "JogadorTeste2";
+        playersInfo[1][2] = "E";
+        playersInfo[1][3] = "180";
+        playersInfo[1][4] = "1..6";
+
+        foodsInfo[0][0] = "c";
+        foodsInfo[0][1] = "4";
+
+        foodsInfo[1][0] = "a";
+        foodsInfo[1][1] = "6";
+
+        foodsInfo[2][0] = "c";
+        foodsInfo[2][1] = "7";
+
+        foodsInfo[3][0] = "a";
+        foodsInfo[3][1] = "9";
+        gameManager.createInitialJungle(30, playersInfo, foodsInfo);
+
+        String[] squareInfo = gameManager.getSquareInfo(4);
+
+        assertEquals("[meat.png, Carne : + 50 energia : 0 jogadas, ]", Arrays.toString(squareInfo));
+    }
+
+    @Test
+    public void test10_getSquareInfo() {
+        GameManager gameManager = new GameManager();
+        String[][] playersInfo = new String[2][5];
+        String[][] foodsInfo = new String[4][2];
+        playersInfo[0][0] = "1";
+        playersInfo[0][1] = "JogadorTeste1";
+        playersInfo[0][2] = "L";
+        playersInfo[0][3] = "80";
+        playersInfo[0][4] = "4..6";
+
+        playersInfo[1][0] = "2";
+        playersInfo[1][1] = "JogadorTeste2";
+        playersInfo[1][2] = "E";
+        playersInfo[1][3] = "180";
+        playersInfo[1][4] = "1..6";
+
+        foodsInfo[0][0] = "c";
+        foodsInfo[0][1] = "28";
+
+        foodsInfo[1][0] = "a";
+        foodsInfo[1][1] = "6";
+
+        foodsInfo[2][0] = "c";
+        foodsInfo[2][1] = "7";
+
+        foodsInfo[3][0] = "a";
+        foodsInfo[3][1] = "9";
+        gameManager.createInitialJungle(30, playersInfo, foodsInfo);
+        gameManager.moveCurrentPlayer(0, false); //Lion
+        gameManager.moveCurrentPlayer(2, false); //Elefante
+        gameManager.moveCurrentPlayer(0, false); //Lion
+        gameManager.moveCurrentPlayer(2, false); //Elefante
+        gameManager.moveCurrentPlayer(0, false); //Lion
+        gameManager.moveCurrentPlayer(2, false); //Elefante
+        gameManager.moveCurrentPlayer(0, false); //Lion
+        gameManager.moveCurrentPlayer(2, true); //Elefante
+        gameManager.moveCurrentPlayer(2, false); //Lion
+        gameManager.moveCurrentPlayer(2, false); //Elefante
+        gameManager.moveCurrentPlayer(2, false); //Lion
+        gameManager.moveCurrentPlayer(2, false); //Elefante
+
+        String[] squareInfo = gameManager.getSquareInfo(28);
+
+        assertEquals("[meat.png, Carne : + 50 energia : 12 jogadas, ]", Arrays.toString(squareInfo));
+    }
+
+    @Test
+    public void test11_getSquareInfo() {
+        GameManager gameManager = new GameManager();
+        String[][] playersInfo = new String[2][5];
+        String[][] foodsInfo = new String[4][2];
+        playersInfo[0][0] = "1";
+        playersInfo[0][1] = "JogadorTeste1";
+        playersInfo[0][2] = "L";
+        playersInfo[0][3] = "80";
+        playersInfo[0][4] = "4..6";
+
+        playersInfo[1][0] = "2";
+        playersInfo[1][1] = "JogadorTeste2";
+        playersInfo[1][2] = "E";
+        playersInfo[1][3] = "180";
+        playersInfo[1][4] = "1..6";
+
+        foodsInfo[0][0] = "c";
+        foodsInfo[0][1] = "28";
+
+        foodsInfo[1][0] = "a";
+        foodsInfo[1][1] = "6";
+
+        foodsInfo[2][0] = "b";
+        foodsInfo[2][1] = "7";
+
+        foodsInfo[3][0] = "a";
+        foodsInfo[3][1] = "9";
+        gameManager.createInitialJungle(30, playersInfo, foodsInfo);
+
+        String[] squareInfo = gameManager.getSquareInfo(7);
+
+        assertEquals("[bananas.png, Bananas : 3 : + 40 energia, ]", Arrays.toString(squareInfo));
+    }
+
+    @Test
     public void test_getCurrentPlayerInfo() {
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
@@ -649,8 +785,116 @@ public class TestGameManager {
         foodsInfo[0][1] = "5";
 
         gameManager.createInitialJungle(31, playersInfo, foodsInfo);
-        gameManager.moveCurrentPlayer(5, false); //Turtle
+        gameManager.moveCurrentPlayer(5, false); //Tarzan
+        MovementResult outputMovement = gameManager.moveCurrentPlayer(4, false); //Turtle
+        assertEquals(new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou Carne"), outputMovement);
+    }
+
+    @Test
+    public void test06_moveCurrentPlayer() {
+        GameManager gameManager = new GameManager();
+        String[][] playersInfo = new String[2][3];
+        String[][] foodsInfo = new String[1][2];
+        playersInfo[0][0] = "1";
+        playersInfo[0][1] = "JogadorTeste1";
+        playersInfo[0][2] = "L";
+
+        playersInfo[1][0] = "2";
+        playersInfo[1][1] = "JogadorTeste2";
+        playersInfo[1][2] = "T";
+
+        foodsInfo[0][0] = "a";
+        foodsInfo[0][1] = "4";
+
+        gameManager.createInitialJungle(31, playersInfo, foodsInfo);
+        gameManager.moveCurrentPlayer(4, false);
+        MovementResult outputMovement = gameManager.moveCurrentPlayer(3, false);
+        assertEquals(new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou Agua"), outputMovement);
+    }
+
+    @Test
+    public void test07_moveCurrentPlayer() {
+        GameManager gameManager = new GameManager();
+        String[][] playersInfo = new String[2][3];
+        String[][] foodsInfo = new String[1][2];
+        playersInfo[0][0] = "1";
+        playersInfo[0][1] = "JogadorTeste1";
+        playersInfo[0][2] = "L";
+
+        playersInfo[1][0] = "2";
+        playersInfo[1][1] = "JogadorTeste2";
+        playersInfo[1][2] = "T";
+
+        foodsInfo[0][0] = "b";
+        foodsInfo[0][1] = "4";
+
+        gameManager.createInitialJungle(31, playersInfo, foodsInfo);
+        gameManager.moveCurrentPlayer(4, false);
+        MovementResult outputMovement = gameManager.moveCurrentPlayer(3, false);
+        assertEquals(new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou Bananas"), outputMovement);
+    }
+
+    @Test
+    public void test08_moveCurrentPlayer() {
+        GameManager gameManager = new GameManager();
+        String[][] playersInfo = new String[2][3];
+        String[][] foodsInfo = new String[2][2];
+        playersInfo[0][0] = "1";
+        playersInfo[0][1] = "JogadorTeste1";
+        playersInfo[0][2] = "L";
+
+        playersInfo[1][0] = "2";
+        playersInfo[1][1] = "JogadorTeste2";
+        playersInfo[1][2] = "T";
+
+        foodsInfo[0][0] = "b";
+        foodsInfo[0][1] = "4";
+
+        foodsInfo[1][0] = "b";
+        foodsInfo[1][1] = "7";
+        gameManager.createInitialJungle(31, playersInfo, foodsInfo);
+        gameManager.moveCurrentPlayer(4, false); //Lion
+        gameManager.moveCurrentPlayer(3, false); //Tarzan
+        gameManager.moveCurrentPlayer(4, false); //Lion
+        MovementResult outputMovement = gameManager.moveCurrentPlayer(3, false); //Tarzan
+        assertEquals(new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou Bananas"), outputMovement);
+    }
+
+    @Test
+    public void test09_moveCurrentPlayer() {
+        GameManager gameManager = new GameManager();
+        String[][] playersInfo = new String[2][3];
+        String[][] foodsInfo = new String[2][2];
+        playersInfo[0][0] = "1";
+        playersInfo[0][1] = "JogadorTeste1";
+        playersInfo[0][2] = "L";
+
+        playersInfo[1][0] = "2";
+        playersInfo[1][1] = "JogadorTeste2";
+        playersInfo[1][2] = "T";
+
+        foodsInfo[0][0] = "b";
+        foodsInfo[0][1] = "2";
+
+        foodsInfo[1][0] = "c";
+        foodsInfo[1][1] = "33";
+        gameManager.createInitialJungle(35, playersInfo, foodsInfo);
+        gameManager.moveCurrentPlayer(4, false); //Lion
+        gameManager.moveCurrentPlayer(4, false); //Tarzan
+        gameManager.moveCurrentPlayer(4, false); //Lion
+        gameManager.moveCurrentPlayer(4, false); //Tarzan
+        gameManager.moveCurrentPlayer(4, false); //Lion
+        gameManager.moveCurrentPlayer(4, false); //Tarzan
+        gameManager.moveCurrentPlayer(4, false); //Lion
+        gameManager.moveCurrentPlayer(2, false); //Tarzan
+        gameManager.moveCurrentPlayer(4, false); //Lion
+        gameManager.moveCurrentPlayer(2, false); //Tarzan
+        gameManager.moveCurrentPlayer(4, false); //Lion
+        gameManager.moveCurrentPlayer(2, false); //Tarzan
+        gameManager.moveCurrentPlayer(4, false); //Lion
+        gameManager.moveCurrentPlayer(2, false); //Tarzan
         MovementResult outputMovement = gameManager.moveCurrentPlayer(4, false); //Lion
+
         assertEquals(new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou Carne"), outputMovement);
     }
 
