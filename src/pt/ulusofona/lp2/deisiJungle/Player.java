@@ -7,7 +7,7 @@ public class Player implements Serializable {
     private String name;
     private Specie specie;
     private int squareNr;
-    private int houseNr = 0;
+    private int travelledDistance = 0;
 
     Player(String id, String name, Specie specie) {
         this.id = id;
@@ -36,11 +36,11 @@ public class Player implements Serializable {
         squareNr = newSquareId;
     }
 
-    public void updateHouseNr(int nr) {
-        houseNr += nr;
+    public void updateTravelledDistance(int nr) {
+        travelledDistance += nr;
     }
 
-    public int getHouseNr() {
-        return houseNr;
+    public int getTravelledDistance() {
+        return travelledDistance;
     }
 }

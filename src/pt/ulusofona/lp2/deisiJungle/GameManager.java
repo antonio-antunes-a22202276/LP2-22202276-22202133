@@ -261,8 +261,8 @@ public class GameManager implements Serializable {
             else {currentPlayer.updateSquareNr(currentSquare+nrSquares);}
         }
         currentSquare = currentPlayer.getSquareNr();
-        if(currentPlayer.getSquareNr() - Math.abs(nrSquares) > 0) {currentPlayer.updateHouseNr(Math.abs(nrSquares));}
-        else {currentPlayer.updateHouseNr(currentPlayer.getSquareNr());}
+        if(currentPlayer.getSquareNr() - Math.abs(nrSquares) > 0) {currentPlayer.updateTravelledDistance(Math.abs(nrSquares));}
+        else {currentPlayer.updateTravelledDistance(currentPlayer.getSquareNr());}
         ArrayList<Integer> positionPlayers = new ArrayList<>(); //Iterates the players
         for (int i=0;i<this.players.size();i++) {positionPlayers.add(this.players.get(i).getSquareNr());}
         Collections.sort(positionPlayers);
@@ -325,7 +325,7 @@ public class GameManager implements Serializable {
                 String name = Normalizer.normalize(temporaryWinner.getSpecie().getName(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", ""); //sem acentos
                 String result = "#" + (resultadosJogo.size() + 1) + " " + temporaryWinner.getName() + ", " +
                         name + ", " + temporaryWinner.getSquareNr() + ", " +
-                        + temporaryWinner.getHouseNr() + ", " + temporaryWinner.getSpecie().getFoodNr();
+                        + temporaryWinner.getTravelledDistance() + ", " + temporaryWinner.getSpecie().getFoodNr();
 
                 //Removes this player from the current players and adds to the arraylist with the winners
                 this.players.remove(temporaryWinner);
