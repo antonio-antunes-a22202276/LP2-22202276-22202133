@@ -9,11 +9,11 @@ public class Player implements Serializable {
     private int squareNr;
     private int houseNr = 0;
 
-    Player(String id, String name, Specie specie, int squareNr) {
+    Player(String id, String name, Specie specie) {
         this.id = id;
         this.name = name;
         this.specie = specie;
-        this.squareNr = squareNr;
+        this.squareNr = 1;
     }
 
     public String getId() {
