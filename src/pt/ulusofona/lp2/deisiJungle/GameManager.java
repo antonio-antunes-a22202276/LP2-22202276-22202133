@@ -169,7 +169,7 @@ public class GameManager implements Serializable {
             for (Food food: this.foods) {
                 if (Integer.parseInt(food.getSquareNr()) == squareNr) {
                     squareInfo[0] = food.getFileName();
-                    if (this.roundNr == 12 && !updatedCarne) {
+                    if (this.roundNr == 13 && !updatedCarne) {
                         updatedCarne = true;
                         for (Player player : this.players) {
                             player.getSpecie().getType().updateMeatStatus();
