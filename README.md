@@ -1,7 +1,5 @@
 ![](diagrama.png?raw=true "Diagrama UML")
 
-[![Video](https://prnt.sc/BQeGGXvIiEum)](https://youtu.be/ofDxJqYTn8c)
-
 - URL Video: https://youtu.be/ofDxJqYTn8c
 
 # Deisi-Jungle
