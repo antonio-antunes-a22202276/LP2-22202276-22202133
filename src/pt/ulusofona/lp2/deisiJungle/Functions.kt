@@ -94,7 +94,7 @@ fun getFunctionByArgsWithGET(manager: GameManager, args: List<String>): String?{
                     omnivorePlayers.add(manager.players.get(i))
                 }
             }
-            for (i in 0..omnivorePlayers.size - 1) {
+            for (i in 0..omnivorePlayers.size-1) {
                 var playerWithMoreEnergy = omnivorePlayers.get(0)
                 for(k in 1..omnivorePlayers.size-1) {
                     if(omnivorePlayers.get(k).specie.energy.actual > playerWithMoreEnergy.specie.energy.actual) {
