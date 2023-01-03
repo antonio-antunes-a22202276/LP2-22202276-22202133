@@ -26,6 +26,10 @@ public class GameManager implements Serializable {
         this.roundNr = roundNr;
     }
 
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
     public String[][] getSpecies() {
         return new String[][]{
                 {"E","Elefante","elephant.png","180","4","10","1..6"},

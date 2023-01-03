@@ -22,12 +22,48 @@ fun getCommandType(tipoComando : CommandType) : (Function2<GameManager, ArrayLis
 
 fun getFunctionByArgsWithGET(manager: GameManager, args: ArrayList<String>): String?{
     when(args[0]){
-        "PLAYER_INFO" -> return "Test"
-        "PLAYERS_BY_SPECIE" -> return "Test"
+        "PLAYER_INFO" -> {
+            for(i in 0..manager.players.size - 1){
+                val player = manager.players[i]
+                if(args[1] == player.name){
+                    return "${player.id} | ${player.name} | ${player.specie.name} | ${player.specie.energy.actual} | ${player.squareNr}"
+                }
+            }
+            return "Inexistent player"
+        }
+        "PLAYERS_BY_SPECIE" -> {
+            var result = ""
+            var namesInDescendingOrder1 : ArrayList<String> = ArrayList()
+            var namesInDescendingOrder2 : ArrayList<String> = ArrayList()
+            for(i in 0..manager.players.size - 1){
+                val player = manager.players[i]
+                if(args[1] == player.specie.id){
+                    namesInDescendingOrder1.add(player.name)
+                }
+            }
+            for(l in 0..namesInDescendingOrder1.size - 1){
+                var nameOfFirstPlayer = namesInDescendingOrder1[0]
+
+                for(k in 1..namesInDescendingOrder1.size - 1){
+                    if(nameOfFirstPlayer[0] < namesInDescendingOrder1[k][0]){
+                        nameOfFirstPlayer = namesInDescendingOrder1[k]
+                    }
+                }
+                namesInDescendingOrder2.add(nameOfFirstPlayer)
+                namesInDescendingOrder1.remove(nameOfFirstPlayer)
+            }
+            for(m in 0..namesInDescendingOrder2.size - 1){
+                if(result == ""){
+                    result += namesInDescendingOrder2[m]
+                } else {
+                    result += ",${namesInDescendingOrder2[m]}"
+                }
+            }
+            return result
+        }
         "MOST_TRAVELED" -> return "Test"
         "TOP_ENERGETIC_OMNIVORES" -> return "Test"
         "CONSUMED_FOODS" -> return "Test"
-        "MOVE" -> return "Test"
     }
     return null
 }
