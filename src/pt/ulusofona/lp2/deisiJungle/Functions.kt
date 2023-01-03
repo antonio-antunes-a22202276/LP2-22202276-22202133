@@ -62,7 +62,38 @@ fun getFunctionByArgsWithGET(manager: GameManager, args: ArrayList<String>): Str
             return result
         }
         "MOST_TRAVELED" -> return "Test"
-        "TOP_ENERGETIC_OMNIVORES" -> return "Test"
+        "TOP_ENERGETIC_OMNIVORES" -> {
+            var result = ""
+            var count = args[1].toInt()
+            val omnivorePlayers : ArrayList<Player> = ArrayList()
+            val omnivorePlayerByOrder: ArrayList<Player> = ArrayList()
+            for (i in 0..manager.players.size-1) {
+                if(manager.players.get(i).specie.type.name == "O") {
+                    omnivorePlayers.add(manager.players.get(i))
+                }
+            }
+            for (i in 0..omnivorePlayers.size - 1) {
+                var playerWithMoreEnergy = omnivorePlayers.get(0)
+                for(k in 1..omnivorePlayers.size-1) {
+                    if(omnivorePlayers.get(k).specie.energy.actual > playerWithMoreEnergy.specie.energy.actual) {
+                        playerWithMoreEnergy = omnivorePlayers.get(k);
+                    }
+                }
+                omnivorePlayerByOrder.add(playerWithMoreEnergy)
+                omnivorePlayers.remove(playerWithMoreEnergy)
+            }
+            for (i in 0..omnivorePlayerByOrder.size-1) {
+                if(count>0) {
+                    count -= 1
+                    if (result == "") {
+                        result = "${omnivorePlayerByOrder.get(i).name}:${omnivorePlayerByOrder.get(i).specie.energy.actual}"
+                    } else {
+                        result += "\n${omnivorePlayerByOrder.get(i).name}:${omnivorePlayerByOrder.get(i).specie.energy.actual}"
+                    }
+                }
+            }
+            return result
+        }
         "CONSUMED_FOODS" -> {
             var result = ""
             for (i in 0..manager.foods.size-1) {
@@ -70,7 +101,7 @@ fun getFunctionByArgsWithGET(manager: GameManager, args: ArrayList<String>): Str
                     if (result == "") {
                         result = manager.foods.get(i).name
                     } else {
-                        result = "\n${manager.foods.get(i).name}"
+                        result + "\n${manager.foods.get(i).name}"
                     }
                 }
             }
