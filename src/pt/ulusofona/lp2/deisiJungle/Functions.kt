@@ -123,7 +123,7 @@ fun getFunctionByArgsWithGET(manager: GameManager, args: List<String>): String?{
                     if (result == "") {
                         result = manager.foods.get(i).name
                     } else {
-                        result + "\n${manager.foods.get(i).name}"
+                        result += "\n${manager.foods.get(i).name}"
                     }
                 }
             }
