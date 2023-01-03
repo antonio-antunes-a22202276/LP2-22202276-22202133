@@ -61,7 +61,29 @@ fun getFunctionByArgsWithGET(manager: GameManager, args: ArrayList<String>): Str
             }
             return result
         }
-        "MOST_TRAVELED" -> return "Test"
+        "MOST_TRAVELED" -> {
+            var result = ""
+            var totalTravelDistance = 0
+            var playersWithDistanceInDescendingOrder : ArrayList<Player> = ArrayList()
+            for(i in 0..manager.players.size - 1){
+                val player = manager.players[i]
+                playersWithDistanceInDescendingOrder.add(player)
+            }
+            for(k in 0..playersWithDistanceInDescendingOrder.size - 2){
+                if(playersWithDistanceInDescendingOrder[k].travelledDistance < playersWithDistanceInDescendingOrder[k + 1].travelledDistance){
+                    val temp = playersWithDistanceInDescendingOrder[k]
+                    playersWithDistanceInDescendingOrder[k] = playersWithDistanceInDescendingOrder[k + 1]
+                    playersWithDistanceInDescendingOrder[k + 1] = temp
+                }
+            }
+            for(m in 0..playersWithDistanceInDescendingOrder.size - 1){
+                val player = playersWithDistanceInDescendingOrder[m]
+                totalTravelDistance += player.travelledDistance
+                result += "${player.name}:${player.specie.id}:${player.travelledDistance}\n"
+            }
+            result += "Total:${totalTravelDistance}"
+            return result
+        }
         "TOP_ENERGETIC_OMNIVORES" -> {
             var result = ""
             var count = args[1].toInt()
