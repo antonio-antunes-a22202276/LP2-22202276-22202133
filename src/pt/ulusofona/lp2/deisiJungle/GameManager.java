@@ -243,8 +243,9 @@ public class GameManager implements Serializable {
         for (int i=0;i<this.players.size();i++) { if (Integer.parseInt(this.players.get(i).getId()) == nextBiggerPlayerId) {this.actualPlayer = this.players.get(i); } }
         if (nrSquares!=0) { //Verifies if the dice number is valid
             if ((nrSquares < -6 || nrSquares > 6 || Math.abs(nrSquares) < Character.getNumericValue(currentPlayer.getSpecie().getSpeed().charAt(0))
-                    || Math.abs(nrSquares) > Character.getNumericValue(currentPlayer.getSpecie().getSpeed().charAt(3))) && !bypassValidations) {
-                return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);
+                    || Math.abs(nrSquares) > Character.getNumericValue(currentPlayer.getSpecie().getSpeed().charAt(3))) || currentPlayer.getSquareNr() + nrSquares < 0) {
+                if (currentPlayer.getSquareNr() + nrSquares < 0) {return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);}
+                else { if(!bypassValidations) { return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null); }}
             }
         }
         String energy = currentPlayer.getSpecie().getEnergy().getActual(); //Verifies if the player has enough energy to move. If it has, decreases the
