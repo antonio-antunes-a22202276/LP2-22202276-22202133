@@ -36,4 +36,8 @@ public abstract class Food implements Serializable {
     public abstract void updateNumber();
 
     public abstract void eatFood(Specie specie, int roundNr);
+
+    public abstract int getConsumedTimes();
+
+    public abstract void updateConsumedTimes();
 }

@@ -63,7 +63,19 @@ fun getFunctionByArgsWithGET(manager: GameManager, args: ArrayList<String>): Str
         }
         "MOST_TRAVELED" -> return "Test"
         "TOP_ENERGETIC_OMNIVORES" -> return "Test"
-        "CONSUMED_FOODS" -> return "Test"
+        "CONSUMED_FOODS" -> {
+            var result = ""
+            for (i in 0..manager.foods.size-1) {
+                if (manager.foods.get(i).consumedTimes > 0) {
+                    if (result == "") {
+                        result = manager.foods.get(i).name
+                    } else {
+                        result = "\n${manager.foods.get(i).name}"
+                    }
+                }
+            }
+            return result
+        }
     }
     return null
 }

@@ -1,8 +1,10 @@
 package pt.ulusofona.lp2.deisiJungle;
 
 public class Erva extends Food{
+    private int consumedTimes;
     public Erva(String id, String position, String name, String fileName){
         super(id, position, name, fileName);
+        consumedTimes = 0;
     }
 
     @Override
@@ -11,7 +13,17 @@ public class Erva extends Food{
     }
 
     @Override
+    public int getConsumedTimes() {
+        return consumedTimes;
+    }
+
+    @Override
     public void updateNumber(){}
+
+    @Override
+    public void updateConsumedTimes() {
+        consumedTimes += 1;
+    }
 
     @Override
     public void eatFood(Specie specie, int roundNr) {
@@ -24,5 +36,6 @@ public class Erva extends Food{
         }
         specie.getEnergy().updateEnergyByFood(energy);
         specie.updateEatenFoodNr();
+        updateConsumedTimes();
     }
 }

@@ -2,10 +2,12 @@ package pt.ulusofona.lp2.deisiJungle;
 
 public class CogumeloMagico extends Food {
     private int mushroomNr;
+    private int consumedTimes;
 
     public CogumeloMagico(String id, String position, String name, String fileName){
         super(id, position, name, fileName);
         this.mushroomNr = (int)(Math.random() * (50-10+1)+10);
+        consumedTimes = 0;
     }
 
     @Override
@@ -14,7 +16,17 @@ public class CogumeloMagico extends Food {
     }
 
     @Override
+    public int getConsumedTimes() {
+        return consumedTimes;
+    }
+
+    @Override
     public void updateNumber(){}
+
+    @Override
+    public void updateConsumedTimes() {
+        consumedTimes += 1;
+    }
 
     @Override
     public void eatFood(Specie specie, int roundNr) {
@@ -27,5 +39,6 @@ public class CogumeloMagico extends Food {
         }
         specie.getEnergy().updateEnergyByFood(energy);
         specie.updateEatenFoodNr();
+        updateConsumedTimes();
     }
 }

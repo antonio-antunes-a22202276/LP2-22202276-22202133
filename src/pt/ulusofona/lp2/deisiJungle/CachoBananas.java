@@ -2,10 +2,12 @@ package pt.ulusofona.lp2.deisiJungle;
 
 public class CachoBananas extends Food {
     private int bananasNr;
+    private int consumedTimes;
 
     public CachoBananas(String id, String position, String name, String fileName){
         super(id, position, name, fileName);
         this.bananasNr = 3;
+        consumedTimes = 0;
     }
 
     @Override
@@ -14,8 +16,18 @@ public class CachoBananas extends Food {
     }
 
     @Override
+    public int getConsumedTimes() {
+        return consumedTimes;
+    }
+
+    @Override
     public void updateNumber(){
         this.bananasNr -= 1;
+    }
+
+    @Override
+    public void updateConsumedTimes() {
+        consumedTimes += 1;
     }
 
     @Override
@@ -31,6 +43,7 @@ public class CachoBananas extends Food {
             updateNumber(); //food.updateBananasNumber()
             specie.getEnergy().updateEnergyByFood(energy);
             specie.updateEatenFoodNr();
+            updateConsumedTimes();
         }
     }
 }
