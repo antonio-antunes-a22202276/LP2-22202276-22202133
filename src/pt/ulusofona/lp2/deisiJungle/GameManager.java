@@ -46,24 +46,22 @@ public class GameManager implements Serializable {
         };
     }
 
-    public InitializationError createInitialJungle(int jungleSize, String[][] playersInfo, String[][] foodsInfo) {
-        if (createInitialJungle(jungleSize,playersInfo) != null) {
-            return createInitialJungle(jungleSize,playersInfo);
-        }
+    public void createInitialJungle(int jungleSize, String[][] playersInfo, String[][] foodsInfo) throws InvalidInitialJungleException{
+        createInitialJungle(jungleSize,playersInfo);
         String[][] foods = getFoodTypes();
         this.foods = new ArrayList<>();
         for (int i=0; i<foodsInfo.length; i++) {
             String foodId = foodsInfo[i][0];
             String foodPosition = foodsInfo[i][1];
-            try {Integer.parseInt(foodPosition);} catch(NumberFormatException e) {return new InitializationError("A posição não é válida");}
-            if (Integer.parseInt(foodPosition)<=1 || Integer.parseInt(foodPosition)>=jungleSize) {return new InitializationError("Existe um alimento fora dos limites do terreno");}
+            try {Integer.parseInt(foodPosition);} catch(NumberFormatException e) {throw new InvalidInitialJungleException("A posição não é válida","food");}
+            if (Integer.parseInt(foodPosition)<=1 || Integer.parseInt(foodPosition)>=jungleSize) {throw new InvalidInitialJungleException("Existe um alimento fora dos limites do terreno","food");}
             boolean hasFoodVerified = false;
             for (int k=0; k<foods.length; k++) {
                 String defaultFoodId = foods[k][0];
                 if (defaultFoodId.equals(foodId) && !hasFoodVerified) {
                     hasFoodVerified = true;
                 }
-                if (k == foods.length - 1 && !hasFoodVerified) {return new InitializationError("Existe um alimento que não é válido");}
+                if (k == foods.length - 1 && !hasFoodVerified) {throw new InvalidInitialJungleException("Existe um alimento que não é válido","food");}
             }
             for (int k=0;k<foods.length;k++) {
                 if (foods[k][0].equals(foodId)) {
@@ -85,13 +83,12 @@ public class GameManager implements Serializable {
                 }
             }
         }
-        return null;
     }
 
-    public InitializationError createInitialJungle(int jungleSize, String[][] playersInfo) {
-        if (playersInfo == null) {return new InitializationError("Players info é null");}
-        if (playersInfo.length <2 || playersInfo.length > 4) { return new InitializationError("Numero de jogadores invalido"); }
-        if (jungleSize < playersInfo.length * 2) { return new InitializationError("O mapa não tem duas posições para cada jogador"); }
+    public void createInitialJungle(int jungleSize, String[][] playersInfo) throws InvalidInitialJungleException{
+        if (playersInfo == null) {throw new InvalidInitialJungleException("Players info é null","");}
+        if (playersInfo.length <2 || playersInfo.length > 4) { throw new InvalidInitialJungleException("Numero de jogadores invalido",""); }
+        if (jungleSize < playersInfo.length * 2) { throw new InvalidInitialJungleException("O mapa não tem duas posições para cada jogador",""); }
         this.players = new ArrayList<>(); //Initially is going to verify all possible cases to return false
         this.actualPlayer = null;
         this.winner = null;
@@ -100,14 +97,14 @@ public class GameManager implements Serializable {
         ArrayList<String> speciesCompeting = new ArrayList<>(); //Creates to verify if Tarzan is repeated
         for (int i = 0; i < playersInfo.length; i++) { //Iterates the players data
             String playerId = playersInfo[i][0]; String playerName = playersInfo[i][1]; String playerSpecieId = playersInfo[i][2];
-            if (playerName == null || playerName.equals("")) {return new InitializationError("O nome de um jogador não é váldio");}
-            try {Integer.parseInt(playerId);} catch(NumberFormatException e) {return new InitializationError("O id de um jogador não é válido");}
-            if (playerIds.contains(playerId)) { return new InitializationError("O id de um jogador está repetido"); }
+            if (playerName == null || playerName.equals("")) {throw new InvalidInitialJungleException("O nome de um jogador não é váldio","player");}
+            try {Integer.parseInt(playerId);} catch(NumberFormatException e) {throw new InvalidInitialJungleException("O id de um jogador não é válido","player");}
+            if (playerIds.contains(playerId)) { throw new InvalidInitialJungleException("O id de um jogador está repetido","player"); }
             playerIds.add(playerId); //As playerId is not repeated adds it to the playerIds arraylist
             boolean isSpecieValid = false;
             for (int k = 0; k < speciesData.length; k++) {
                 String defaultSpecieId = speciesData[k][0]; //Gets the default specie id
-                if (speciesCompeting.contains("Z") && playerSpecieId.equals("Z")) { return new InitializationError("O Tarzan já foi selecionado"); }
+                if (speciesCompeting.contains("Z") && playerSpecieId.equals("Z")) { throw new InvalidInitialJungleException("O Tarzan já foi selecionado","player"); }
                 if (defaultSpecieId.equals(playerSpecieId) && !isSpecieValid) { //Verifies if the playerSpecieId matches the default specieIds
                     Type type = null;
                     isSpecieValid = true;
@@ -118,7 +115,7 @@ public class GameManager implements Serializable {
                     //specieName = species[k][1]; specieImage = species[k][2]; specieEnergy = species[k][3]; specieEnergyConsume = species[k][4]; specieEnergyGain = species[k][5]; specieSpeed = species[k][6];
                     this.players.add(new Player(playerId, playerName, new Specie(playerSpecieId, speciesData[k][1], speciesData[k][2], new Energy(speciesData[k][3], speciesData[k][4], speciesData[k][5]), speciesData[k][6], type))); //Adds the player to the created/game players list
                 }
-                if (k == speciesData.length - 1 && !isSpecieValid) { return new InitializationError("Existe uma espécie que não é válida"); } //If is in the last row and playerSpecieId hasn't been verified yet, the player specie is not valid
+                if (k == speciesData.length - 1 && !isSpecieValid) { throw new InvalidInitialJungleException("Existe uma espécie que não é válida","player"); } //If is in the last row and playerSpecieId hasn't been verified yet, the player specie is not valid
             }
         }
         int lowestPlayerId = Integer.parseInt(this.players.get(0).getId()); //Finding player with lower ID
@@ -127,7 +124,6 @@ public class GameManager implements Serializable {
             if (Integer.parseInt(this.players.get(i).getId()) < lowestPlayerId) {lowestPlayerId = Integer.parseInt(this.players.get(i).getId());playerWithLowestId = this.players.get(i);}
         }
         this.actualPlayer = playerWithLowestId; this.finalPosition = jungleSize;
-        return null;
     }
 
     public int[] getPlayerIds(int squareNr) {
