@@ -12,7 +12,7 @@ fun router() : (CommandType) -> ((GameManager, ArrayList<String>) -> String?)? {
 fun getCommandType(tipoComando : CommandType) : (Function2<GameManager, ArrayList<String>, String?>)?{
    when(tipoComando){
         CommandType.GET -> return ::getFunctionByArgsWithGET
-        CommandType.POST -> return ::getFunctionByArgsWithGET
+        CommandType.POST -> return ::getFunctionByArgsWithPOST
         else -> {
             println("Comando Invalido")
         }
@@ -70,7 +70,21 @@ fun getFunctionByArgsWithGET(manager: GameManager, args: ArrayList<String>): Str
 
 fun getFunctionByArgsWithPOST(manager: GameManager, args: ArrayList<String>): String?{
     when(args[0]){
-        "MOVE" -> return "Test"
+        "MOVE" -> {
+            val movementResult = manager.moveCurrentPlayer(args[1].toInt(),true)
+            if (movementResult.code == MovementResultCode.INVALID_MOVEMENT) {
+                return "Movimento invalido"
+            }
+            if (movementResult.code == MovementResultCode.NO_ENERGY) {
+                return "Sem energia"
+            }
+            if (movementResult.code == MovementResultCode.CAUGHT_FOOD) {
+                return "Apanhou comida"
+            }
+            if (movementResult.code == MovementResultCode.VALID_MOVEMENT) {
+                return "OK"
+            }
+        }
     }
     return null
 }
