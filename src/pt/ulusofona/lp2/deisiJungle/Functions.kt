@@ -5,11 +5,11 @@ import java.util.ArrayList
 
 enum class CommandType {GET, POST}
 
-fun router() : (CommandType) -> ((GameManager, ArrayList<String>) -> String?)? {
+fun router() : (CommandType) -> ((GameManager, List<String>) -> String?)? {
     return ::getCommandType
 }
 
-fun getCommandType(tipoComando : CommandType) : (Function2<GameManager, ArrayList<String>, String?>)?{
+fun getCommandType(tipoComando : CommandType) : (Function2<GameManager, List<String>, String?>)?{
    when(tipoComando){
         CommandType.GET -> return ::getFunctionByArgsWithGET
         CommandType.POST -> return ::getFunctionByArgsWithPOST
@@ -20,7 +20,7 @@ fun getCommandType(tipoComando : CommandType) : (Function2<GameManager, ArrayLis
     return null
 }
 
-fun getFunctionByArgsWithGET(manager: GameManager, args: ArrayList<String>): String?{
+fun getFunctionByArgsWithGET(manager: GameManager, args: List<String>): String?{
     when(args[0]){
         "PLAYER_INFO" -> {
             for(i in 0..manager.players.size - 1){
@@ -106,7 +106,7 @@ fun getFunctionByArgsWithGET(manager: GameManager, args: ArrayList<String>): Str
             }
             for (i in 0..omnivorePlayerByOrder.size-1) {
                 if(count>0) {
-                    count -= 1
+                    count--
                     if (result == "") {
                         result = "${omnivorePlayerByOrder.get(i).name}:${omnivorePlayerByOrder.get(i).specie.energy.actual}"
                     } else {
@@ -133,7 +133,7 @@ fun getFunctionByArgsWithGET(manager: GameManager, args: ArrayList<String>): Str
     return null
 }
 
-fun getFunctionByArgsWithPOST(manager: GameManager, args: ArrayList<String>): String?{
+fun getFunctionByArgsWithPOST(manager: GameManager, args: List<String>): String?{
     when(args[0]){
         "MOVE" -> {
             val movementResult = manager.moveCurrentPlayer(args[1].toInt(),true)
