@@ -248,17 +248,17 @@ public class GameManager implements Serializable {
         if (indexActualPlayerId == playerIds.size()-1) {nextBiggerPlayerId = playerIds.get(0);}
         else { nextBiggerPlayerId = playerIds.get(indexActualPlayerId + 1); } //Search for the player with the new id and sets them as the next actualPlayer
         for (int i=0;i<this.players.size();i++) { if (Integer.parseInt(this.players.get(i).getId()) == nextBiggerPlayerId) {this.actualPlayer = this.players.get(i); } }
-        if (nrSquares!=0) { //Verifies if the dice number is valid
-            if ((nrSquares < -6 || nrSquares > 6 || Math.abs(nrSquares) < Character.getNumericValue(currentPlayer.getSpecie().getSpeed().charAt(0))
-                    || Math.abs(nrSquares) > Character.getNumericValue(currentPlayer.getSpecie().getSpeed().charAt(3))) || currentPlayer.getSquareNr() + nrSquares < 0) {
-                //if (currentPlayer.getSquareNr() + nrSquares < 0) {return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);}
-                if(!bypassValidations) { return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null); }
-            }
-        }
         String energy = currentPlayer.getSpecie().getEnergy().getActual(); //Verifies if the player has enough energy to move. If it has, decreases the
         currentPlayer.getSpecie().getEnergy().updateMovementEnergy(nrSquares,true);
         if (Integer.parseInt(currentPlayer.getSpecie().getEnergy().getActual()) < 0) { currentPlayer.getSpecie().getEnergy().updateMovementEnergy(Integer.parseInt(energy),false);
             return new MovementResult(MovementResultCode.NO_ENERGY, null);
+        }
+        if (nrSquares!=0) { //Verifies if the dice number is valid
+            if ((nrSquares < -6 || nrSquares > 6 || Math.abs(nrSquares) < Character.getNumericValue(currentPlayer.getSpecie().getSpeed().charAt(0))
+                    || Math.abs(nrSquares) > Character.getNumericValue(currentPlayer.getSpecie().getSpeed().charAt(3))) || currentPlayer.getSquareNr() + nrSquares < 0) {
+                if (currentPlayer.getSquareNr() + nrSquares < 0) {return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null);}
+                else { if(!bypassValidations) { return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null); }}
+            }
         }
         int currentSquare = currentPlayer.getSquareNr(); //Gets the current square of the player
         if (currentSquare + nrSquares >= this.finalPosition) {currentPlayer.updateSquareNr(this.finalPosition); this.winner = currentPlayer; }
