@@ -12,8 +12,8 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class TestGameManager {
-    /*@Test
-    public void test01_createInitialJungle() {
+    @Test
+    public void test01_createInitialJungle() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][3];
         String[][] foodsInfo = new String[1][2];
@@ -27,12 +27,11 @@ public class TestGameManager {
 
         foodsInfo[0][0] = "a";
         foodsInfo[0][1] = "4";
-        InitializationError createJungle = gameManager.createInitialJungle(10, playersInfo, foodsInfo);
-        assertEquals(null, createJungle);
+        gameManager.createInitialJungle(10, playersInfo, foodsInfo);
     }
 
     @Test
-    public void test02_createInitialJungle() {
+    public void test02_createInitialJungle() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][3];
         String[][] foodsInfo = new String[1][2];
@@ -46,12 +45,11 @@ public class TestGameManager {
 
         foodsInfo[0][0] = "a";
         foodsInfo[0][1] = "4";
-        InitializationError createJungle = gameManager.createInitialJungle(10, playersInfo);
-        assertEquals(null, createJungle);
+        gameManager.createInitialJungle(10, playersInfo);
     }
 
     @Test
-    public void test03_createInitialJungle() {
+    public void test03_createInitialJungle() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][3];
         String[][] foodsInfo = new String[1][2];
@@ -65,12 +63,11 @@ public class TestGameManager {
 
         foodsInfo[0][0] = "a";
         foodsInfo[0][1] = "4";
-        InitializationError createJungle = gameManager.createInitialJungle(10, playersInfo);
-        assertEquals(null, createJungle);
+        gameManager.createInitialJungle(10, playersInfo);
     }
 
     @Test
-    public void test01_getPlayerIds() {
+    public void test01_getPlayerIds() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
         String[][] foodsInfo = new String[1][2];
@@ -97,7 +94,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test02_getPlayerIds() {
+    public void test02_getPlayerIds() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
         String[][] foodsInfo = new String[1][2];
@@ -124,7 +121,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test01_getPlayerInfo() {
+    public void test01_getPlayerInfo() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
         String[][] foodsInfo = new String[1][2];
@@ -150,7 +147,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test02_getPlayerInfo() {
+    public void test02_getPlayerInfo() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
         String[][] foodsInfo = new String[1][2];
@@ -176,7 +173,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test01_getSquareInfo() {
+    public void test01_getSquareInfo() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
         String[][] foodsInfo = new String[4][2];
@@ -211,7 +208,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test02_getSquareInfo() {
+    public void test02_getSquareInfo() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
         String[][] foodsInfo = new String[4][2];
@@ -246,7 +243,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test03_getSquareInfo() {
+    public void test03_getSquareInfo() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
         String[][] foodsInfo = new String[4][2];
@@ -281,7 +278,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test04_getSquareInfo() {
+    public void test04_getSquareInfo() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
         String[][] foodsInfo = new String[6][2];
@@ -322,7 +319,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test05_getSquareInfo() {
+    public void test05_getSquareInfo() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
         String[][] foodsInfo = new String[4][2];
@@ -357,7 +354,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test06_getSquareInfo() {
+    public void test06_getSquareInfo() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
         String[][] foodsInfo = new String[4][2];
@@ -394,7 +391,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test07_getSquareInfo() { //Line 238
+    public void test07_getSquareInfo() throws InvalidInitialJungleException{ //Line 238
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
         String[][] foodsInfo = new String[4][2];
@@ -436,7 +433,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test08_getSquareInfo() { //Line 238
+    public void test08_getSquareInfo() throws InvalidInitialJungleException{ //Line 238
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
         String[][] foodsInfo = new String[4][2];
@@ -471,7 +468,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test09_getSquareInfo() {
+    public void test09_getSquareInfo() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
         String[][] foodsInfo = new String[4][2];
@@ -506,7 +503,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test10_getSquareInfo() {
+    public void test10_getSquareInfo() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
         String[][] foodsInfo = new String[4][2];
@@ -553,7 +550,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test11_getSquareInfo() {
+    public void test11_getSquareInfo() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
         String[][] foodsInfo = new String[4][2];
@@ -588,7 +585,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test_getCurrentPlayerInfo() {
+    public void test_getCurrentPlayerInfo() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
         String[][] foodsInfo = new String[1][2];
@@ -614,7 +611,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test_getCurrentPlayerEnergyInfo() {
+    public void test_getCurrentPlayerEnergyInfo() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][7];
         String[][] foodsInfo = new String[1][2];
@@ -644,7 +641,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test_getPlayersInfo() {
+    public void test_getPlayersInfo() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][5];
         String[][] foodsInfo = new String[1][2];
@@ -670,7 +667,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test01_moveCurrentPlayer() {
+    public void test01_moveCurrentPlayer() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][3];
         String[][] foodsInfo = new String[1][2];
@@ -690,7 +687,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test02_moveCurrentPlayer() {
+    public void test02_moveCurrentPlayer() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[3][3];
         String[][] foodsInfo = new String[1][2];
@@ -716,7 +713,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test03_moveCurrentPlayer() {
+    public void test03_moveCurrentPlayer() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][3];
         String[][] foodsInfo = new String[1][2];
@@ -737,7 +734,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test04_moveCurrentPlayer() {
+    public void test04_moveCurrentPlayer() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][3];
         String[][] foodsInfo = new String[1][2];
@@ -769,7 +766,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test05_moveCurrentPlayer() {
+    public void test05_moveCurrentPlayer() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][3];
         String[][] foodsInfo = new String[1][2];
@@ -791,7 +788,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test06_moveCurrentPlayer() {
+    public void test06_moveCurrentPlayer() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][3];
         String[][] foodsInfo = new String[1][2];
@@ -813,7 +810,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test07_moveCurrentPlayer() {
+    public void test07_moveCurrentPlayer() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][3];
         String[][] foodsInfo = new String[1][2];
@@ -835,7 +832,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test08_moveCurrentPlayer() {
+    public void test08_moveCurrentPlayer() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][3];
         String[][] foodsInfo = new String[2][2];
@@ -861,7 +858,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test09_moveCurrentPlayer() {
+    public void test09_moveCurrentPlayer() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][3];
         String[][] foodsInfo = new String[2][2];
@@ -899,7 +896,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test01_getWinnerInfo() {
+    public void test01_getWinnerInfo() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][3];
         String[][] foodsInfo = new String[1][2];
@@ -931,7 +928,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test02_getWinnerInfo() {
+    public void test02_getWinnerInfo() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][3];
         String[][] foodsInfo = new String[1][2];
@@ -957,7 +954,7 @@ public class TestGameManager {
     }
 
     @Test
-    public void test01_getGameResults() {
+    public void test01_getGameResults() throws InvalidInitialJungleException{
         GameManager gameManager = new GameManager();
         String[][] playersInfo = new String[2][3];
         String[][] foodsInfo = new String[1][2];
@@ -1006,11 +1003,4 @@ public class TestGameManager {
 
         assertEquals("professional wrestling", gameManager.whoIsTaborda());
     }
-
-    @Test
-    public void getMessageInitializationError() {
-        InitializationError error = new InitializationError("ERRO");
-
-        assertEquals("ERRO", error.getMessage());
-    }*/
 }
