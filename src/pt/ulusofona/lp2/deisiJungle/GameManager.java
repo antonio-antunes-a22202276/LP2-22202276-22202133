@@ -118,6 +118,7 @@ public class GameManager implements Serializable {
                     if(playerSpecieId.equals("T") || playerSpecieId.equals("Z") || playerSpecieId.equals("P")){type = new Omnivoro("O");}
                     if(playerSpecieId.equals("L")){type = new Carnivoro("C");}
                     if(playerSpecieId.equals("E")){type = new Herbivoro("H");}
+                    speciesData[k][1] = Normalizer.normalize(speciesData[k][1], Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
                     //specieName = species[k][1]; specieImage = species[k][2]; specieEnergy = species[k][3]; specieEnergyConsume = species[k][4]; specieEnergyGain = species[k][5]; specieSpeed = species[k][6];
                     this.players.add(new Player(playerId, playerName, new Specie(playerSpecieId, speciesData[k][1], speciesData[k][2], new Energy(speciesData[k][3], speciesData[k][4], speciesData[k][5]), speciesData[k][6], type))); //Adds the player to the created/game players list
                 }
@@ -326,7 +327,7 @@ public class GameManager implements Serializable {
                     }
                 }
                 //Gets the string with the winner
-                String name = Normalizer.normalize(temporaryWinner.getSpecie().getName(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", ""); //sem acentos
+                String name = temporaryWinner.getSpecie().getName(); //sem acentos
                 String result = "#" + (resultadosJogo.size() + 1) + " " + temporaryWinner.getName() + ", " +
                         name + ", " + temporaryWinner.getSquareNr() + ", " +
                         + temporaryWinner.getTravelledDistance() + ", " + temporaryWinner.getSpecie().getEatenFoodNr();

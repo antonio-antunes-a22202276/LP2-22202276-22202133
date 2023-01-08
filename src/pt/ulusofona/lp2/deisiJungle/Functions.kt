@@ -65,15 +65,20 @@ fun getFunctionByArgsWithGET(manager: GameManager, args: List<String>): String?{
             var result = ""
             var totalTravelDistance = 0
             var playersWithDistanceInDescendingOrder : ArrayList<Player> = ArrayList()
+            var ordenated = false
             for(i in 0..manager.players.size - 1){
                 val player = manager.players[i]
                 playersWithDistanceInDescendingOrder.add(player)
             }
-            for(k in 0..playersWithDistanceInDescendingOrder.size - 2){
-                if(playersWithDistanceInDescendingOrder[k].travelledDistance < playersWithDistanceInDescendingOrder[k + 1].travelledDistance){
-                    val temp = playersWithDistanceInDescendingOrder[k]
-                    playersWithDistanceInDescendingOrder[k] = playersWithDistanceInDescendingOrder[k + 1]
-                    playersWithDistanceInDescendingOrder[k + 1] = temp
+            while (!ordenated) {
+                ordenated = true
+                for (k in 0..playersWithDistanceInDescendingOrder.size - 2) {
+                    if (playersWithDistanceInDescendingOrder[k].travelledDistance < playersWithDistanceInDescendingOrder[k + 1].travelledDistance) {
+                        ordenated = false;
+                        val temp = playersWithDistanceInDescendingOrder[k]
+                        playersWithDistanceInDescendingOrder[k] = playersWithDistanceInDescendingOrder[k + 1]
+                        playersWithDistanceInDescendingOrder[k + 1] = temp
+                    }
                 }
             }
             for(m in 0..playersWithDistanceInDescendingOrder.size - 1){
