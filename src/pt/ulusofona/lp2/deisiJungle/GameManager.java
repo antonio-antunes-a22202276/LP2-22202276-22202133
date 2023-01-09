@@ -97,9 +97,6 @@ public class GameManager implements Serializable {
         if (playersInfo == null) {throw new InvalidInitialJungleException("Players info é null","");}
         if (playersInfo.length <2 || playersInfo.length > 4) { throw new InvalidInitialJungleException("Numero de jogadores invalido",""); }
         if (jungleSize < playersInfo.length * 2) { throw new InvalidInitialJungleException("O mapa não tem duas posições para cada jogador",""); }
-        this.players = new ArrayList<>(); //Initially is going to verify all possible cases to return false
-        this.actualPlayer = null;
-        this.winner = null;
         ArrayList<String> playerIds = new ArrayList<>(); //Creates an arraylist to later verify if there are repeated playerIds
         String[][] speciesData = getSpecies();
         ArrayList<String> speciesCompeting = new ArrayList<>(); //Creates to verify if Tarzan is repeated
