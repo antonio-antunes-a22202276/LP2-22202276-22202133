@@ -61,6 +61,7 @@ public class GameManager implements Serializable {
         this.winner = null;
         this.finalPosition = 0;
         this.roundNr = 0;
+
         for (int i=0; i<foodsInfo.length; i++) {
             String foodId = foodsInfo[i][0];
             String foodPosition = foodsInfo[i][1];
