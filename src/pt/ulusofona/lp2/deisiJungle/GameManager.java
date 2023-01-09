@@ -55,7 +55,12 @@ public class GameManager implements Serializable {
     public void createInitialJungle(int jungleSize, String[][] playersInfo, String[][] foodsInfo) throws InvalidInitialJungleException{
         createInitialJungle(jungleSize,playersInfo);
         String[][] foods = getFoodTypes();
+        this.players = new ArrayList<>();
         this.foods = new ArrayList<>();
+        this.actualPlayer = null;
+        this.winner = null;
+        this.finalPosition = 0;
+        this.roundNr = 0;
         for (int i=0; i<foodsInfo.length; i++) {
             String foodId = foodsInfo[i][0];
             String foodPosition = foodsInfo[i][1];
@@ -95,9 +100,12 @@ public class GameManager implements Serializable {
         if (playersInfo == null) {throw new InvalidInitialJungleException("Players info é null","");}
         if (playersInfo.length <2 || playersInfo.length > 4) { throw new InvalidInitialJungleException("Numero de jogadores invalido",""); }
         if (jungleSize < playersInfo.length * 2) { throw new InvalidInitialJungleException("O mapa não tem duas posições para cada jogador",""); }
-        this.players = new ArrayList<>(); //Initially is going to verify all possible cases to return false
+        this.players = new ArrayList<>();
+        this.foods = new ArrayList<>();
         this.actualPlayer = null;
         this.winner = null;
+        this.finalPosition = 0;
+        this.roundNr = 0;
         ArrayList<String> playerIds = new ArrayList<>(); //Creates an arraylist to later verify if there are repeated playerIds
         String[][] speciesData = getSpecies();
         ArrayList<String> speciesCompeting = new ArrayList<>(); //Creates to verify if Tarzan is repeated
