@@ -56,7 +56,6 @@ public class GameManager implements Serializable {
         createInitialJungle(jungleSize,playersInfo);
         String[][] foods = getFoodTypes();
         this.foods = new ArrayList<>();
-
         for (int i=0; i<foodsInfo.length; i++) {
             String foodId = foodsInfo[i][0];
             String foodPosition = foodsInfo[i][1];
@@ -93,6 +92,7 @@ public class GameManager implements Serializable {
     }
 
     public void createInitialJungle(int jungleSize, String[][] playersInfo) throws InvalidInitialJungleException{
+        resetVariables();
         if (playersInfo == null) {throw new InvalidInitialJungleException("Players info é null","");}
         if (playersInfo.length <2 || playersInfo.length > 4) { throw new InvalidInitialJungleException("Numero de jogadores invalido",""); }
         if (jungleSize < playersInfo.length * 2) { throw new InvalidInitialJungleException("O mapa não tem duas posições para cada jogador",""); }
@@ -381,5 +381,14 @@ public class GameManager implements Serializable {
 
     public String whoIsTaborda() {
         return "professional wrestling";
+    }
+
+    public void resetVariables(){
+        this.players = new ArrayList<>();
+        this.foods = new ArrayList<>();
+        this.actualPlayer = null;
+        this.winner = null;
+        this.finalPosition = 0;
+        this.roundNr = 0;
     }
 }
