@@ -56,6 +56,7 @@ public class GameManager implements Serializable {
         createInitialJungle(jungleSize,playersInfo);
         String[][] foods = getFoodTypes();
         this.foods = new ArrayList<>();
+
         for (int i=0; i<foodsInfo.length; i++) {
             String foodId = foodsInfo[i][0];
             String foodPosition = foodsInfo[i][1];
