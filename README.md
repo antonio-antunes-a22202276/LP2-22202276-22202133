@@ -29,7 +29,7 @@ Com a inspiração de animais numa selva, foi decidido colocar fundos com esse t
 ### [PT] - Escolha de Modelação de Classes
 
 Como representado em UML e no código, nós decidimos utilizar várias das componentes aprendidas em programação orientada a objetos. Isto inclui nomeadamente a utilização de herança, classes abstratas e polimorfismo.
-
+[AUTHORS.txt](AUTHORS.txt)
 Como classe principal temos o GameManager, aquele que será o centro de todo o jogo e onde temos as principais funções para que possa ser criado o tabuleiro e efetuado as respetivas movimentações dos jogadores. Como auxiliar, o GameManager terá associado uma classe Player onde guardamos todas as informações de um jogador, como o seu id, nome, espécie e alguns outros dados. Cada jogador terá associado uma espécie em que dessa classe, temos outras duas para o seu tipo e energia. Considerámos importante o tipo de espécie ser uma classe abstrata e a utilização de herança para os diferentes tipos uma vez que nem todos têm as mesmas informações/opções.
 
 Por outro lado, o GameManager tem também uma classe Food que contém a informação respetiva dos alimentos. Dessa mesma classe, considerámos importante utilizar herança, uma vez que cada alimento acaba por ter as suas diferenças, mas igualmente dados similares, por exemplo, todos os alimentos tem um id e um nome. Facilita também a adição de novos tipos de alimentos.
@@ -54,7 +54,7 @@ compete to determine which is the best athlete.
 
 With the inspiration from animals in the jungle, it was decided to put background with that theme, in a way to turn more "realistic".
 
-![](board2.png?raw=true "Board Customisation")
+![](board3.png?raw=true "Board Customisation")
 
 ---
 ### [EN] - Choice of Class Modelling
