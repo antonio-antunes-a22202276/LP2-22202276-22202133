@@ -272,64 +272,35 @@ public class GameManager implements Serializable {
         ArrayList<Integer> positionPlayers = new ArrayList<>(); //Iterates the players
         for (int i=0;i<this.players.size();i++) {positionPlayers.add(this.players.get(i).getSquareNr());}
         Collections.sort(positionPlayers);
-        if(positionPlayers.get(positionPlayers.size()-1) - positionPlayers.get(positionPlayers.size()-2) > this.finalPosition/2) {
-            ArrayList<Player> possibleWinners = new ArrayList<>();
-            for (int i=0;i<this.players.size();i++){
-                if(this.players.get(i).getSquareNr() == positionPlayers.get(positionPlayers.size()-2)) {possibleWinners.add(this.players.get(i));}
-            }
+        if(positionPlayers.get(positionPlayers.size()-1) - positionPlayers.get(positionPlayers.size()-2) > this.finalPosition/2) { ArrayList<Player> possibleWinners = new ArrayList<>();
+            for (int i=0;i<this.players.size();i++){if(this.players.get(i).getSquareNr() == positionPlayers.get(positionPlayers.size()-2)) {possibleWinners.add(this.players.get(i));}}
             Player possibleWinner = possibleWinners.get(0);
             if(possibleWinners.size()>1) { //Se tiver mais que um jogador na mesma casa
-                for(int i=1;i<possibleWinners.size();i++){
-                    if(Integer.parseInt(possibleWinners.get(i).getId()) < Integer.parseInt(possibleWinner.getId())) {possibleWinner = possibleWinners.get(i);}
-                }
+                for(int i=1;i<possibleWinners.size();i++){if(Integer.parseInt(possibleWinners.get(i).getId()) < Integer.parseInt(possibleWinner.getId())) {possibleWinner = possibleWinners.get(i);}}
             }
             if (this.winner == null) { this.winner = possibleWinner; }
         }
         int middlePosition = -1;
-        if(finalPosition % 2 == 0){
-            middlePosition = finalPosition / 2;
-        } else {
-            middlePosition = (finalPosition / 2) + 1;
+        if(finalPosition % 2 == 0){middlePosition = finalPosition / 2; } else { middlePosition = (finalPosition / 2) + 1; }
+        boolean inPositionToWin = false; ArrayList<Player> playersEnergy = new ArrayList<>();
+        for(int i = 0; i < this.players.size(); i++){ if(this.players.get(i).getSquareNr() == middlePosition){ playersEnergy.add(this.players.get(i)); }
+            if(this.players.get(i).getSquareNr() > middlePosition){ inPositionToWin = true; }
         }
-        boolean inPositionToWin = false;
-        ArrayList<Player> playersEnergy = new ArrayList<>();
-        for(int i = 0; i < this.players.size(); i++){
-            System.out.println(finalPosition / 2);
-            if(this.players.get(i).getSquareNr() == middlePosition){
-                playersEnergy.add(this.players.get(i));
-            }
-            if(this.players.get(i).getSquareNr() > middlePosition){
-                inPositionToWin = true;
-            }
-        }
-        if(inPositionToWin && playersEnergy.size() > 1){
-            Player withMoreEnergy = playersEnergy.get(0);
-            for(int k = 1; k < playersEnergy.size(); k++){
-                if(Integer.parseInt(playersEnergy.get(k).getSpecie().getEnergy().getActual()) > Integer.parseInt(withMoreEnergy.getSpecie().getEnergy().getActual())){
-                    withMoreEnergy = playersEnergy.get(k);
-                }
-            }
+        if(inPositionToWin && playersEnergy.size() > 1){ Player withMoreEnergy = playersEnergy.get(0);
+            for(int k = 1; k < playersEnergy.size(); k++){ if(Integer.parseInt(playersEnergy.get(k).getSpecie().getEnergy().getActual()) > Integer.parseInt(withMoreEnergy.getSpecie().getEnergy().getActual())){ withMoreEnergy = playersEnergy.get(k);}}
             if (this.winner == null) { this.winner = withMoreEnergy; }
         }
         if(this.foods!=null) {
-            for (int i = 0; i < this.foods.size(); i++) {
-                Food food = this.foods.get(i);
+            for (int i = 0; i < this.foods.size(); i++) { Food food = this.foods.get(i);
                 if (Integer.parseInt(food.getSquareNr()) == currentSquare) {
                     if(!currentPlayer.getSpecie().getType().getName().equals("M")){
                         if ((!currentPlayer.getSpecie().getType().canGetMeatStatus() && food.getId().equals("c"))) { //Change here
-                        } else {
-                            food.eatFood(currentPlayer.getSpecie(),this.roundNr);
-                            return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());
-                        }
-                    } else {
-                        return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
-                    }
+                        } else { food.eatFood(currentPlayer.getSpecie(),this.roundNr); return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName()); }
+                    } else { return new MovementResult(MovementResultCode.VALID_MOVEMENT, null); }
                 }
             }
         }
-        if(currentPlayer.getSpecie().getType().getName().equals("M")){
-            currentPlayer.getSpecie().getEnergy().updateMovementEnergyMitologic();
-        }
+        if(currentPlayer.getSpecie().getType().getName().equals("M")){ currentPlayer.getSpecie().getEnergy().updateMovementEnergyMitologic(); }
         return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
     }
 
