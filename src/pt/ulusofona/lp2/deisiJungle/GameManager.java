@@ -286,17 +286,21 @@ public class GameManager implements Serializable {
             }
             if (this.winner == null) { this.winner = possibleWinner; }
         }
+        int middlePosition = -1;
+        if(finalPosition % 2 == 0){
+            middlePosition = finalPosition / 2;
+        } else {
+            middlePosition = (finalPosition / 2) + 1;
+        }
         boolean inPositionToWin = false;
         ArrayList<Player> playersEnergy = new ArrayList<>();
         for(int i = 0; i < this.players.size(); i++){
-            System.out.println(this.players.get(i).getSquareNr());
-            if(this.players.get(i).getSquareNr() == Math.round(Math.ceil(finalPosition / 2)) + 1){
+            System.out.println(finalPosition / 2);
+            if(this.players.get(i).getSquareNr() == middlePosition){
                 playersEnergy.add(this.players.get(i));
-                System.out.println("adeus");
             }
-            if(this.players.get(i).getSquareNr() > Math.round(Math.ceil(finalPosition / 2)) + 1){
+            if(this.players.get(i).getSquareNr() > middlePosition){
                 inPositionToWin = true;
-                System.out.println("ola");
             }
         }
         if(inPositionToWin && playersEnergy.size() > 1){
