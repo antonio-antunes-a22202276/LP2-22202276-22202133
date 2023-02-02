@@ -239,8 +239,7 @@ public class GameManager implements Serializable {
     }
 
     public MovementResult moveCurrentPlayer(int nrSquares, boolean bypassValidations) {
-        this.roundNr += 1;
-        Player currentPlayer = this.actualPlayer; //Gets the current player
+        this.roundNr += 1; Player currentPlayer = this.actualPlayer; //Gets the current player
         int actualPlayerId = Integer.parseInt(currentPlayer.getId()); int nextBiggerPlayerId;
         ArrayList<Integer> playerIds = new ArrayList<>(); //Adds the playerIds to the arraylist
         for (Player value : this.players) { playerIds.add(Integer.parseInt(value.getId())); } //Sorts the playerIds in order
@@ -256,17 +255,14 @@ public class GameManager implements Serializable {
                 else { if(!bypassValidations) { return new MovementResult(MovementResultCode.INVALID_MOVEMENT, null); }}
             }
         }
-        String energy = currentPlayer.getSpecie().getEnergy().getActual(); //Verifies if the player has enough energy to move. If it has, decreases the
-        currentPlayer.getSpecie().getEnergy().updateMovementEnergy(nrSquares,true);
+        String energy = currentPlayer.getSpecie().getEnergy().getActual(); currentPlayer.getSpecie().getEnergy().updateMovementEnergy(nrSquares,true);
         if (Integer.parseInt(currentPlayer.getSpecie().getEnergy().getActual()) < 0) { currentPlayer.getSpecie().getEnergy().updateMovementEnergy(Integer.parseInt(energy),false);
             return new MovementResult(MovementResultCode.NO_ENERGY, null);
         }
         int currentSquare = currentPlayer.getSquareNr(); //Gets the current square of the player
         if (currentSquare + nrSquares >= this.finalPosition) {currentPlayer.updateSquareNr(this.finalPosition); this.winner = currentPlayer; }
         else { if(currentSquare+nrSquares < 1) {currentPlayer.updateSquareNr(1);}
-        else {currentPlayer.updateSquareNr(currentSquare+nrSquares);}
-        }
-        currentSquare = currentPlayer.getSquareNr();
+        else {currentPlayer.updateSquareNr(currentSquare+nrSquares);} } currentSquare = currentPlayer.getSquareNr();
         if(currentPlayer.getSquareNr() - Math.abs(nrSquares) > 0) {currentPlayer.updateTravelledDistance(Math.abs(nrSquares));}
         else {currentPlayer.updateTravelledDistance(currentPlayer.getSquareNr());}
         ArrayList<Integer> positionPlayers = new ArrayList<>(); //Iterates the players
@@ -280,8 +276,7 @@ public class GameManager implements Serializable {
             }
             if (this.winner == null) { this.winner = possibleWinner; }
         }
-        int middlePosition = -1;
-        if(finalPosition % 2 == 0){middlePosition = finalPosition / 2; } else { middlePosition = (finalPosition / 2) + 1; }
+        int middlePosition = -1; if(finalPosition % 2 == 0){middlePosition = finalPosition / 2; } else { middlePosition = (finalPosition / 2) + 1; }
         boolean inPositionToWin = false; ArrayList<Player> playersEnergy = new ArrayList<>();
         for(int i = 0; i < this.players.size(); i++){ if(this.players.get(i).getSquareNr() == middlePosition){ playersEnergy.add(this.players.get(i)); }
             if(this.players.get(i).getSquareNr() > middlePosition){ inPositionToWin = true; }
@@ -300,8 +295,7 @@ public class GameManager implements Serializable {
                 }
             }
         }
-        if(currentPlayer.getSpecie().getType().getName().equals("M")){ currentPlayer.getSpecie().getEnergy().updateMovementEnergyMitologic(); }
-        return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
+        if(currentPlayer.getSpecie().getType().getName().equals("M")){ currentPlayer.getSpecie().getEnergy().updateMovementEnergyMitologic(); } return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
     }
 
     public String[] getWinnerInfo() {
