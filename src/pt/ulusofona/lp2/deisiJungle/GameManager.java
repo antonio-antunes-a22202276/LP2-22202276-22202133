@@ -289,14 +289,20 @@ public class GameManager implements Serializable {
             for (int i = 0; i < this.foods.size(); i++) {
                 Food food = this.foods.get(i);
                 if (Integer.parseInt(food.getSquareNr()) == currentSquare) {
-                    if ((!currentPlayer.getSpecie().getType().canGetMeatStatus() && food.getId().equals("c"))) { //Change here
-                    } else {
-                        food.eatFood(currentPlayer.getSpecie(),this.roundNr);
-                        return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());
+                    if(!currentPlayer.getSpecie().getType().getName().equals("M")){
+                        if ((!currentPlayer.getSpecie().getType().canGetMeatStatus() && food.getId().equals("c"))) { //Change here
+                        } else {
+                            food.eatFood(currentPlayer.getSpecie(),this.roundNr);
+                            return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());
+                        }
                     }
                 }
             }
-        } return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
+        }
+        if(currentPlayer.getSpecie().getType().getName().equals("M")){
+            currentPlayer.getSpecie().getEnergy().updateMovementEnergyMitologic();
+        }
+        return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
     }
 
     public String[] getWinnerInfo() {

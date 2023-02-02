@@ -45,4 +45,8 @@ public class Energy implements Serializable {
         if (energy > 200) { actual = "200"; }
         if (energy < 0) { actual = "0"; }
     }
+
+    void updateMovementEnergyMitologic(){
+        actual = String.valueOf(Integer.parseInt(actual) + 2);
+    }
 }

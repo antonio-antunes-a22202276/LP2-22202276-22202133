@@ -23,7 +23,7 @@ competir para determinar qual o melhor atleta.
 
 Com a inspiração de animais numa selva, foi decidido colocar fundos com esse tema, de forma a tornar mais "realista".
 
-![](board2.png?raw=true "Board Customisation")
+![](board3.png?raw=true "Board Customisation")
 
 ---
 ### [PT] - Escolha de Modelação de Classes
