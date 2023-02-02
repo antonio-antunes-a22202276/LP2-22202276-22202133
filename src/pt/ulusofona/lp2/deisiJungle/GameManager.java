@@ -94,12 +94,10 @@ public class GameManager implements Serializable {
     }
 
     public void createInitialJungle(int jungleSize, String[][] playersInfo) throws InvalidInitialJungleException{
+        resetVariables();
         if (playersInfo == null) {throw new InvalidInitialJungleException("Players info é null","");}
         if (playersInfo.length <2 || playersInfo.length > 4) { throw new InvalidInitialJungleException("Numero de jogadores invalido",""); }
         if (jungleSize < playersInfo.length * 2) { throw new InvalidInitialJungleException("O mapa não tem duas posições para cada jogador",""); }
-        this.players = new ArrayList<>(); //Initially is going to verify all possible cases to return false
-        this.actualPlayer = null;
-        this.winner = null;
         ArrayList<String> playerIds = new ArrayList<>(); //Creates an arraylist to later verify if there are repeated playerIds
         String[][] speciesData = getSpecies();
         ArrayList<String> speciesCompeting = new ArrayList<>(); //Creates to verify if Tarzan is repeated
@@ -121,6 +119,7 @@ public class GameManager implements Serializable {
                     if(playerSpecieId.equals("L")){type = new Carnivoro("C");}
                     if(playerSpecieId.equals("E")){type = new Herbivoro("H");}
                     if(playerSpecieId.equals("U")){type = new Mitologico("M");}
+                    speciesData[k][1] = Normalizer.normalize(speciesData[k][1], Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
                     //specieName = species[k][1]; specieImage = species[k][2]; specieEnergy = species[k][3]; specieEnergyConsume = species[k][4]; specieEnergyGain = species[k][5]; specieSpeed = species[k][6];
                     this.players.add(new Player(playerId, playerName, new Specie(playerSpecieId, speciesData[k][1], speciesData[k][2], new Energy(speciesData[k][3], speciesData[k][4], speciesData[k][5]), speciesData[k][6], type))); //Adds the player to the created/game players list
                 }
@@ -363,7 +362,7 @@ public class GameManager implements Serializable {
                     }
                 }
                 //Gets the string with the winner
-                String name = Normalizer.normalize(temporaryWinner.getSpecie().getName(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", ""); //sem acentos
+                String name = temporaryWinner.getSpecie().getName(); //sem acentos
                 String result = "#" + (resultadosJogo.size() + 1) + " " + temporaryWinner.getName() + ", " +
                         name + ", " + temporaryWinner.getSquareNr() + ", " +
                         + temporaryWinner.getTravelledDistance() + ", " + temporaryWinner.getSpecie().getEatenFoodNr();
@@ -417,4 +416,14 @@ public class GameManager implements Serializable {
     public String whoIsTaborda() {
         return "professional wrestling";
     }
+
+    public void resetVariables(){
+        this.players = new ArrayList<>();
+        this.foods = new ArrayList<>();
+        this.actualPlayer = null;
+        this.winner = null;
+        this.finalPosition = 0;
+        this.roundNr = 0;
+    }
+
 }
