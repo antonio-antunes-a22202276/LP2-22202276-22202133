@@ -3,6 +3,7 @@ package pt.ulusofona.lp2.deisiJungle;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.io.*;
+import java.sql.SQLOutput;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -285,6 +286,28 @@ public class GameManager implements Serializable {
             }
             if (this.winner == null) { this.winner = possibleWinner; }
         }
+        boolean inPositionToWin = false;
+        ArrayList<Player> playersEnergy = new ArrayList<>();
+        for(int i = 0; i < this.players.size(); i++){
+            System.out.println(this.players.get(i).getSquareNr());
+            if(this.players.get(i).getSquareNr() == Math.round(Math.ceil(finalPosition / 2)) + 1){
+                playersEnergy.add(this.players.get(i));
+                System.out.println("adeus");
+            }
+            if(this.players.get(i).getSquareNr() > Math.round(Math.ceil(finalPosition / 2)) + 1){
+                inPositionToWin = true;
+                System.out.println("ola");
+            }
+        }
+        if(inPositionToWin && playersEnergy.size() > 1){
+            Player withMoreEnergy = playersEnergy.get(0);
+            for(int k = 1; k < playersEnergy.size(); k++){
+                if(Integer.parseInt(playersEnergy.get(k).getSpecie().getEnergy().getActual()) > Integer.parseInt(withMoreEnergy.getSpecie().getEnergy().getActual())){
+                    withMoreEnergy = playersEnergy.get(k);
+                }
+            }
+            if (this.winner == null) { this.winner = withMoreEnergy; }
+        }
         if(this.foods!=null) {
             for (int i = 0; i < this.foods.size(); i++) {
                 Food food = this.foods.get(i);
@@ -295,6 +318,8 @@ public class GameManager implements Serializable {
                             food.eatFood(currentPlayer.getSpecie(),this.roundNr);
                             return new MovementResult(MovementResultCode.CAUGHT_FOOD, "Apanhou " + food.getName());
                         }
+                    } else {
+                        return new MovementResult(MovementResultCode.VALID_MOVEMENT, null);
                     }
                 }
             }
